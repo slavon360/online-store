@@ -1,0 +1,110 @@
+<div class="home-wrapper">
+	<div class="banners-wrp" id="banners">
+		{{# each data.banners}}
+		<a href="/product-categories/{{slug}}" class="banner-item">
+			<img class="banner-img" src="{{{cloudinaryUrl image}}}" />
+			<div class="banner-description">{{{содержимое}}}</div>
+		</a>
+		{{/each}}
+	</div>
+	<div class="encouragement">
+		<h1>Сделайте ваш дом тёплым вместе с нами</h1>
+	</div>
+	<div class="home-wrapper-padding">
+		<div class="main-catalog-list">
+			{{# each data.categories}}
+			<div class="exact-category-wrp">
+				<div class="categ-head">
+					<h3><a class="drop-alink" href="/product-exact-category/{{slug}}">{{title}}</a></h3>
+					<div class="quantity-wrp">
+						<span class="quantity">количество товаров: </span>
+						<span class="number">{{quantity}}</span>
+					</div>
+				</div>
+				<div class="categ-carousel">
+					{{# each ../data.products}}
+					{{#ifeq productCategory ../_id}}
+					<div class="product-preview">
+						<a href="/product-exact-category/{{../slug}}/{{slug}}" class="img-wrp drop-alink">
+							<img class="product-img" src="{{{cloudinaryUrl image}}}" />
+						</a>
+
+						<div class="info">
+							<h3>
+								<a class="drop-alink" href="/product-exact-category/{{../slug}}/{{slug}}">{{title}}</a>
+							</h3>
+							<div class="price-purchase">
+								<div class="price"><span class="price-number">{{Цена}}</span><span> грн.</span></div>
+								<div class="purchase addToCart" data-product-price="{{Цена}}" data-product-title="{{title}}">
+									<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+					{{else}}
+					{{/ifeq}}
+					{{/each}}
+				</div>
+			</div>
+			{{/each}}
+		</div>
+		<div id="shoppingCart" class="shoppingCart shoppingCart-top150 shopping-cart">
+			<div class="shopping-indicator">0</div>
+			<i class="fa fa-shopping-bag fa-shopping-bag-custom" aria-hidden="true"></i>
+		</div>
+		<div id="cart-area-wrp" class="cart-area-wrp"></div>
+		<div id="purchaseFormWrp" class="purchaseFormWrp"></div>
+		<div id="notification" class="notification-wrp-parent">
+			<div class="notification-wrp">
+				<div class="notification">
+					<div class="notification-content">
+						Ваш заказ принят. Мы свяжемся с Вами в ближайшее время.
+						<i class="fa fa-check fa-check-custom" aria-hidden="true"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="advantages-wrp">
+		<h2>Почему мы?</h2>
+		<div class="advantage-item col-sm-3">
+			<img src="/images/icons/shuffle.png">
+			<div class="brief-word">Возврат и обмен</div>
+		</div>
+		<div class="advantage-item col-sm-3">
+			<img src="/images/icons/list.png">
+			<div class="brief-word">Быстрая доставка</div>
+		</div>
+		<div class="advantage-item col-sm-3">
+			<img src="/images/icons/gear.png">
+			<div class="brief-word">Гарантия качества</div>
+		</div>
+		<div class="advantage-item col-sm-3">
+			<img src="/images/icons/wallet.png">
+			<div class="brief-word">Оплата при получении</div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	<div class="form-wrp">
+		<div class="form-parent">
+			<div class="form-head">
+				<h1 class="head-one">форма обратной связи</h1>
+				<div class="head-two">здесь вы можете отправить нам сообщение</div>
+			</div>
+			<form class="form-container">
+				<span>ФИО</span>
+				<input type="text" name="clientName" required="required" class="clientname-input">
+				<span>Email</span>
+				<input type="email" name="clientEmail" required="required" class="clientemail-input">
+				<span>Телефон</span>
+				<input type="text" name="clientPhone" class="clientphone-input">
+				<span>Сообщение</span>
+				<textarea class="client-message" required="required" name="clientMessage"></textarea>
+				<button type="submit" class="btn-send btn_st">Отправить</button>
+			</form>
+		</div>
+	</div>
+	<div class="footer-wrp clearfix">
+		<div class="more-about-us col-sm-12">Хотите узнать больше информации о нас? &nbsp;<a href="/about" class="more-about-link bright-hover">Хочу!</a></div>
+	</div>
+</div>

@@ -1,0 +1,39 @@
+<div class="catalog-main-wrapper">
+	<div id="catalog" class="catalog-left-section hidden-xs col-sm-3"></div>
+	<div class="catalog-right-section-grid col-sm-9">
+		<div id="customNavbar"></div>
+		{{# each data.products.results}}
+		<div class="catalog-right-section-grid-item col-sm-4 col-md-3">
+		   <div class="catalog-right-section-grid-item-inner">
+			<div class="grid-item-img-wrapper">
+				<a href="/product-categories/{{../filters.product}}/{{slug}}"><img src="{{{cloudinaryUrl image}}}"/></a>
+			</div>
+			<div class="title">{{title}}</div>
+			<div class="price"><span class="price-number">{{Цена}}</span> грн.</div>
+			<div class="shopping-cart-wrp">
+				<button class="addToCart border-outline-0" data-product-price="{{Цена}}" data-product-title="{{title}}">
+					<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+				</button>
+			</div>
+		   </div>
+		</div>
+		{{/each}}
+		<div id="shoppingCart" class="shoppingCart shopping-cart">
+			<div class="shopping-indicator">0</div>
+			<i class="fa fa-shopping-bag fa-shopping-bag-custom" aria-hidden="true"></i>
+		</div>
+	</div>
+	{{>pagination-products}}
+	<div id="cart-area-wrp" class="cart-area-wrp"></div>
+	<div id="purchaseFormWrp" class="purchaseFormWrp"></div>
+	<div id="notification" class="notification-wrp-parent">
+	  <div class="notification-wrp">
+	    <div class="notification">
+	      <div class="notification-content">
+	       	Ваш заказ принят. Мы свяжемся с Вами в ближайшее время.
+	       	<i class="fa fa-check fa-check-custom" aria-hidden="true"></i>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+</div>

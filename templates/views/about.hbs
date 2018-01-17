@@ -1,0 +1,14 @@
+<div class="container">
+	{{# each abouts}}
+	<h1>{{{title}}}</h1>
+	{{#if image}}
+	<img src="{{{cloudinaryUrl image width=400 crop='fit'}}}">
+	{{/if}}
+	<section>
+		{{{mainInfo}}}
+	</section>
+	<section>
+		{{{contacts}}}
+	</section>
+	{{/each}}
+</div>

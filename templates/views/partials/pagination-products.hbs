@@ -1,0 +1,17 @@
+<div class="pagination-wrp">
+<ul class="pagination">
+	<li {{#unless data.products.previous}}class="disabled"{{/unless}}>
+		<a href="{{paginationPreviousUrl data.products.previous data.products.totalPages filters.pathname}}"
+    class="previous-page">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+		</a>
+	</li>
+	{{{paginationNavigation data.products.pages data.products.currentPage data.products.totalPages filters.pathname}}}
+	<li {{#unless data.products.next}}class="disabled"{{/unless}}>
+		<a href="{{paginationNextUrl data.products.next data.products.totalPages filters.pathname}}"
+    class="next-page">
+			<span class="glyphicon glyphicon-chevron-right"></span>
+		</a>
+	</li>
+</ul>
+</div>

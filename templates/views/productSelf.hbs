@@ -1,0 +1,60 @@
+<div class="catalog-main-wrapper">
+	<div id="catalog" class="catalog-left-section hidden-xs col-sm-3"></div>
+	<div class="catalog-right-section-product col-sm-9">
+		<div id="customNavbar" data-categ-slug="{{data.product.productCategory.slug}}"></div>
+		<div class="img-area col-sm-4"><img src="{{{cloudinaryUrl data.product.image}}}"/></div>
+		<div class="product-info col-sm-8">
+			<h1>{{data.product.title}}</h1>
+			<div class="producer clearfix">
+				<div class="pull-left clearfix">Производитель:</div>
+				<div class="pull-right clearfix">{{data.product.Производитель}}</div>
+			</div>
+			<div class="price clearfix">
+				<div class="pull-left">Цена:</div>
+				<div class="pull-right">{{data.product.Цена}} грн.</div>
+			</div>
+
+			<div class="buy-wrapper"><div class="buy" id="buy" data-product-price="{{data.product.Цена}}" data-product-title="{{data.product.title}}">Купить</div></div>
+			<div class="form-wrapper">
+				<form>
+					<div class="phone-number-wrapper">
+						<input type="text" name="phoneNumber" placeholder="Ваш телефон">
+						<div class="phone-number-example">Пример: +38 098 1234567</div>
+					</div>
+					<button class="border-outline-0">Купить в 1 клик</button>
+				</form>
+			</div>
+		</div>
+		<div class="description col-sm-12">
+			<h3>Описание</h3>
+			{{data.product.Описание}}
+		</div>
+		<div class="props-wrapper col-sm-12">
+			<h3>Характеристики</h3>
+			<div class="props-items">
+				{{#each data.product.productsProps}}
+				<div class="props-item">
+					<div class="prop-name">{{@key}}</div>
+					<div class="prop-value">{{this}}</div>
+				</div>
+				{{/each}}
+			</div>
+		</div>
+		<div id="shoppingCart" class="shoppingCart shopping-cart">
+			<div class="shopping-indicator">0</div>
+			<i class="fa fa-shopping-bag fa-shopping-bag-custom" aria-hidden="true"></i>
+		</div>
+	</div>
+	<div id="cart-area-wrp" class="cart-area-wrp"></div>
+	<div id="purchaseFormWrp" class="purchaseFormWrp"></div>
+	<div id="notification" class="notification-wrp-parent">
+		<div class="notification-wrp">
+			<div class="notification">
+				<div class="notification-content">
+					Ваш заказ принят. Мы свяжемся с Вами в ближайшее время.
+					<i class="fa fa-check fa-check-custom" aria-hidden="true"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
