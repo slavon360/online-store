@@ -229,7 +229,16 @@
     })
     return true;
   }
-
+  function getCurrentCategoryId(location, categories){
+    var pathname = location.pathname, categId;
+    categories.find(function(categ){
+      if (pathname.indexOf(categ.categSlug) >= 0){
+        categId=categ._id;
+        return true;
+      }
+    });
+    return categId;
+  }
   var catalogTemplateModule = module.exports={
     showCatalog:showCatalog,
     showNavbar:showNavbar,
@@ -237,7 +246,8 @@
     showFooterCatalog:showFooterCatalog,
     searchCatalog:searchCatalog,
     showHoverableCatalog:showHoverableCatalog,
-    filterCatalog:filterCatalog
+    filterCatalog:filterCatalog,
+    getCurrentCategoryId:getCurrentCategoryId
   }
   function productsList(list){
     return list.map(function(item){

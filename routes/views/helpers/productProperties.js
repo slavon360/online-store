@@ -1,4 +1,4 @@
-function isEmptyObj(obj) {
+function isEmptyObj (obj) {
     for(var prop in obj) {
         if(obj.hasOwnProperty(prop))
             return false;
@@ -23,13 +23,13 @@ module.exports.propsAssigner=function(obj,val){
 	}
 	return newObj;
 }
-function filterValues(obj,key,currObj,end){
+function filterValues (obj,key,currObj,end){
   (typeof obj[key] === 'number' && obj[key] < currObj[key]) && (obj[key] = currObj[key]);
   (typeof obj[key] === 'string' && typeof currObj[key] === 'string' && obj[key].indexOf(currObj[key])<0)
   && (obj[key]+=', '+currObj[key]);
   (end && typeof obj[key] === 'string') && (obj[key]=obj[key].split(', ').sort());
 }
-function getReadyForFilterObj(obj,result,end){
+function getReadyForFilterObj (obj,result,end){
 	for (var key in obj){
 		if(obj.hasOwnProperty(key)){
 			if(typeof obj[key] === 'object' && obj[key] !== null){
@@ -41,9 +41,14 @@ function getReadyForFilterObj(obj,result,end){
 	}
 	return result;
 }
+function excludeNeedlessProps (obj){
+  for (var key in obj) {
+    !obj[key] && delete obj[key];
+  }
+}
 module.exports.filterForTemplate=function(arr){
 	//console.log(arr)
-	return arr.reduce(function(result,current,index,array){
+	var result = arr.reduce(function(result,current,index,array){
 		if(result instanceof Object && isEmptyObj(result)){
 			result=getReadyForFilterObj(current,result);
       //console.log(result)
@@ -52,5 +57,8 @@ module.exports.filterForTemplate=function(arr){
 		}
     //console.log(result)
     return result;
-	},{})
+	},{});
+  excludeNeedlessProps(result);
+  console.log(result);
+  return result;
 }

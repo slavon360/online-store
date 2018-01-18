@@ -8,6 +8,8 @@
 	var $cartAreaWrp=$('#cart-area-wrp');
 	var catalog=JSON.parse(localStorage.getItem('catalog'));
 	var predefinedFilters=JSON.parse(localStorage.getItem('predefined-filters'));
+	var catalogNavBar=document.getElementById('catalog');
+	var currentCategoryId;
 	//---------------------MAIN Page-------------------------//
 	if(document.getElementById('banners')){
 		$('#banners').slick({
@@ -40,38 +42,29 @@
 		})
 	}
 	//--------------------keys for filter--------------------//
-	if(!predefinedFilters){
-		$.ajax({
-			url:'/predefined-filters',
-			type:'GET',
-			success:function(data){
-				console.log(data);
-				localStorage.setItem('predefined-filters',JSON.stringify(data));
-				if(document.getElementById('catalog')){
-					catalogTemplate.filterCatalog(data);
-				}
-			},
-			error:function(err){
-				throw err;
-			}
-		})
+	if(document.getElementById('catalog-filter') && catalog){
+		currentCategoryId = catalogTemplate.getCurrentCategoryId(window.location, catalog);
+		getPredefinedFilters(currentCategoryId);
 	}
-	predefinedFilters && catalogTemplate.filterCatalog(predefinedFilters);
-
 	//--------------------CATALOG sidebar--------------------//
 	if(!catalog){
 		$.ajax({
 				url:'/getCatalog',
 				type:'GET',
 				success:function(data){
+					console.log(currentCategoryId)
+					if (!currentCategoryId){
+						currentCategoryId = catalogTemplate.getCurrentCategoryId(window.location, data);
+						getPredefinedFilters(currentCategoryId);
+					}
 					localStorage.setItem('catalog',JSON.stringify(data));
 					catalogTemplate.showHoverableCatalog(data);
 					catalogTemplate.showFooterCatalog(data);
 					catalogTemplate.searchCatalog(data);
-					if(document.getElementById('catalog')){
-					catalogTemplate.showCatalog(data);
-					catalogTemplate.showNavbar(data);
-					catalogTemplate.showRightCatalog(data);
+					if(catalogNavBar){
+						catalogTemplate.showCatalog(data);
+						catalogTemplate.showNavbar(data);
+						catalogTemplate.showRightCatalog(data);
 					}
 				},
 				error:function(err){
@@ -80,7 +73,7 @@
 			})
 	}
 	catalog && catalogTemplate.showFooterCatalog(catalog) && catalogTemplate.searchCatalog(catalog) && catalogTemplate.showHoverableCatalog(catalog);
-	if(catalog && document.getElementById('catalog')){
+	if(catalog && catalogNavBar){
 		catalogTemplate.showCatalog(catalog);
 		catalogTemplate.showNavbar(catalog);
 		if(document.getElementById('right-catalog')){
@@ -148,5 +141,21 @@
 		.html(shoppingCart.productsQuantity())
 		.css('visibility','visible')
 		.css('transform','scale(.8)');
+	}
+	function getPredefinedFilters(currentCategoryId){
+		$.ajax({
+			url:'/predefined-filters?category=' + currentCategoryId,
+			type:'GET',
+			success:function(data){
+				console.log(data);
+				localStorage.setItem('predefined-filters',JSON.stringify(data));
+				if(document.getElementById('catalog-filter')){
+					catalogTemplate.filterCatalog(data);
+				}
+			},
+			error:function(err){
+				throw err;
+			}
+		})
 	}
 })();
