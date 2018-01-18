@@ -2,38 +2,153 @@
 var keystone = require('keystone');
 var Types = keystone.Field.Types;
 var ProductSelf = new keystone.List('ProductSelf',{
-	map:{name:'title'},
-	singular:'Продукт',
-	plural:'Продукты',
-	autokey:{path:'slug',from:'title',unique:true}
+	map: { name:'title' },
+	singular: 'Продукт',
+	plural: 'Продукты',
+	autokey: { path:'slug', from:'title', unique:true }
 });
     ProductSelf.add({
-    	title:{type:String,required:true},
-    	productSubCategory:{
+    	title: { type:String,required:true },
+    	productSubCategory: {
     		type:Types.Relationship,
     		ref:'ProductSubCategory',
         index:true
     	},
-      productCategory:{
+      productCategory: {
             type:Types.Relationship,
             ref:'ProductCategory',
             index:true
         },
-      image:{type: Types.CloudinaryImage},
-    	'Производитель':{type:String},
-    	'Артикул':{type:String},
-    	'Тепловая мощность (кВт)':{type:Number},
-      'Цена':{type:Number},
-			'Страна производитель':{type:String},
-			'Назначение котла':{type:String},
-			'Способ установки':{type:String},
-			'Материал теплообменника':{type:String},
-			'Емкость водонагревателя':{type:Number},
-			'Тип насоса':{type:String},
-			'Глубина':{type:Number},
-			'Ширина':{type:Number},
-			'Высота':{type:Number},
-      'Описание':{type: Types.Html, height: 400},
-			createdAt:{ type: Date, default: Date.now() }
+      image: { type: Types.CloudinaryImage },
+			'Артикул': { type:String },
+    	'Производитель': { type:String },
+			'Тип водонагревателя': {
+				type:Types.Select,
+				options: 'выбрать вариант, накопительный, проточный',
+				default: 'выбрать вариант'
+			},
+			'Тип котла': {
+				type:Types.Select,
+				options: 'выбрать вариант, газовый, жидкотопливный, комбинированный, твердотопливный, электрический',
+				default: 'выбрать вариант'
+			},
+			'Принцип работы газового котла': {
+				type:Types.Select,
+				options: 'выбрать вариант, стандартный, конденсационный',
+				default: 'выбрать вариант'
+			 },
+			'Принцип работы твердотопливного котла': {
+				type:Types.Select,
+				options: 'выбрать вариант, длительного горения, пеллетный, пиролизный, стандартный',
+				default: 'выбрать вариант'
+			 },
+			'Вид тяги': {
+				type:Types.Select,
+				options: 'выбрать вариант, принудительная, естественная',
+				default: 'выбрать вариант'
+			 },
+			'Топливо': {
+				type:Types.Select,
+				options: 'выбрать вариант, дизель, древесина, кокс, пеллеты, природный газ, сжиженный газ, солома, торфобрикеты/торф, уголь, электричество',
+				default: 'выбрать вариант'
+			 },
+			'Вид теплоносителя': {
+				type:Types.Select,
+				options: 'выбрать вариант, вода, этиленгликоль, пропиленгликоль, смеси',
+				default: 'выбрать вариант'
+			 },
+			'КПД (%)': { type:Number },
+			'Максимальный расход топлива (м3/час)': { type:Number },
+			'Площадь обогрева (кв м)': { type:Number },
+			'Тип управления': {
+				type:Types.Select,
+				options: 'выбрать вариант, механическое, электронное',
+				default: 'выбрать вариант'
+			 },
+			'Тип розжига': {
+				type:Types.Select,
+				options: 'выбрать вариант, автоматический, ручной, пьезоэлектрический',
+				default: 'выбрать вариант'
+			 },
+			'Диапазон температуры отопления (°С)': { type:String },
+			'Диапазон температуры водоснабжения (°С)': { type:String },
+			'Способ нагрева': {
+				type:Types.Select,
+				options: 'выбрать вариант, газовый, комбинированный, косвенный, электрический',
+				default: 'выбрать вариант'
+			 },
+			'Производительность (л/мин)': { type:Number },
+			'Тип камеры сгорания': {
+				type:Types.Select,
+				options: 'выбрать вариант, закрытая, открытая',
+				default: 'выбрать вариант'
+			 },
+			'Нагревательный элемент': {
+				type:Types.Select,
+				options: 'выбрать вариант, трубчатый',
+				default: 'выбрать вариант'
+			 },
+			'Давление на входе (min атм.)': { type:Number },
+			'Давление на входе (max атм.)': { type:Number },
+			'Максимальная температура нагрева воды (°С)': { type:Number },
+			'Напряжение сети (B)': { type:Number },
+			'Тип бака': {
+				type:Types.Select,
+				options: 'выбрать вариант, безнапорный, напорный',
+				default: 'выбрать вариант'
+			 },
+    	'Тепловая мощность (кВт)': { type:Number },
+      'Цена': { type:Number },
+			'Страна производитель': { type:String },
+			'Назначение котла': {
+				type:Types.Select,
+				options: 'выбрать вариант, двухконтурный, одноконтурный',
+				default: 'выбрать вариант'
+			 },
+			'Способ установки': {
+				type:Types.Select,
+				options: 'выбрать вариант, навесной, напольный',
+				default: 'выбрать вариант'
+			 },
+			'Материал теплообменника': {
+				type:Types.Select,
+				options: 'выбрать вариант, сталь, чугун, медь',
+				default: 'выбрать вариант'
+			 },
+			'Емкость водонагревателя (л)': { type:Number },
+			'Тип насоса': {
+				type:Types.Select,
+				options: 'выбрать вариант, глубинный, дренажный, поверхностный, погружной, фекальный (канализационный), циркуляционный',
+				default: 'выбрать вариант'
+			 },
+			'Автоподжиг': { type:Boolean },
+			'Автоматическое включение': { type:Boolean },
+			'Автоматическое выключение': { type:Boolean },
+			'Индикатор включения': { type:Boolean },
+			'Ускоренный нагрев': { type:Boolean },
+			'Термометр': { type:Boolean },
+			'Самодиагностика': { type:Boolean },
+			'Дисплей': { type:Boolean },
+			'Пульт ДУ': { type:Boolean },
+			'Газ-контроль': { type:Boolean },
+			'Ограничение температуры нагрева': { type:Boolean },
+			'Защита от перегрева': { type:Boolean },
+			'Предохранительный клапан': { type:Boolean },
+			'Подводка': {
+				type:Types.Select,
+				options: 'выбрать вариант, боковая, верхняя, нижняя',
+				default: 'выбрать вариант'
+			 },
+			'Уровень защиты от воды': {
+				type:Types.Select,
+				options: 'выбрать вариант, 1, 2, 3, 4, 5, 6, 7, 8',
+				default: 'выбрать вариант'
+			 },
+			'Глубина (мм)': { type:Number },
+			'Ширина (мм)': { type:Number },
+			'Высота (мм)': { type:Number },
+			'Вес (кг)': { type:Number },
+      'Описание': { type: Types.Html, height: 400 },
+			createdAt: { type: Date }
     });
     ProductSelf.register();

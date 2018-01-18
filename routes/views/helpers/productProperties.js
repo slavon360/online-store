@@ -43,7 +43,10 @@ function getReadyForFilterObj (obj,result,end){
 }
 function excludeNeedlessProps (obj){
   for (var key in obj) {
-    !obj[key] && delete obj[key];
+    var index;
+    obj[key] && obj[key] instanceof Array && (index = obj[key].indexOf('выбрать вариант'));
+    !obj[key] || obj[key] == 'выбрать вариант' && delete obj[key];
+    obj[key] && obj[key] instanceof Array && index >= 0 && obj[key].splice(index, 1);
   }
 }
 module.exports.filterForTemplate=function(arr){
