@@ -2,6 +2,7 @@
 (function(){
 	var shoppingCart=require('./shoppingCart.controller');
 	var makePurchase=require('./makePurchase.controller');
+	var filtersACtions=require('./filters.controller');
 	var catalogTemplate=require('./catalog-template');
 	var $shoppingIndicator=$('#shoppingCart .shopping-indicator');
 	var $purchaseFormWrp=$('#purchaseFormWrp');
@@ -151,6 +152,7 @@
 				localStorage.setItem('predefined-filters',JSON.stringify(data));
 				if(document.getElementById('catalog-filter')){
 					catalogTemplate.filterCatalog(data);
+					filtersACtions.filterFormSubmit($('#filter-form'))
 				}
 			},
 			error:function(err){

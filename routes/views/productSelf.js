@@ -18,9 +18,10 @@ exports=module.exports=function(req,res){
 		.findOne({'slug':locals.filters.productSelf || locals.filters.productSlug})
 		.populate('productCategory')
 		.exec(function(err,product){
-			console.log(product)
 			locals.data.product=product;
 			locals.data.product.productsProps=productProperties.productsProps(product);
+			//console.log(locals.data.product.productsProps);
+			//console.log(locals.data.product)
 			next(err);
 		});
 	});

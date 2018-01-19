@@ -5,20 +5,26 @@
 	</div>
 	<div class="catalog-right-section-grid col-sm-9">
 		<div id="customNavbar"></div>
-		{{# each data.products.results}}
-		<div class="catalog-right-section-grid-item col-sm-4">
-			<div class="catalog-right-section-grid-item-inner">
-				<div class="grid-item-img-wrapper"><a href="/product-exact-category/{{../filters.productsSlug}}/{{slug}}"><img src="{{{cloudinaryUrl image}}}"/></a></div>
-				<div class="title">{{title}}</div>
-				<div class="price"><span class="price-number">{{Цена}}</span> грн.</div>
-				<div class="shopping-cart-wrp">
-					<button class="border-outline-0 addToCart" data-product-price="{{Цена}}" data-product-title="{{title}}">
-						<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-					</button>
+		<div id="catalog-grid" >
+			{{# each data.products.results}}
+			<div class="catalog-right-section-grid-item col-sm-4">
+				<div class="catalog-right-section-grid-item-inner">
+					<div class="grid-item-img-wrapper">
+						<a href="/product-exact-category/{{../filters.productsSlug}}/{{slug}}">
+							<img src="{{{cloudinaryUrl image}}}"/>
+						</a>
+					</div>
+					<div class="title">{{title}}</div>
+					<div class="price"><span class="price-number">{{Цена}}</span> грн.</div>
+					<div class="shopping-cart-wrp">
+						<button class="border-outline-0 addToCart" data-product-price="{{Цена}}" data-product-title="{{title}}">
+							<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+						</button>
+					</div>
 				</div>
 			</div>
+			{{/each}}
 		</div>
-		{{/each}}
 		<div id="shoppingCart" class="shoppingCart shopping-cart">
 			<div class="shopping-indicator">0</div>
 			<i class="fa fa-shopping-bag fa-shopping-bag-custom" aria-hidden="true"></i>

@@ -143,9 +143,11 @@ module.exports.purchaseForm=function(domElement,products,shoppingIndicator,shopp
 	    productsToBuy=JSON.parse(localStorage.getItem('shoppingCart'));
 	    $('#form-store').submit(function(e){
 	    	var url=$(this).attr('action'),
-	    	    dataClient={form:$(this).serializeFormJSON(),
+	    	    dataClient={
+              form:$(this).serializeFormJSON(),
 	    	    	products:ordersTable(productsToBuy)
 	    	    };
+            console.log('dataClient',dataClient);
 	    	$.ajax({
 	    		type:'POST',
 	    		url:url,

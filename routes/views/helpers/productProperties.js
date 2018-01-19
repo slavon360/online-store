@@ -8,8 +8,25 @@ function isEmptyObj (obj) {
 module.exports.productsProps=function(obj){
 	var newObj={};
 	for(var key in obj){
-		if(/[А-Я]/.test(key[0]) && obj[key] && key!=='Цена' && key!=='Описание'){
-		newObj[key]=obj[key]
+		if (/[А-Я]/.test(key[0]) && obj[key] && key!=='Цена' && key!=='Описание' && obj[key] != 'выбрать вариант'){
+
+      if (key.indexOf('OptionsMap')<0 && key.indexOf('Options')<0 && key.indexOf('Label')<0 && key.indexOf('Data')<0){
+        newObj[key] = typeof obj[key] == 'boolean' ? 'да' : obj[key];
+      }
+      /*
+      if (key.indexOf('Options')<0 && !newObj[key]){
+        newObj[key]=obj[key];
+        console.log(key, typeof key)
+       }
+      if (key.indexOf('Label')<0 && !newObj[key]){
+        newObj[key]=obj[key];
+        console.log(key, typeof key)
+       }
+      if (key.indexOf('Data')<0 && !newObj[key]){
+        newObj[key]=obj[key];
+        console.log(key, typeof key)
+       }
+       */
 		}
 	}
 	return newObj;

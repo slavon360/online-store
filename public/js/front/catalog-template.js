@@ -96,7 +96,8 @@
     $('#right-catalog').html(dataNavbar);
   }
   function filterCatalog(filterObject){
-    var filterTemplate='<div class="filter-wrp">\
+    var filterTemplate='<form action="/do-filter" method="post" id="filter-form" class="filter-wrp">\
+          <button type="submit">Submit</button>\
           {{# each filterObject}}\
           <div class="filter-wrp-item">\
           <label title="{{@key}}" class="filter-key categ-name-check" for="categ-name-check-{{@key}}">\
@@ -110,8 +111,10 @@
             <ul class="filter-values">\
               {{# each this}}\
                 <li class="filter-value">\
-                  <input type="checkbox" id="{{this}}-{{@index}}"/>\
-                  <label title="{{this}}" for="{{this}}-{{@index}}">{{this}}</label>\
+                  <button type="submit">\
+                    <input type="checkbox" id="{{this}}-{{@index}}"/>\
+                    <label title="{{this}}" for="{{this}}-{{@index}}">{{this}}</label>\
+                  </button>\
                 </li>\
               {{/each}}\
             </ul>\
@@ -125,7 +128,7 @@
           {{/ifGreaterThan}}\
           </div>\
           {{/each}}\
-          </div>';
+        </form>';
     var templateFilter=Handlebars.compile(filterTemplate);
     var dataFilter=templateFilter({filterObject:filterObject});
     $('#catalog-filter').html(dataFilter);

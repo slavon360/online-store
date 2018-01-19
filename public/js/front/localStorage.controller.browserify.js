@@ -97,7 +97,8 @@
     $('#right-catalog').html(dataNavbar);
   }
   function filterCatalog(filterObject){
-    var filterTemplate='<div class="filter-wrp">\
+    var filterTemplate='<form action="/do-filter" method="post" id="filter-form" class="filter-wrp">\
+          <button type="submit">Submit</button>\
           {{# each filterObject}}\
           <div class="filter-wrp-item">\
           <label title="{{@key}}" class="filter-key categ-name-check" for="categ-name-check-{{@key}}">\
@@ -111,8 +112,10 @@
             <ul class="filter-values">\
               {{# each this}}\
                 <li class="filter-value">\
-                  <input type="checkbox" id="{{this}}-{{@index}}"/>\
-                  <label title="{{this}}" for="{{this}}-{{@index}}">{{this}}</label>\
+                  <button type="submit">\
+                    <input type="checkbox" id="{{this}}-{{@index}}"/>\
+                    <label title="{{this}}" for="{{this}}-{{@index}}">{{this}}</label>\
+                  </button>\
                 </li>\
               {{/each}}\
             </ul>\
@@ -126,7 +129,7 @@
           {{/ifGreaterThan}}\
           </div>\
           {{/each}}\
-          </div>';
+        </form>';
     var templateFilter=Handlebars.compile(filterTemplate);
     var dataFilter=templateFilter({filterObject:filterObject});
     $('#catalog-filter').html(dataFilter);
@@ -259,9 +262,33 @@
 
 },{}],2:[function(require,module,exports){
 
+  module.exports.filterFormSubmit = function (form){
+    console.log('filterFormSubmit')
+      form.submit(function(e){
+        var url = $(this).attr('action'),
+            filtersData = $(this).serializeFormJSON();
+        console.log(filtersData);
+        $.ajax({
+	    		type:'POST',
+	    		url:url,
+	    		data:filtersData,
+	    		success:function(response){
+	    			console.log(response);
+	    		},
+          error:function(XMLHttpRequest, textStatus, errorThrow){
+            console.log(XMLHttpRequest, textStatus, errorThrow, 'vasya');
+          }
+	    	});
+        e.preventDefault();
+      })
+  }
+
+},{}],3:[function(require,module,exports){
+
 (function(){
 	var shoppingCart=require('./shoppingCart.controller');
 	var makePurchase=require('./makePurchase.controller');
+	var filtersACtions=require('./filters.controller');
 	var catalogTemplate=require('./catalog-template');
 	var $shoppingIndicator=$('#shoppingCart .shopping-indicator');
 	var $purchaseFormWrp=$('#purchaseFormWrp');
@@ -411,6 +438,7 @@
 				localStorage.setItem('predefined-filters',JSON.stringify(data));
 				if(document.getElementById('catalog-filter')){
 					catalogTemplate.filterCatalog(data);
+					filtersACtions.filterFormSubmit($('#filter-form'))
 				}
 			},
 			error:function(err){
@@ -420,7 +448,7 @@
 	}
 })();
 
-},{"./catalog-template":1,"./makePurchase.controller":3,"./shoppingCart.controller":4}],3:[function(require,module,exports){
+},{"./catalog-template":1,"./filters.controller":2,"./makePurchase.controller":4,"./shoppingCart.controller":5}],4:[function(require,module,exports){
 (function ($) {
     $.fn.serializeFormJSON = function () {
         var o = {};
@@ -566,9 +594,11 @@ module.exports.purchaseForm=function(domElement,products,shoppingIndicator,shopp
 	    productsToBuy=JSON.parse(localStorage.getItem('shoppingCart'));
 	    $('#form-store').submit(function(e){
 	    	var url=$(this).attr('action'),
-	    	    dataClient={form:$(this).serializeFormJSON(),
+	    	    dataClient={
+              form:$(this).serializeFormJSON(),
 	    	    	products:ordersTable(productsToBuy)
 	    	    };
+            console.log('dataClient',dataClient);
 	    	$.ajax({
 	    		type:'POST',
 	    		url:url,
@@ -663,7 +693,7 @@ module.exports.purchaseForm=function(domElement,products,shoppingIndicator,shopp
 	    })
 }
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 var makePurchase = require('./makePurchase.controller');
 var createAndAddToCart=function(productTitle,productPrice){
 	localStorage.setItem('shoppingCart',JSON.stringify([{productTitle:productTitle,quantity:1,price:parseInt(productPrice)}]));
@@ -915,4 +945,4 @@ function cartTemplate(cartAreaWrp, allProducts, $shoppingIndicator, $purchaseFor
 	}
 }
 
-},{"./makePurchase.controller":3}]},{},[2]);
+},{"./makePurchase.controller":4}]},{},[3]);

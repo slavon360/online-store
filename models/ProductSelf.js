@@ -88,8 +88,8 @@ var ProductSelf = new keystone.List('ProductSelf',{
 				options: 'выбрать вариант, трубчатый',
 				default: 'выбрать вариант'
 			 },
-			'Давление на входе (min атм.)': { type:Number },
-			'Давление на входе (max атм.)': { type:Number },
+			'Давление на входе (min атм)': { type:Number },
+			'Давление на входе (max атм)': { type:Number },
 			'Максимальная температура нагрева воды (°С)': { type:Number },
 			'Напряжение сети (B)': { type:Number },
 			'Тип бака': {
