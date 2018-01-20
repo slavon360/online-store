@@ -1,3 +1,11 @@
+.submit-btn-wrp{
+	width: 100%;
+	padding: 0;
+	outline: none;
+	background: transparent;
+	border: none;
+	height: 28px;
+}
 .filter-wrp{
 	color: #000;
 	font-weight: 700;
@@ -9,6 +17,8 @@
 }
 .filter-wrp label{
 	cursor: pointer;
+	margin-bottom: 0;
+	text-align: left;
 }
 .filter-wrp .filter-key{
 	font-weight: inherit;
@@ -31,6 +41,7 @@
 	overflow: hidden;
 	transition: all .5s;
 	height: auto;
+	padding-top: 7px;
 }
 .filter-wrp .filter-key + input:checked ~ .filter-container,
 .filter-wrp .filter-key + input:checked ~ .roll-unroll{
@@ -46,9 +57,9 @@
 	display: none;
 }
 .filter-values .filter-value label{
-	width: 90%;
+	width: 100%;
 	text-indent: 35px;
-	height: 22px;
+	height: 28px;
 	overflow: hidden;
 	position: relative;
 }
@@ -72,6 +83,9 @@
 	line-height: 1.2;
 	font-size: .8em;
 	text-indent: 2px;
+}
+.filter-values .filter-value{
+	height: 28px;
 }
 .filter-values .filter-value:hover{
 	color: #09b091;

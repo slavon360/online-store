@@ -96,25 +96,49 @@
     var dataNavbar=templateNavbar({dataCatalog:dataCatalog});
     $('#right-catalog').html(dataNavbar);
   }
+  function catalogGridUpdate(products, $catalogGrid, $topPreloader){
+    var catalogGridTemplate='\
+    {{# each products}}\
+      <div class="catalog-right-section-grid-item col-sm-4">\
+        <div class="catalog-right-section-grid-item-inner">\
+          <div class="grid-item-img-wrapper">\
+            <a href="/product-exact-category/{{productCategory.slug}}/{{slug}}">\
+              <img src="{{{image.secure_url}}}"/>\
+            </a>\
+          </div>\
+          <div class="title">{{title}}</div>\
+          <div class="price"><span class="price-number">{{Цена}}</span> грн.</div>\
+          <div class="shopping-cart-wrp">\
+            <button class="border-outline-0 addToCart" data-product-price="{{Цена}}" data-product-title="{{title}}">\
+              <i class="fa fa-shopping-cart" aria-hidden="true"></i>\
+            </button>\
+          </div>\
+        </div>\
+      </div>\
+    {{/each}}';
+    var templateCatalogGrid=Handlebars.compile(catalogGridTemplate);
+    var dataCatalogGrid=templateCatalogGrid({products:products});
+    $catalogGrid.html(dataCatalogGrid);
+    $topPreloader.hide();
+  }
   function filterCatalog(filterObject){
-    var filterTemplate='<form action="/do-filter" method="post" id="filter-form" class="filter-wrp">\
-          <button type="submit">Submit</button>\
+    var filterTemplate='<form action="/do-filters-request" method="post" id="filter-form" class="filter-wrp">\
           {{# each filterObject}}\
           <div class="filter-wrp-item">\
-          <label title="{{@key}}" class="filter-key categ-name-check" for="categ-name-check-{{@key}}">\
+          <label class="filter-key categ-name-check" for="categ-name-check-{{@key}}">\
             <span class="filter-key-inner">{{@key}}</span>\
             </label>\
             <input id="categ-name-check-{{@key}}" class="hidden" type="checkbox"/>\
             <span class="item-menu-arrow item-menu-arrow-filter"></span>\
           <input class="hidden roll-unroll-checkbox" type="checkbox" id="roll-{{@key}}"/>\
-          <div class="filter-container"{{#ifGreaterThan this.length 4}}style="height:120px"{{else}}style="height:{{multiply this.length 30}}px"{{/ifGreaterThan}}>\
+          <div id="{{@key}}" class="filter-container"{{#ifGreaterThan this.length 4}}style="height:120px"{{else}}style="height:{{multiply this.length 31}}px"{{/ifGreaterThan}}>\
             {{#if this.length}}\
             <ul class="filter-values">\
               {{# each this}}\
                 <li class="filter-value">\
-                  <button type="submit">\
-                    <input type="checkbox" id="{{this}}-{{@index}}"/>\
-                    <label title="{{this}}" for="{{this}}-{{@index}}">{{this}}</label>\
+                  <button class="submit-btn-wrp" type="submit">\
+                    <input type="checkbox" name="{{this}}-{{@../key}}" id="{{this}}-{{@../key}}"/>\
+                    <label title="{{this}}" for="{{this}}-{{@../key}}">{{this}}</label>\
                   </button>\
                 </li>\
               {{/each}}\
@@ -251,7 +275,8 @@
     searchCatalog:searchCatalog,
     showHoverableCatalog:showHoverableCatalog,
     filterCatalog:filterCatalog,
-    getCurrentCategoryId:getCurrentCategoryId
+    getCurrentCategoryId:getCurrentCategoryId,
+    catalogGridUpdate:catalogGridUpdate
   }
   function productsList(list){
     return list.map(function(item){
@@ -261,42 +286,78 @@
 })();
 
 },{}],2:[function(require,module,exports){
+var catalogGridUpdate = require('./catalog-template').catalogGridUpdate;
 
-  module.exports.filterFormSubmit = function (form){
-    console.log('filterFormSubmit')
+  function lastWordExtracter (obj, collection, divider){
+    var endpoint, middlepoint, word;
+    for (var key in obj){
+      if (key && typeof key === 'string'){
+        endpoint = key.length;
+        middlepoint = key.indexOf(divider);
+        word = key.slice(middlepoint+1, endpoint);
+        collection.indexOf(word)<0 && collection.push(word);
+      }
+    }
+  }
+  function filtersCollectionToServerWrp (obj){
+    return function filtersCollectionToServer (result, current, index){
+          var index, value;
+          result[current]=[];
+          for (var key in obj){
+            var i = key.indexOf(current);
+            if (i >= 0){
+              index = i;
+              value = key.slice(0, index-1);
+              result[current].push(value);
+            }
+          }
+          return result;
+      }
+  }
+  module.exports.filterFormSubmit = function (form, $catalogGrid, $topPreloader, categoryId){
       form.submit(function(e){
+        $topPreloader.show();
         var url = $(this).attr('action'),
-            filtersData = $(this).serializeFormJSON();
-        console.log(filtersData);
+            filtersData = $(this).serializeFormJSON(),
+            collection = [];
+            lastWordExtracter(filtersData, collection, '-');
+            var updatedCollection = collection.reduce(filtersCollectionToServerWrp(filtersData),{});
+            updatedCollection['_id'] = [categoryId];
+            console.log(updatedCollection)
         $.ajax({
 	    		type:'POST',
 	    		url:url,
-	    		data:filtersData,
+	    		data:updatedCollection,
 	    		success:function(response){
 	    			console.log(response);
+            catalogGridUpdate(response, $catalogGrid, $topPreloader);
 	    		},
           error:function(XMLHttpRequest, textStatus, errorThrow){
-            console.log(XMLHttpRequest, textStatus, errorThrow, 'vasya');
+            console.log(XMLHttpRequest, textStatus, errorThrow);
+            $topPreloader.hide();
           }
 	    	});
         e.preventDefault();
       })
   }
 
-},{}],3:[function(require,module,exports){
+},{"./catalog-template":1}],3:[function(require,module,exports){
 
 (function(){
 	var shoppingCart=require('./shoppingCart.controller');
 	var makePurchase=require('./makePurchase.controller');
-	var filtersACtions=require('./filters.controller');
+	var filtersActions=require('./filters.controller');
 	var catalogTemplate=require('./catalog-template');
 	var $shoppingIndicator=$('#shoppingCart .shopping-indicator');
 	var $purchaseFormWrp=$('#purchaseFormWrp');
 	var $cartAreaWrp=$('#cart-area-wrp');
+	var catalogFilterBlock=document.getElementById('catalog-filter');
 	var catalog=JSON.parse(localStorage.getItem('catalog'));
 	var predefinedFilters=JSON.parse(localStorage.getItem('predefined-filters'));
 	var catalogNavBar=document.getElementById('catalog');
 	var currentCategoryId;
+	var $topPreloader=$('#top-preloader');
+	var $catalogGrid=$('#catalog-grid');
 	//---------------------MAIN Page-------------------------//
 	if(document.getElementById('banners')){
 		$('#banners').slick({
@@ -329,7 +390,7 @@
 		})
 	}
 	//--------------------keys for filter--------------------//
-	if(document.getElementById('catalog-filter') && catalog){
+	if(catalogFilterBlock && catalog){
 		currentCategoryId = catalogTemplate.getCurrentCategoryId(window.location, catalog);
 		getPredefinedFilters(currentCategoryId);
 	}
@@ -340,7 +401,7 @@
 				type:'GET',
 				success:function(data){
 					console.log(currentCategoryId)
-					if (!currentCategoryId){
+					if (!currentCategoryId && catalogFilterBlock){
 						currentCategoryId = catalogTemplate.getCurrentCategoryId(window.location, data);
 						getPredefinedFilters(currentCategoryId);
 					}
@@ -436,10 +497,8 @@
 			success:function(data){
 				console.log(data);
 				localStorage.setItem('predefined-filters',JSON.stringify(data));
-				if(document.getElementById('catalog-filter')){
-					catalogTemplate.filterCatalog(data);
-					filtersACtions.filterFormSubmit($('#filter-form'))
-				}
+				catalogTemplate.filterCatalog(data);
+				filtersActions.filterFormSubmit($('#filter-form'), $catalogGrid, $topPreloader, currentCategoryId);
 			},
 			error:function(err){
 				throw err;
@@ -608,7 +667,10 @@ module.exports.purchaseForm=function(domElement,products,shoppingIndicator,shopp
 	    			$('#notification').css('display','block')
 	    			.delay(1500)
 	    			.fadeOut(1500, function() { $(this).css('display','none'); });
-	    		}
+	    		},
+          error:function(XMLHttpRequest, textStatus, errorThrow){
+            console.error(XMLHttpRequest, textStatus, errorThrow);
+          }
 	    	});
 	    	e.preventDefault();
 	    });

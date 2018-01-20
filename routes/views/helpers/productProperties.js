@@ -67,18 +67,14 @@ function excludeNeedlessProps (obj){
   }
 }
 module.exports.filterForTemplate=function(arr){
-	//console.log(arr)
 	var result = arr.reduce(function(result,current,index,array){
 		if(result instanceof Object && isEmptyObj(result)){
 			result=getReadyForFilterObj(current,result);
-      //console.log(result)
 		}else{
       result=getReadyForFilterObj(current,result,index===array.length-1);
 		}
-    //console.log(result)
     return result;
 	},{});
   excludeNeedlessProps(result);
-  console.log(result);
   return result;
 }

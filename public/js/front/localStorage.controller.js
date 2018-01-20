@@ -2,15 +2,18 @@
 (function(){
 	var shoppingCart=require('./shoppingCart.controller');
 	var makePurchase=require('./makePurchase.controller');
-	var filtersACtions=require('./filters.controller');
+	var filtersActions=require('./filters.controller');
 	var catalogTemplate=require('./catalog-template');
 	var $shoppingIndicator=$('#shoppingCart .shopping-indicator');
 	var $purchaseFormWrp=$('#purchaseFormWrp');
 	var $cartAreaWrp=$('#cart-area-wrp');
+	var catalogFilterBlock=document.getElementById('catalog-filter');
 	var catalog=JSON.parse(localStorage.getItem('catalog'));
 	var predefinedFilters=JSON.parse(localStorage.getItem('predefined-filters'));
 	var catalogNavBar=document.getElementById('catalog');
 	var currentCategoryId;
+	var $topPreloader=$('#top-preloader');
+	var $catalogGrid=$('#catalog-grid');
 	//---------------------MAIN Page-------------------------//
 	if(document.getElementById('banners')){
 		$('#banners').slick({
@@ -43,7 +46,7 @@
 		})
 	}
 	//--------------------keys for filter--------------------//
-	if(document.getElementById('catalog-filter') && catalog){
+	if(catalogFilterBlock && catalog){
 		currentCategoryId = catalogTemplate.getCurrentCategoryId(window.location, catalog);
 		getPredefinedFilters(currentCategoryId);
 	}
@@ -54,7 +57,7 @@
 				type:'GET',
 				success:function(data){
 					console.log(currentCategoryId)
-					if (!currentCategoryId){
+					if (!currentCategoryId && catalogFilterBlock){
 						currentCategoryId = catalogTemplate.getCurrentCategoryId(window.location, data);
 						getPredefinedFilters(currentCategoryId);
 					}
@@ -150,10 +153,8 @@
 			success:function(data){
 				console.log(data);
 				localStorage.setItem('predefined-filters',JSON.stringify(data));
-				if(document.getElementById('catalog-filter')){
-					catalogTemplate.filterCatalog(data);
-					filtersACtions.filterFormSubmit($('#filter-form'))
-				}
+				catalogTemplate.filterCatalog(data);
+				filtersActions.filterFormSubmit($('#filter-form'), $catalogGrid, $topPreloader, currentCategoryId);
 			},
 			error:function(err){
 				throw err;

@@ -157,7 +157,10 @@ module.exports.purchaseForm=function(domElement,products,shoppingIndicator,shopp
 	    			$('#notification').css('display','block')
 	    			.delay(1500)
 	    			.fadeOut(1500, function() { $(this).css('display','none'); });
-	    		}
+	    		},
+          error:function(XMLHttpRequest, textStatus, errorThrow){
+            console.error(XMLHttpRequest, textStatus, errorThrow);
+          }
 	    	});
 	    	e.preventDefault();
 	    });

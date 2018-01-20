@@ -8,18 +8,9 @@ exports=module.exports=function(req,res){
   locals.filters={
 		categId:req.query.category
   }
-  console.log(locals.filters)
+  //console.log(locals.filters)
   keystone.list('ProductSelf')
   .model
-  /*
-  .find()
-  .exec(function(err, products){
-      products.forEach(function(product){
-        console.log(product.productCategory === locals.filters.categId)
-      })
-  })
-  */
-
   .aggregate(
     [ { $match: { "productCategory": mongoose.Types.ObjectId(locals.filters.categId) }},
       { $group:
@@ -55,8 +46,6 @@ exports=module.exports=function(req,res){
       if(err){
         throw err;
       }
-      //var recreatedResult=JSON.parse(JSON.stringify(result));
-      console.log(result)
       var filtersKeyValues=filterForTemplate(result);
       res.send(filtersKeyValues)
     }

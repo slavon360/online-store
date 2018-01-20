@@ -21,7 +21,7 @@ exports=module.exports=function(req,res){
 			locals.data.product=product;
 			locals.data.product.productsProps=productProperties.productsProps(product);
 			//console.log(locals.data.product.productsProps);
-			//console.log(locals.data.product)
+			console.log(locals.data.product)
 			next(err);
 		});
 	});

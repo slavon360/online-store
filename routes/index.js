@@ -55,6 +55,7 @@ exports = module.exports = function (app) {
 	app.get('/search?', routes.views.searchProducts);
 	//app.get('/get-model-props', routes.views.getModelProps);
 	app.get('/predefined-filters', routes.views.predefinedFilters);
+	app.post('/do-filters-request', routes.views.filtersRequest);
 	// NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
 	// app.get('/protected', middleware.requireUser, routes.views.protected);
 

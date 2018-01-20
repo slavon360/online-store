@@ -95,25 +95,49 @@
     var dataNavbar=templateNavbar({dataCatalog:dataCatalog});
     $('#right-catalog').html(dataNavbar);
   }
+  function catalogGridUpdate(products, $catalogGrid, $topPreloader){
+    var catalogGridTemplate='\
+    {{# each products}}\
+      <div class="catalog-right-section-grid-item col-sm-4">\
+        <div class="catalog-right-section-grid-item-inner">\
+          <div class="grid-item-img-wrapper">\
+            <a href="/product-exact-category/{{productCategory.slug}}/{{slug}}">\
+              <img src="{{{image.secure_url}}}"/>\
+            </a>\
+          </div>\
+          <div class="title">{{title}}</div>\
+          <div class="price"><span class="price-number">{{Цена}}</span> грн.</div>\
+          <div class="shopping-cart-wrp">\
+            <button class="border-outline-0 addToCart" data-product-price="{{Цена}}" data-product-title="{{title}}">\
+              <i class="fa fa-shopping-cart" aria-hidden="true"></i>\
+            </button>\
+          </div>\
+        </div>\
+      </div>\
+    {{/each}}';
+    var templateCatalogGrid=Handlebars.compile(catalogGridTemplate);
+    var dataCatalogGrid=templateCatalogGrid({products:products});
+    $catalogGrid.html(dataCatalogGrid);
+    $topPreloader.hide();
+  }
   function filterCatalog(filterObject){
-    var filterTemplate='<form action="/do-filter" method="post" id="filter-form" class="filter-wrp">\
-          <button type="submit">Submit</button>\
+    var filterTemplate='<form action="/do-filters-request" method="post" id="filter-form" class="filter-wrp">\
           {{# each filterObject}}\
           <div class="filter-wrp-item">\
-          <label title="{{@key}}" class="filter-key categ-name-check" for="categ-name-check-{{@key}}">\
+          <label class="filter-key categ-name-check" for="categ-name-check-{{@key}}">\
             <span class="filter-key-inner">{{@key}}</span>\
             </label>\
             <input id="categ-name-check-{{@key}}" class="hidden" type="checkbox"/>\
             <span class="item-menu-arrow item-menu-arrow-filter"></span>\
           <input class="hidden roll-unroll-checkbox" type="checkbox" id="roll-{{@key}}"/>\
-          <div class="filter-container"{{#ifGreaterThan this.length 4}}style="height:120px"{{else}}style="height:{{multiply this.length 30}}px"{{/ifGreaterThan}}>\
+          <div id="{{@key}}" class="filter-container"{{#ifGreaterThan this.length 4}}style="height:120px"{{else}}style="height:{{multiply this.length 31}}px"{{/ifGreaterThan}}>\
             {{#if this.length}}\
             <ul class="filter-values">\
               {{# each this}}\
                 <li class="filter-value">\
-                  <button type="submit">\
-                    <input type="checkbox" id="{{this}}-{{@index}}"/>\
-                    <label title="{{this}}" for="{{this}}-{{@index}}">{{this}}</label>\
+                  <button class="submit-btn-wrp" type="submit">\
+                    <input type="checkbox" name="{{this}}-{{@../key}}" id="{{this}}-{{@../key}}"/>\
+                    <label title="{{this}}" for="{{this}}-{{@../key}}">{{this}}</label>\
                   </button>\
                 </li>\
               {{/each}}\
@@ -250,7 +274,8 @@
     searchCatalog:searchCatalog,
     showHoverableCatalog:showHoverableCatalog,
     filterCatalog:filterCatalog,
-    getCurrentCategoryId:getCurrentCategoryId
+    getCurrentCategoryId:getCurrentCategoryId,
+    catalogGridUpdate:catalogGridUpdate
   }
   function productsList(list){
     return list.map(function(item){
