@@ -17,13 +17,14 @@ exports=module.exports=function(req,res){
 		 	keystone.list('ProductSelf')
 		 	.paginate({
 				page:req.query.page || 1,
-				perPage:8,
+				perPage:9,
 				filters:{
 					'productCategory':result._id
 				}
 			})
 		 	.exec(function(err,products){
 		 		locals.data.products=products;
+				console.log(locals)
 		 		next(err);
 		 	})
 		 })

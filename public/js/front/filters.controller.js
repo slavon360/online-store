@@ -42,6 +42,7 @@ var catalogGridUpdate = require('./catalog-template').catalogGridUpdate;
 	    		data:updatedCollection,
 	    		success:function(response){
 	    			console.log(response);
+            response.pathname = window.location.pathname;
             catalogGridUpdate(response, $catalogGrid, $topPreloader);
 	    		},
           error:function(XMLHttpRequest, textStatus, errorThrow){

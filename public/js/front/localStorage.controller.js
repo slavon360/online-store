@@ -1,5 +1,7 @@
 
 (function(){
+	var helpers=require('../handlebars/helpers');
+	//console.log(helpers, _each)
 	var shoppingCart=require('./shoppingCart.controller');
 	var makePurchase=require('./makePurchase.controller');
 	var filtersActions=require('./filters.controller');

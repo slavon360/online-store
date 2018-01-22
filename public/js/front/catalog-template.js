@@ -97,7 +97,8 @@
   }
   function catalogGridUpdate(products, $catalogGrid, $topPreloader){
     var catalogGridTemplate='\
-    {{# each products}}\
+    {{#if products.results.length}}\
+    {{# each products.results}}\
       <div class="catalog-right-section-grid-item col-sm-4">\
         <div class="catalog-right-section-grid-item-inner">\
           <div class="grid-item-img-wrapper">\
@@ -114,7 +115,28 @@
           </div>\
         </div>\
       </div>\
-    {{/each}}';
+    {{/each}}\
+    {{else}}\
+    <div>По Вашему запросу ничего не найдено</div>\
+    {{/if}}\
+    <div class="pagination-wrp col-sm-12">\
+    <ul class="pagination">\
+    	<li {{#unless products.previous}}class="disabled"{{/unless}}>\
+    		<a href="{{paginationPreviousUrl products.previous products.totalPages products.pathname}}"\
+        class="previous-page">\
+    			<span class="glyphicon glyphicon-chevron-left"></span>\
+    		</a>\
+    	</li>\
+    	{{{paginationNavigation products.pages products.currentPage products.totalPages products.pathname}}}\
+    	<li {{#unless products.next}}class="disabled"{{/unless}}>\
+    		<a href="{{paginationNextUrl products.next products.totalPages products.pathname}}"\
+        class="next-page">\
+    			<span class="glyphicon glyphicon-chevron-right"></span>\
+    		</a>\
+    	</li>\
+    </ul>\
+    </div>\
+    ';
     var templateCatalogGrid=Handlebars.compile(catalogGridTemplate);
     var dataCatalogGrid=templateCatalogGrid({products:products});
     $catalogGrid.html(dataCatalogGrid);
@@ -127,7 +149,7 @@
           <label class="filter-key categ-name-check" for="categ-name-check-{{@key}}">\
             <span class="filter-key-inner">{{@key}}</span>\
             </label>\
-            <input id="categ-name-check-{{@key}}" class="hidden" type="checkbox"/>\
+            <input id="categ-name-check-{{@key}}" {{{checkedAttr @key}}} class="hidden" type="checkbox"/>\
             <span class="item-menu-arrow item-menu-arrow-filter"></span>\
           <input class="hidden roll-unroll-checkbox" type="checkbox" id="roll-{{@key}}"/>\
           <div id="{{@key}}" class="filter-container"{{#ifGreaterThan this.length 4}}style="height:120px"{{else}}style="height:{{multiply this.length 31}}px"{{/ifGreaterThan}}>\

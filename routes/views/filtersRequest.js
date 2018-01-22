@@ -10,16 +10,24 @@ module.exports = function(req, res){
       }
   }
   predefinedQuery('$in', filters);
+  queriedObj.productCategory = filters['_id'][0];
+  console.log(queriedObj)
   keystone.list('ProductSelf')
-  .model
-  .find(queriedObj)
-  .where('productCategory',filters['_id'][0])
+  .paginate({
+    page:req.query.page || 1,
+    perPage:9,
+    filters:queriedObj
+  })
+  //.model
+  //.find(queriedObj)
+//  .where('Производитель','Ariston')
+  //.where('productCategory',filters['_id'][0])
   .populate('productCategory', 'slug')
-  .limit(10)
   .exec(function(err, products){
     if (err){
       throw err;
     } else {
+      console.log(products)
       res.send(products);
     }
   })
