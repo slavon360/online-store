@@ -4,22 +4,22 @@
 
   helpers.pageUrl = function (pageNumber, pathname, options) {
     if(pathname){
-      return pathname + '?page=' + pageNumber;
+      return pathname + '?page=' + pageNumber + (options || '');
     }
     return '/blog?page=' + pageNumber;
   };
 
-  helpers.paginationPreviousUrl = function (previousPage, totalPages, pathname) {
+  helpers.paginationPreviousUrl = function (previousPage, totalPages, pathname, options) {
 		if (previousPage === false) {
 			previousPage = 1;
 		}
-		return helpers.pageUrl(previousPage, pathname);
+		return helpers.pageUrl(previousPage, pathname, options);
 	};
-  helpers.paginationNextUrl = function (nextPage, totalPages, pathname) {
+  helpers.paginationNextUrl = function (nextPage, totalPages, pathname, options) {
 		if (nextPage === false) {
 			nextPage = totalPages;
 		}
-		return helpers.pageUrl(nextPage, pathname);
+		return helpers.pageUrl(nextPage, pathname, options);
 	};
 
   helpers.paginationNavigation = function (pages, currentPage, totalPages, pathname, options) {
@@ -40,7 +40,7 @@
 			}
 
 			// get the pageUrl using the integer value
-			var pageUrl = helpers.pageUrl(page, pathname);
+			var pageUrl = helpers.pageUrl(page, pathname, options);
 			// wrapup the html
 			html += '<li' + liClass + '>' + linkTemplate({ url: pageUrl, text: pageText }) + '</li>\n';
 		});

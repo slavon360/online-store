@@ -236,7 +236,7 @@ module.exports = function () {
 	// used for pagination urls on blog
 	_helpers.pageUrl = function (pageNumber, pathname, options) {
 		if(pathname){
-			return pathname + '?page=' + pageNumber;
+			return pathname + '?page=' + pageNumber + (options || '');
 		}
 		return '/blog?page=' + pageNumber;
 	};
@@ -285,7 +285,7 @@ module.exports = function () {
 			}
 
 			// get the pageUrl using the integer value
-			var pageUrl = _helpers.pageUrl(page, pathname);
+			var pageUrl = _helpers.pageUrl(page, pathname, options);
 			// wrapup the html
 			html += '<li' + liClass + '>' + linkTemplate({ url: pageUrl, text: pageText }) + '</li>\n';
 		});
@@ -294,20 +294,20 @@ module.exports = function () {
 
 	// special helper to ensure that we always have a valid page url set even if
 	// the link is disabled, will default to page 1
-	_helpers.paginationPreviousUrl = function (previousPage, totalPages, pathname) {
+	_helpers.paginationPreviousUrl = function (previousPage, totalPages, pathname, options) {
 		if (previousPage === false) {
 			previousPage = 1;
 		}
-		return _helpers.pageUrl(previousPage, pathname);
+		return _helpers.pageUrl(previousPage, pathname, options);
 	};
 
 	// special helper to ensure that we always have a valid next page url set
 	// even if the link is disabled, will default to totalPages
-	_helpers.paginationNextUrl = function (nextPage, totalPages, pathname) {
+	_helpers.paginationNextUrl = function (nextPage, totalPages, pathname, options) {
 		if (nextPage === false) {
 			nextPage = totalPages;
 		}
-		return _helpers.pageUrl(nextPage, pathname);
+		return _helpers.pageUrl(nextPage, pathname, options);
 	};
 
 

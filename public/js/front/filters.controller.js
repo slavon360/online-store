@@ -1,5 +1,5 @@
 var catalogGridUpdate = require('./catalog-template').catalogGridUpdate;
-
+var transformIntoQueriesUrl = require('../../../routes/views/helpers/commonFunctions').transformIntoQueriesUrl;
   function lastWordExtracter (obj, collection, divider){
     var endpoint, middlepoint, word;
     for (var key in obj){
@@ -41,7 +41,8 @@ var catalogGridUpdate = require('./catalog-template').catalogGridUpdate;
 	    		url:url,
 	    		data:updatedCollection,
 	    		success:function(response){
-	    			console.log(response);
+	    			response.queries = transformIntoQueriesUrl(response.queries);
+            console.log(response.queries)
             response.pathname = window.location.pathname;
             catalogGridUpdate(response, $catalogGrid, $topPreloader);
 	    		},

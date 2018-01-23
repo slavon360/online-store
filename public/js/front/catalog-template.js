@@ -122,14 +122,14 @@
     <div class="pagination-wrp col-sm-12">\
     <ul class="pagination">\
     	<li {{#unless products.previous}}class="disabled"{{/unless}}>\
-    		<a href="{{paginationPreviousUrl products.previous products.totalPages products.pathname}}"\
+    		<a href="{{paginationPreviousUrl products.previous products.totalPages products.pathname products.queries}}"\
         class="previous-page">\
     			<span class="glyphicon glyphicon-chevron-left"></span>\
     		</a>\
     	</li>\
-    	{{{paginationNavigation products.pages products.currentPage products.totalPages products.pathname}}}\
+    	{{{paginationNavigation products.pages products.currentPage products.totalPages products.pathname products.queries}}}\
     	<li {{#unless products.next}}class="disabled"{{/unless}}>\
-    		<a href="{{paginationNextUrl products.next products.totalPages products.pathname}}"\
+    		<a href="{{paginationNextUrl products.next products.totalPages products.pathname products.queries}}"\
         class="next-page">\
     			<span class="glyphicon glyphicon-chevron-right"></span>\
     		</a>\

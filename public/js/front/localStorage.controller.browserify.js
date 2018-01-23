@@ -17211,14 +17211,14 @@
     <div class="pagination-wrp col-sm-12">\
     <ul class="pagination">\
     	<li {{#unless products.previous}}class="disabled"{{/unless}}>\
-    		<a href="{{paginationPreviousUrl products.previous products.totalPages products.pathname}}"\
+    		<a href="{{paginationPreviousUrl products.previous products.totalPages products.pathname products.queries}}"\
         class="previous-page">\
     			<span class="glyphicon glyphicon-chevron-left"></span>\
     		</a>\
     	</li>\
-    	{{{paginationNavigation products.pages products.currentPage products.totalPages products.pathname}}}\
+    	{{{paginationNavigation products.pages products.currentPage products.totalPages products.pathname products.queries}}}\
     	<li {{#unless products.next}}class="disabled"{{/unless}}>\
-    		<a href="{{paginationNextUrl products.next products.totalPages products.pathname}}"\
+    		<a href="{{paginationNextUrl products.next products.totalPages products.pathname products.queries}}"\
         class="next-page">\
     			<span class="glyphicon glyphicon-chevron-right"></span>\
     		</a>\
@@ -17397,7 +17397,7 @@
 
 },{}],3:[function(require,module,exports){
 var catalogGridUpdate = require('./catalog-template').catalogGridUpdate;
-
+var transformIntoQueriesUrl = require('../../../routes/views/helpers/commonFunctions').transformIntoQueriesUrl;
   function lastWordExtracter (obj, collection, divider){
     var endpoint, middlepoint, word;
     for (var key in obj){
@@ -17439,7 +17439,8 @@ var catalogGridUpdate = require('./catalog-template').catalogGridUpdate;
 	    		url:url,
 	    		data:updatedCollection,
 	    		success:function(response){
-	    			console.log(response);
+	    			response.queries = transformIntoQueriesUrl(response.queries);
+            console.log(response.queries)
             response.pathname = window.location.pathname;
             catalogGridUpdate(response, $catalogGrid, $topPreloader);
 	    		},
@@ -17452,7 +17453,7 @@ var catalogGridUpdate = require('./catalog-template').catalogGridUpdate;
       })
   }
 
-},{"./catalog-template":2}],4:[function(require,module,exports){
+},{"../../../routes/views/helpers/commonFunctions":8,"./catalog-template":2}],4:[function(require,module,exports){
 
 (function(){
 	var helpers=require('../handlebars/helpers');
@@ -18127,22 +18128,22 @@ function cartTemplate(cartAreaWrp, allProducts, $shoppingIndicator, $purchaseFor
 
   helpers.pageUrl = function (pageNumber, pathname, options) {
     if(pathname){
-      return pathname + '?page=' + pageNumber;
+      return pathname + '?page=' + pageNumber + (options || '');
     }
     return '/blog?page=' + pageNumber;
   };
 
-  helpers.paginationPreviousUrl = function (previousPage, totalPages, pathname) {
+  helpers.paginationPreviousUrl = function (previousPage, totalPages, pathname, options) {
 		if (previousPage === false) {
 			previousPage = 1;
 		}
-		return helpers.pageUrl(previousPage, pathname);
+		return helpers.pageUrl(previousPage, pathname, options);
 	};
-  helpers.paginationNextUrl = function (nextPage, totalPages, pathname) {
+  helpers.paginationNextUrl = function (nextPage, totalPages, pathname, options) {
 		if (nextPage === false) {
 			nextPage = totalPages;
 		}
-		return helpers.pageUrl(nextPage, pathname);
+		return helpers.pageUrl(nextPage, pathname, options);
 	};
 
   helpers.paginationNavigation = function (pages, currentPage, totalPages, pathname, options) {
@@ -18163,7 +18164,7 @@ function cartTemplate(cartAreaWrp, allProducts, $shoppingIndicator, $purchaseFor
 			}
 
 			// get the pageUrl using the integer value
-			var pageUrl = helpers.pageUrl(page, pathname);
+			var pageUrl = helpers.pageUrl(page, pathname, options);
 			// wrapup the html
 			html += '<li' + liClass + '>' + linkTemplate({ url: pageUrl, text: pageText }) + '</li>\n';
 		});
@@ -18258,4 +18259,40 @@ function cartTemplate(cartAreaWrp, allProducts, $shoppingIndicator, $purchaseFor
 
 module.exports=helpers;
 
-},{"lodash":1}]},{},[4]);
+},{"lodash":1}],8:[function(require,module,exports){
+module.exports.allPropertiesExceptOne = function(obj,prop){
+  var output={};
+  for(var key in obj){
+    if(obj.hasOwnProperty(key) && key !== prop){
+      output[key]=obj[key];
+    }
+  }
+}
+module.exports.predefinedQuery = function (clause, filters, queriedObj){
+    for (var key in filters){
+      var innerObj = {};
+      key !== '_id' && (innerObj[clause] = filters[key]);
+      key !== '_id' && !queriedObj[key] && (queriedObj[key] = innerObj);
+    }
+}
+module.exports.getObjectLength = function(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
+module.exports.stringsOfObjPropsIntoArray = function(obj){
+    for (var key in obj){
+      typeof obj[key] === 'string' && (obj[key] = obj[key].split(','));
+    }
+};
+module.exports.transformIntoQueriesUrl = function(obj){
+  var string='';
+      for (var key in obj){
+        string += '&' + key + '=' + obj[key];
+      }
+      return encodeURI(string);
+}
+
+},{}]},{},[4]);
