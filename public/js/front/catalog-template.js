@@ -142,7 +142,7 @@
     $catalogGrid.html(dataCatalogGrid);
     $topPreloader.hide();
   }
-  function filterCatalog(filterObject){
+  function filterCatalog(filterObject, checkedFilterParams){
     var filterTemplate='<form action="/do-filters-request" method="post" id="filter-form" class="filter-wrp">\
           {{# each filterObject}}\
           <div class="filter-wrp-item">\
@@ -158,14 +158,14 @@
               {{# each this}}\
                 <li class="filter-value">\
                   <button class="submit-btn-wrp" type="submit">\
-                    <input type="checkbox" name="{{this}}-{{@../key}}" id="{{this}}-{{@../key}}"/>\
+                    <input type="checkbox" {{isFilterChecked this @root.checkedFilterParams}} name="{{this}}-{{@../key}}" id="{{this}}-{{@../key}}"/>\
                     <label title="{{this}}" for="{{this}}-{{@../key}}">{{this}}</label>\
                   </button>\
                 </li>\
               {{/each}}\
             </ul>\
             {{else}}\
-            <p>not iterable</p>\
+            {{textFilterBuilder @key this}}\
             {{/if}}\
           </div>\
           {{#ifGreaterThan this.length 4}}\
@@ -176,7 +176,7 @@
           {{/each}}\
         </form>';
     var templateFilter=Handlebars.compile(filterTemplate);
-    var dataFilter=templateFilter({filterObject:filterObject});
+    var dataFilter=templateFilter({filterObject:filterObject, checkedFilterParams:checkedFilterParams});
     $('#catalog-filter').html(dataFilter);
   }
   function searchCatalog(data){

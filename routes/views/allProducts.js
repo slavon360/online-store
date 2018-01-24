@@ -36,7 +36,6 @@ exports=module.exports=function(req,res){
 			})
 		 	.exec(function(err,products){
 		 		locals.data.products=products;
-				console.log(locals, req.query, filtersData, finalFilters, optionalParams)
 		 		next(err);
 		 	})
 		 })

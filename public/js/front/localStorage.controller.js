@@ -153,9 +153,10 @@
 			url:'/predefined-filters?category=' + currentCategoryId,
 			type:'GET',
 			success:function(data){
-				console.log(data);
+				var checkedFilterParams = decodeURIComponent(window.location.search);
+				console.log(data)
 				localStorage.setItem('predefined-filters',JSON.stringify(data));
-				catalogTemplate.filterCatalog(data);
+				catalogTemplate.filterCatalog(data, checkedFilterParams);
 				filtersActions.filterFormSubmit($('#filter-form'), $catalogGrid, $topPreloader, currentCategoryId);
 			},
 			error:function(err){

@@ -43,6 +43,11 @@
 	height: auto;
 	padding-top: 7px;
 }
+.filter-container input{
+	font-weight: 100;
+	font-family: sans-serif;
+	width: 85px;
+}
 .filter-wrp .filter-key + input:checked ~ .filter-container,
 .filter-wrp .filter-key + input:checked ~ .roll-unroll{
 	height: 0 !important;

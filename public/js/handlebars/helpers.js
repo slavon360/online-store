@@ -51,6 +51,20 @@
   Handlebars.registerHelper('paginationPreviousUrl', helpers.paginationPreviousUrl);
   Handlebars.registerHelper('paginationNextUrl', helpers.paginationNextUrl);
   Handlebars.registerHelper('paginationNavigation', helpers.paginationNavigation);
+  Handlebars.registerHelper('isFilterChecked', function(item, checkedFilterParams){
+    if (checkedFilterParams && checkedFilterParams.indexOf(item) >= 0){
+      return 'checked';
+    } else {
+      return '';
+    }
+  })
+  Handlebars.registerHelper('textFilterBuilder', function(key, value){
+    if (key.indexOf('Максимальн') >= 0){
+      return new Handlebars.SafeString('<input name="single_'+key+'" type="number" value="" /> <span>грн</span><button type="submit">OK</button>');
+    } else {
+      return new Handlebars.SafeString('<input name="min_'+key+'" type="number" value="" /> - <input name="max_'+key+'" type="number" value="" /> <span>грн</span><button type="submit">OK</button>');
+    }
+  })
   Handlebars.registerHelper('checkedAttr', function(val){
     var checked;
     switch (val) {

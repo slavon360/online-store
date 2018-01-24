@@ -17231,7 +17231,7 @@
     $catalogGrid.html(dataCatalogGrid);
     $topPreloader.hide();
   }
-  function filterCatalog(filterObject){
+  function filterCatalog(filterObject, checkedFilterParams){
     var filterTemplate='<form action="/do-filters-request" method="post" id="filter-form" class="filter-wrp">\
           {{# each filterObject}}\
           <div class="filter-wrp-item">\
@@ -17247,14 +17247,14 @@
               {{# each this}}\
                 <li class="filter-value">\
                   <button class="submit-btn-wrp" type="submit">\
-                    <input type="checkbox" name="{{this}}-{{@../key}}" id="{{this}}-{{@../key}}"/>\
+                    <input type="checkbox" {{isFilterChecked this @root.checkedFilterParams}} name="{{this}}-{{@../key}}" id="{{this}}-{{@../key}}"/>\
                     <label title="{{this}}" for="{{this}}-{{@../key}}">{{this}}</label>\
                   </button>\
                 </li>\
               {{/each}}\
             </ul>\
             {{else}}\
-            <p>not iterable</p>\
+            {{textFilterBuilder @key this}}\
             {{/if}}\
           </div>\
           {{#ifGreaterThan this.length 4}}\
@@ -17265,7 +17265,7 @@
           {{/each}}\
         </form>';
     var templateFilter=Handlebars.compile(filterTemplate);
-    var dataFilter=templateFilter({filterObject:filterObject});
+    var dataFilter=templateFilter({filterObject:filterObject, checkedFilterParams:checkedFilterParams});
     $('#catalog-filter').html(dataFilter);
   }
   function searchCatalog(data){
@@ -17401,6 +17401,7 @@ var transformIntoQueriesUrl = require('../../../routes/views/helpers/commonFunct
   function lastWordExtracter (obj, collection, divider){
     var endpoint, middlepoint, word;
     for (var key in obj){
+
       if (key && typeof key === 'string'){
         endpoint = key.length;
         middlepoint = key.indexOf(divider);
@@ -17411,36 +17412,59 @@ var transformIntoQueriesUrl = require('../../../routes/views/helpers/commonFunct
   }
   function filtersCollectionToServerWrp (obj){
     return function filtersCollectionToServer (result, current, index){
-          var index, value;
-          result[current]=[];
+          var index, value, name;
+          current.indexOf('min_') < 0 && current.indexOf('max_') < 0 && current.indexOf('single_') < 0 && (result[current]=[]);
+          if (current && current.indexOf('min_') >= 0 || current.indexOf('max_') >= 0 || current.indexOf('single_') >= 0){
+            name = current.replace(/min_|max_|single_/gi, '');
+            result[name] = [];
+          }
           for (var key in obj){
+            var val = parseFloat(obj[key]);
             var i = key.indexOf(current);
-            if (i >= 0){
+            if (i >= 0 && isNaN(val)){
               index = i;
               value = key.slice(0, index-1);
-              result[current].push(value);
+              (value != 'min' && value != 'max' && result[current] instanceof Array) && result[current].push(value);
             }
           }
           return result;
       }
   }
+  function updateNumericFilters (objWithValues, updatedCollection){
+      var name;
+      for (var key in objWithValues){
+        if (key.indexOf('min_') >= 0) {
+          name = key.replace('min_', '');
+          updatedCollection[name][0] = +objWithValues[key];
+        }
+        if (key.indexOf('max_') >= 0) {
+          name = key.replace('max_', '');
+          objWithValues[key] > 0 ? updatedCollection[name][1] = +objWithValues[key] : delete updatedCollection[name];
+          !objWithValues[key] && delete updatedCollection[name];
+        }
+        if (key.indexOf('single_') >= 0) {
+          name = key.replace('single_', '');
+          objWithValues[key] > 0 ? updatedCollection[name][0] = +objWithValues[key] : delete updatedCollection[name];
+        }
+      }
+  }
   module.exports.filterFormSubmit = function (form, $catalogGrid, $topPreloader, categoryId){
       form.submit(function(e){
         $topPreloader.show();
-        var url = $(this).attr('action'),
-            filtersData = $(this).serializeFormJSON(),
+        var url = $(form).attr('action'),
+            filtersData = $(form).serializeFormJSON(),
             collection = [];
             lastWordExtracter(filtersData, collection, '-');
             var updatedCollection = collection.reduce(filtersCollectionToServerWrp(filtersData),{});
+            updateNumericFilters(filtersData, updatedCollection)
             updatedCollection['_id'] = [categoryId];
-            console.log(updatedCollection)
+            console.log(collection, filtersData, updatedCollection)
         $.ajax({
 	    		type:'POST',
 	    		url:url,
 	    		data:updatedCollection,
 	    		success:function(response){
 	    			response.queries = transformIntoQueriesUrl(response.queries);
-            console.log(response.queries)
             response.pathname = window.location.pathname;
             catalogGridUpdate(response, $catalogGrid, $topPreloader);
 	    		},
@@ -17609,9 +17633,10 @@ var transformIntoQueriesUrl = require('../../../routes/views/helpers/commonFunct
 			url:'/predefined-filters?category=' + currentCategoryId,
 			type:'GET',
 			success:function(data){
-				console.log(data);
+				var checkedFilterParams = decodeURIComponent(window.location.search);
+				console.log(data)
 				localStorage.setItem('predefined-filters',JSON.stringify(data));
-				catalogTemplate.filterCatalog(data);
+				catalogTemplate.filterCatalog(data, checkedFilterParams);
 				filtersActions.filterFormSubmit($('#filter-form'), $catalogGrid, $topPreloader, currentCategoryId);
 			},
 			error:function(err){
@@ -18175,6 +18200,20 @@ function cartTemplate(cartAreaWrp, allProducts, $shoppingIndicator, $purchaseFor
   Handlebars.registerHelper('paginationPreviousUrl', helpers.paginationPreviousUrl);
   Handlebars.registerHelper('paginationNextUrl', helpers.paginationNextUrl);
   Handlebars.registerHelper('paginationNavigation', helpers.paginationNavigation);
+  Handlebars.registerHelper('isFilterChecked', function(item, checkedFilterParams){
+    if (checkedFilterParams && checkedFilterParams.indexOf(item) >= 0){
+      return 'checked';
+    } else {
+      return '';
+    }
+  })
+  Handlebars.registerHelper('textFilterBuilder', function(key, value){
+    if (key.indexOf('Максимальн') >= 0){
+      return new Handlebars.SafeString('<input name="single_'+key+'" type="number" value="" /> <span>грн</span><button type="submit">OK</button>');
+    } else {
+      return new Handlebars.SafeString('<input name="min_'+key+'" type="number" value="" /> - <input name="max_'+key+'" type="number" value="" /> <span>грн</span><button type="submit">OK</button>');
+    }
+  })
   Handlebars.registerHelper('checkedAttr', function(val){
     var checked;
     switch (val) {
@@ -18271,8 +18310,8 @@ module.exports.allPropertiesExceptOne = function(obj,prop){
 module.exports.predefinedQuery = function (clause, filters, queriedObj){
     for (var key in filters){
       var innerObj = {};
-      key !== '_id' && (innerObj[clause] = filters[key]);
-      key !== '_id' && !queriedObj[key] && (queriedObj[key] = innerObj);
+      key !== '_id' && isNaN(filters[key][0]/2) && (innerObj[clause] = filters[key]);
+      key !== '_id' && isNaN(filters[key][0]/2) && !queriedObj[key] && (queriedObj[key] = innerObj);
     }
 }
 module.exports.getObjectLength = function(obj) {

@@ -8,7 +8,7 @@ exports=module.exports=function(req,res){
   locals.filters={
 		categId:req.query.category
   }
-  //console.log(locals.filters)
+  console.log(req.query)
   keystone.list('ProductSelf')
   .model
   .aggregate(
@@ -29,7 +29,6 @@ exports=module.exports=function(req,res){
       "Способ нагрева": {$max:"$Способ нагрева"},
       "Производительность (л/мин)": {$max:"$Производительность (л/мин)"},
       "Подводка": {$max:"$Подводка"},
-      "Емкость водонагревателя": {$max:"$Емкость водонагревателя"},
       "Тип насоса": {$max:"$Тип насоса"},
       "Тип розжига": {$max:"$Тип розжига"},
       "Тип управления": {$max:"$Тип управления"},

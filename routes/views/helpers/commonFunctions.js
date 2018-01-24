@@ -9,8 +9,8 @@ module.exports.allPropertiesExceptOne = function(obj,prop){
 module.exports.predefinedQuery = function (clause, filters, queriedObj){
     for (var key in filters){
       var innerObj = {};
-      key !== '_id' && (innerObj[clause] = filters[key]);
-      key !== '_id' && !queriedObj[key] && (queriedObj[key] = innerObj);
+      key !== '_id' && isNaN(filters[key][0]/2) && (innerObj[clause] = filters[key]);
+      key !== '_id' && isNaN(filters[key][0]/2) && !queriedObj[key] && (queriedObj[key] = innerObj);
     }
 }
 module.exports.getObjectLength = function(obj) {
