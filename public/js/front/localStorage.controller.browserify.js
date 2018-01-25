@@ -17231,41 +17231,47 @@
     $catalogGrid.html(dataCatalogGrid);
     $topPreloader.hide();
   }
-  function filterCatalog(filterObject, checkedFilterParams){
+  function filterCatalog(filterObject, checkedFilterParams, urlParamsObj){
     var filterTemplate='<form action="/do-filters-request" method="post" id="filter-form" class="filter-wrp">\
           {{# each filterObject}}\
-          <div class="filter-wrp-item">\
-          <label class="filter-key categ-name-check" for="categ-name-check-{{@key}}">\
-            <span class="filter-key-inner">{{@key}}</span>\
-            </label>\
-            <input id="categ-name-check-{{@key}}" {{{checkedAttr @key}}} class="hidden" type="checkbox"/>\
-            <span class="item-menu-arrow item-menu-arrow-filter"></span>\
-          <input class="hidden roll-unroll-checkbox" type="checkbox" id="roll-{{@key}}"/>\
-          <div id="{{@key}}" class="filter-container"{{#ifGreaterThan this.length 4}}style="height:120px"{{else}}style="height:{{multiply this.length 31}}px"{{/ifGreaterThan}}>\
-            {{#if this.length}}\
-            <ul class="filter-values">\
-              {{# each this}}\
-                <li class="filter-value">\
-                  <button class="submit-btn-wrp" type="submit">\
-                    <input type="checkbox" {{isFilterChecked this @root.checkedFilterParams}} name="{{this}}-{{@../key}}" id="{{this}}-{{@../key}}"/>\
-                    <label title="{{this}}" for="{{this}}-{{@../key}}">{{this}}</label>\
-                  </button>\
-                </li>\
-              {{/each}}\
-            </ul>\
-            {{else}}\
-            {{textFilterBuilder @key this}}\
+            {{#if this}}\
+              <div class="filter-wrp-item">\
+              <label class="filter-key categ-name-check" for="categ-name-check-{{@key}}">\
+                <span class="filter-key-inner">{{@key}}</span>\
+                </label>\
+                <input id="categ-name-check-{{@key}}" {{{checkedAttr @key}}} class="hidden" type="checkbox"/>\
+                <span class="item-menu-arrow item-menu-arrow-filter"></span>\
+              <input class="hidden roll-unroll-checkbox" type="checkbox" id="roll-{{@key}}"/>\
+              <div id="{{@key}}" class="filter-container"{{#ifGreaterThan this.length 4}}style="height:120px"{{else}}style="height:{{multiply this.length 31}}px"{{/ifGreaterThan}}>\
+                {{#if this.length}}\
+                <ul class="filter-values">\
+                  {{# each this}}\
+                    <li class="filter-value">\
+                      <button class="submit-btn-wrp" type="submit">\
+                        <input type="checkbox" {{isFilterChecked this @root.checkedFilterParams}} name="{{this}}-{{@../key}}" id="{{this}}-{{@../key}}"/>\
+                        <label title="{{this}}" for="{{this}}-{{@../key}}">{{this}}</label>\
+                      </button>\
+                    </li>\
+                  {{/each}}\
+                </ul>\
+                {{else}}\
+                {{textFilterBuilder @key this @root.urlParamsObj}}\
+                {{/if}}\
+              </div>\
+              {{#ifGreaterThan this.length 4}}\
+              <label for="roll-{{@key}}" class="roll-unroll"></label>\
+              {{else}}\
+              {{/ifGreaterThan}}\
+              </div>\
             {{/if}}\
-          </div>\
-          {{#ifGreaterThan this.length 4}}\
-          <label for="roll-{{@key}}" class="roll-unroll"></label>\
-          {{else}}\
-          {{/ifGreaterThan}}\
-          </div>\
           {{/each}}\
         </form>';
     var templateFilter=Handlebars.compile(filterTemplate);
-    var dataFilter=templateFilter({filterObject:filterObject, checkedFilterParams:checkedFilterParams});
+    var dataFilter=templateFilter({
+                                  filterObject:filterObject,
+                                  checkedFilterParams:checkedFilterParams,
+                                  urlParamsObj:urlParamsObj
+                                  });
     $('#catalog-filter').html(dataFilter);
   }
   function searchCatalog(data){
@@ -17481,7 +17487,8 @@ var transformIntoQueriesUrl = require('../../../routes/views/helpers/commonFunct
 
 (function(){
 	var helpers=require('../handlebars/helpers');
-	//console.log(helpers, _each)
+	var urlParamsToObject=require('../../../routes/views/helpers/commonFunctions').urlParamsToObject;
+	var stringsOfObjPropsIntoArray=require('../../../routes/views/helpers/commonFunctions').stringsOfObjPropsIntoArray;
 	var shoppingCart=require('./shoppingCart.controller');
 	var makePurchase=require('./makePurchase.controller');
 	var filtersActions=require('./filters.controller');
@@ -17633,10 +17640,12 @@ var transformIntoQueriesUrl = require('../../../routes/views/helpers/commonFunct
 			url:'/predefined-filters?category=' + currentCategoryId,
 			type:'GET',
 			success:function(data){
-				var checkedFilterParams = decodeURIComponent(window.location.search);
-				console.log(data)
+				var search = window.location.search;
+				var checkedFilterParams = decodeURIComponent(search);
+				var urlParamsObj = urlParamsToObject(search);
+				stringsOfObjPropsIntoArray(urlParamsObj);
 				localStorage.setItem('predefined-filters',JSON.stringify(data));
-				catalogTemplate.filterCatalog(data, checkedFilterParams);
+				catalogTemplate.filterCatalog(data, checkedFilterParams, urlParamsObj);
 				filtersActions.filterFormSubmit($('#filter-form'), $catalogGrid, $topPreloader, currentCategoryId);
 			},
 			error:function(err){
@@ -17646,7 +17655,7 @@ var transformIntoQueriesUrl = require('../../../routes/views/helpers/commonFunct
 	}
 })();
 
-},{"../handlebars/helpers":7,"./catalog-template":2,"./filters.controller":3,"./makePurchase.controller":5,"./shoppingCart.controller":6}],5:[function(require,module,exports){
+},{"../../../routes/views/helpers/commonFunctions":8,"../handlebars/helpers":7,"./catalog-template":2,"./filters.controller":3,"./makePurchase.controller":5,"./shoppingCart.controller":6}],5:[function(require,module,exports){
 (function ($) {
     $.fn.serializeFormJSON = function () {
         var o = {};
@@ -18195,6 +18204,16 @@ function cartTemplate(cartAreaWrp, allProducts, $shoppingIndicator, $purchaseFor
 		});
 		return html;
 	};
+  function extractFilterNumbers(currentKey, urlParamsObj){
+      var values = '';
+      for (var key in urlParamsObj){
+        if (key === currentKey){
+          values = urlParamsObj[key];
+          return values;
+        }
+      }
+      return values;
+  }
 
   Handlebars.registerHelper('pageUrl', helpers.pageUrl);
   Handlebars.registerHelper('paginationPreviousUrl', helpers.paginationPreviousUrl);
@@ -18207,12 +18226,14 @@ function cartTemplate(cartAreaWrp, allProducts, $shoppingIndicator, $purchaseFor
       return '';
     }
   })
-  Handlebars.registerHelper('textFilterBuilder', function(key, value){
-    if (key.indexOf('Максимальн') >= 0){
-      return new Handlebars.SafeString('<input name="single_'+key+'" type="number" value="" /> <span>грн</span><button type="submit">OK</button>');
-    } else {
-      return new Handlebars.SafeString('<input name="min_'+key+'" type="number" value="" /> - <input name="max_'+key+'" type="number" value="" /> <span>грн</span><button type="submit">OK</button>');
-    }
+  Handlebars.registerHelper('textFilterBuilder', function(key, value, urlParamsObj){
+      var values = extractFilterNumbers(key, urlParamsObj);
+      if (key.indexOf('Максимальн') >= 0){
+        return new Handlebars.SafeString('<input name="single_'+key+'" type="number" value="'+values+'" /> <span>грн</span><button type="submit">OK</button>');
+      } else {
+        values = values && values.length === 2 ? values : ['',''];
+        return new Handlebars.SafeString('<input name="min_'+key+'" type="number" value="'+values[0]+'" /> - <input name="max_'+key+'" type="number" value="'+values[1]+'" /> <span>грн</span><button type="submit">OK</button>');
+      }
   })
   Handlebars.registerHelper('checkedAttr', function(val){
     var checked;
@@ -18312,6 +18333,11 @@ module.exports.predefinedQuery = function (clause, filters, queriedObj){
       var innerObj = {};
       key !== '_id' && isNaN(filters[key][0]/2) && (innerObj[clause] = filters[key]);
       key !== '_id' && isNaN(filters[key][0]/2) && !queriedObj[key] && (queriedObj[key] = innerObj);
+      if (key !== '_id' && !isNaN(filters[key][0]/2)){
+        filters[key].length === 1 && (innerObj['$lte'] = filters[key][0]);
+        filters[key].length === 2 && (innerObj['$gte'] = filters[key][0]) && (innerObj['$lte'] = filters[key][1]);
+        !queriedObj[key] && (queriedObj[key] = innerObj);
+      }
     }
 }
 module.exports.getObjectLength = function(obj) {
@@ -18326,12 +18352,24 @@ module.exports.stringsOfObjPropsIntoArray = function(obj){
       typeof obj[key] === 'string' && (obj[key] = obj[key].split(','));
     }
 };
+module.exports.arraysOfObjPropsIntoString = function(obj){
+    for (var k in obj){
+      obj[k] instanceof Array && (obj[k] = obj[k].join(','));
+    }
+}
 module.exports.transformIntoQueriesUrl = function(obj){
   var string='';
       for (var key in obj){
         string += '&' + key + '=' + obj[key];
       }
       return encodeURI(string);
+}
+module.exports.urlParamsToObject = function(params){
+  if (params){
+    var search = params.substring(1);
+    var parsed = JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
+    return parsed;
+  }
 }
 
 },{}]},{},[4]);

@@ -142,41 +142,47 @@
     $catalogGrid.html(dataCatalogGrid);
     $topPreloader.hide();
   }
-  function filterCatalog(filterObject, checkedFilterParams){
+  function filterCatalog(filterObject, checkedFilterParams, urlParamsObj){
     var filterTemplate='<form action="/do-filters-request" method="post" id="filter-form" class="filter-wrp">\
           {{# each filterObject}}\
-          <div class="filter-wrp-item">\
-          <label class="filter-key categ-name-check" for="categ-name-check-{{@key}}">\
-            <span class="filter-key-inner">{{@key}}</span>\
-            </label>\
-            <input id="categ-name-check-{{@key}}" {{{checkedAttr @key}}} class="hidden" type="checkbox"/>\
-            <span class="item-menu-arrow item-menu-arrow-filter"></span>\
-          <input class="hidden roll-unroll-checkbox" type="checkbox" id="roll-{{@key}}"/>\
-          <div id="{{@key}}" class="filter-container"{{#ifGreaterThan this.length 4}}style="height:120px"{{else}}style="height:{{multiply this.length 31}}px"{{/ifGreaterThan}}>\
-            {{#if this.length}}\
-            <ul class="filter-values">\
-              {{# each this}}\
-                <li class="filter-value">\
-                  <button class="submit-btn-wrp" type="submit">\
-                    <input type="checkbox" {{isFilterChecked this @root.checkedFilterParams}} name="{{this}}-{{@../key}}" id="{{this}}-{{@../key}}"/>\
-                    <label title="{{this}}" for="{{this}}-{{@../key}}">{{this}}</label>\
-                  </button>\
-                </li>\
-              {{/each}}\
-            </ul>\
-            {{else}}\
-            {{textFilterBuilder @key this}}\
+            {{#if this}}\
+              <div class="filter-wrp-item">\
+              <label class="filter-key categ-name-check" for="categ-name-check-{{@key}}">\
+                <span class="filter-key-inner">{{@key}}</span>\
+                </label>\
+                <input id="categ-name-check-{{@key}}" {{{checkedAttr @key}}} class="hidden" type="checkbox"/>\
+                <span class="item-menu-arrow item-menu-arrow-filter"></span>\
+              <input class="hidden roll-unroll-checkbox" type="checkbox" id="roll-{{@key}}"/>\
+              <div id="{{@key}}" class="filter-container"{{#ifGreaterThan this.length 4}}style="height:120px"{{else}}style="height:{{multiply this.length 31}}px"{{/ifGreaterThan}}>\
+                {{#if this.length}}\
+                <ul class="filter-values">\
+                  {{# each this}}\
+                    <li class="filter-value">\
+                      <button class="submit-btn-wrp" type="submit">\
+                        <input type="checkbox" {{isFilterChecked this @root.checkedFilterParams}} name="{{this}}-{{@../key}}" id="{{this}}-{{@../key}}"/>\
+                        <label title="{{this}}" for="{{this}}-{{@../key}}">{{this}}</label>\
+                      </button>\
+                    </li>\
+                  {{/each}}\
+                </ul>\
+                {{else}}\
+                {{textFilterBuilder @key this @root.urlParamsObj}}\
+                {{/if}}\
+              </div>\
+              {{#ifGreaterThan this.length 4}}\
+              <label for="roll-{{@key}}" class="roll-unroll"></label>\
+              {{else}}\
+              {{/ifGreaterThan}}\
+              </div>\
             {{/if}}\
-          </div>\
-          {{#ifGreaterThan this.length 4}}\
-          <label for="roll-{{@key}}" class="roll-unroll"></label>\
-          {{else}}\
-          {{/ifGreaterThan}}\
-          </div>\
           {{/each}}\
         </form>';
     var templateFilter=Handlebars.compile(filterTemplate);
-    var dataFilter=templateFilter({filterObject:filterObject, checkedFilterParams:checkedFilterParams});
+    var dataFilter=templateFilter({
+                                  filterObject:filterObject,
+                                  checkedFilterParams:checkedFilterParams,
+                                  urlParamsObj:urlParamsObj
+                                  });
     $('#catalog-filter').html(dataFilter);
   }
   function searchCatalog(data){

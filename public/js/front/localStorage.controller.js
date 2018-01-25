@@ -1,7 +1,8 @@
 
 (function(){
 	var helpers=require('../handlebars/helpers');
-	//console.log(helpers, _each)
+	var urlParamsToObject=require('../../../routes/views/helpers/commonFunctions').urlParamsToObject;
+	var stringsOfObjPropsIntoArray=require('../../../routes/views/helpers/commonFunctions').stringsOfObjPropsIntoArray;
 	var shoppingCart=require('./shoppingCart.controller');
 	var makePurchase=require('./makePurchase.controller');
 	var filtersActions=require('./filters.controller');
@@ -153,10 +154,12 @@
 			url:'/predefined-filters?category=' + currentCategoryId,
 			type:'GET',
 			success:function(data){
-				var checkedFilterParams = decodeURIComponent(window.location.search);
-				console.log(data)
+				var search = window.location.search;
+				var checkedFilterParams = decodeURIComponent(search);
+				var urlParamsObj = urlParamsToObject(search);
+				stringsOfObjPropsIntoArray(urlParamsObj);
 				localStorage.setItem('predefined-filters',JSON.stringify(data));
-				catalogTemplate.filterCatalog(data, checkedFilterParams);
+				catalogTemplate.filterCatalog(data, checkedFilterParams, urlParamsObj);
 				filtersActions.filterFormSubmit($('#filter-form'), $catalogGrid, $topPreloader, currentCategoryId);
 			},
 			error:function(err){

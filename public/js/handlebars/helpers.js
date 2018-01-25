@@ -46,6 +46,16 @@
 		});
 		return html;
 	};
+  function extractFilterNumbers(currentKey, urlParamsObj){
+      var values = '';
+      for (var key in urlParamsObj){
+        if (key === currentKey){
+          values = urlParamsObj[key];
+          return values;
+        }
+      }
+      return values;
+  }
 
   Handlebars.registerHelper('pageUrl', helpers.pageUrl);
   Handlebars.registerHelper('paginationPreviousUrl', helpers.paginationPreviousUrl);
@@ -58,12 +68,14 @@
       return '';
     }
   })
-  Handlebars.registerHelper('textFilterBuilder', function(key, value){
-    if (key.indexOf('Максимальн') >= 0){
-      return new Handlebars.SafeString('<input name="single_'+key+'" type="number" value="" /> <span>грн</span><button type="submit">OK</button>');
-    } else {
-      return new Handlebars.SafeString('<input name="min_'+key+'" type="number" value="" /> - <input name="max_'+key+'" type="number" value="" /> <span>грн</span><button type="submit">OK</button>');
-    }
+  Handlebars.registerHelper('textFilterBuilder', function(key, value, urlParamsObj){
+      var values = extractFilterNumbers(key, urlParamsObj);
+      if (key.indexOf('Максимальн') >= 0){
+        return new Handlebars.SafeString('<input name="single_'+key+'" type="number" value="'+values+'" /> <span>грн</span><button type="submit">OK</button>');
+      } else {
+        values = values && values.length === 2 ? values : ['',''];
+        return new Handlebars.SafeString('<input name="min_'+key+'" type="number" value="'+values[0]+'" /> - <input name="max_'+key+'" type="number" value="'+values[1]+'" /> <span>грн</span><button type="submit">OK</button>');
+      }
   })
   Handlebars.registerHelper('checkedAttr', function(val){
     var checked;
