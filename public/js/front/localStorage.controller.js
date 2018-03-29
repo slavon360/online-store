@@ -16,6 +16,7 @@
 	var catalogNavBar=document.getElementById('catalog');
 	var currentCategoryId;
 	var $topPreloader=$('#top-preloader');
+	var $activeFilters=$('#active-filters');
 	var $catalogGrid=$('#catalog-grid');
 	//---------------------MAIN Page-------------------------//
 	if(document.getElementById('banners')){
@@ -59,7 +60,6 @@
 				url:'/getCatalog',
 				type:'GET',
 				success:function(data){
-					console.log(currentCategoryId)
 					if (!currentCategoryId && catalogFilterBlock){
 						currentCategoryId = catalogTemplate.getCurrentCategoryId(window.location, data);
 						getPredefinedFilters(currentCategoryId);
@@ -127,6 +127,7 @@
 	*/
      //----------------SHOPPING CART--------------------//
 	//click events//
+
 	$('.addToCart').click({$shoppingIndicator:$shoppingIndicator},shoppingCart.addToCartHandler);
 	//click events//
 	$('.shopping-cart').click({$shoppingIndicator:$shoppingIndicator,
@@ -160,7 +161,14 @@
 				stringsOfObjPropsIntoArray(urlParamsObj);
 				localStorage.setItem('predefined-filters',JSON.stringify(data));
 				catalogTemplate.filterCatalog(data, checkedFilterParams, urlParamsObj);
-				filtersActions.filterFormSubmit($('#filter-form'), $catalogGrid, $topPreloader, currentCategoryId);
+				var selectors = {
+						catalogGrid: $catalogGrid,
+						topPreloader: $topPreloader,
+						shoppingIndicator: $shoppingIndicator,
+						activeFilters: $activeFilters
+				}
+				filtersActions.filterFormSubmit($('#filter-form'), selectors, currentCategoryId, urlParamsObj);
+				catalogTemplate.activeFilters(0, urlParamsObj);
 			},
 			error:function(err){
 				throw err;

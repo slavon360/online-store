@@ -81,6 +81,7 @@ var shoppingCartHandler=function(event){
 
 }
 var addToCartHandler=function(event){
+	console.log(event)
 	var cart=localStorage.getItem('shoppingCart'),
 	$shoppingIndicator=event.$shoppingIndicator || event.data.$shoppingIndicator,
 	productTitle=$(this).attr('data-product-title') || event.productTitle,

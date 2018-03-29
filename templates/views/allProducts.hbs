@@ -4,12 +4,13 @@
       <div class="indeterminate"></div>
   	</div>
 	</div>
-	<div class="catalog-left-section hidden-xs col-sm-3">
+	<div class="catalog-left-section hidden-xs col-sm-2">
 		<div id="catalog"></div>
 		<div id="catalog-filter"></div>
 	</div>
-	<div class="catalog-right-section-grid col-sm-9">
+	<div class="catalog-right-section-grid col-sm-10">
 		<div id="customNavbar"></div>
+		<div id="active-filters"></div>
 		<div id="catalog-grid" >
 			{{# each data.products.results}}
 			<div class="catalog-right-section-grid-item col-sm-4">
@@ -25,6 +26,9 @@
 						<button class="border-outline-0 addToCart" data-product-price="{{Цена}}" data-product-title="{{title}}">
 							<i class="fa fa-shopping-cart" aria-hidden="true"></i>
 						</button>
+					</div>
+					<div class="additional-info-wrp">
+						{{showAdditionalInfo this needed='Тепловая мощность (кВт),Емкость водонагревателя,Назначение котла,Способ нагрева,Тип котла,Тип водонагревателя,Максимальная температура нагрева воды (°С)'}}
 					</div>
 				</div>
 			</div>

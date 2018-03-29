@@ -6,6 +6,13 @@ module.exports.allPropertiesExceptOne = function(obj,prop){
     }
   }
 }
+module.exports.deleteSelectedProp = function(obj, props){
+    var updObj = Object.assign({}, obj);
+    for (var key in updObj){
+      props.indexOf(key) >= 0 && delete obj[key];
+    }
+    return updObj;
+}
 module.exports.predefinedQuery = function (clause, filters, queriedObj){
     for (var key in filters){
       var innerObj = {};

@@ -1,4 +1,5 @@
 var catalogGridUpdate = require('./catalog-template').catalogGridUpdate;
+var addToCartHandler = require('./shoppingCart.controller').addToCartHandler;
 var transformIntoQueriesUrl = require('../../../routes/views/helpers/commonFunctions').transformIntoQueriesUrl;
   function lastWordExtracter (obj, collection, divider){
     var endpoint, middlepoint, word;
@@ -50,9 +51,9 @@ var transformIntoQueriesUrl = require('../../../routes/views/helpers/commonFunct
         }
       }
   }
-  module.exports.filterFormSubmit = function (form, $catalogGrid, $topPreloader, categoryId){
+  module.exports.filterFormSubmit = function (form, selectors, categoryId, initialFilterParams){
       form.submit(function(e){
-        $topPreloader.show();
+        selectors.topPreloader.show();
         var url = $(form).attr('action'),
             filtersData = $(form).serializeFormJSON(),
             collection = [];
@@ -60,7 +61,6 @@ var transformIntoQueriesUrl = require('../../../routes/views/helpers/commonFunct
             var updatedCollection = collection.reduce(filtersCollectionToServerWrp(filtersData),{});
             updateNumericFilters(filtersData, updatedCollection)
             updatedCollection['_id'] = [categoryId];
-            console.log(collection, filtersData, updatedCollection)
         $.ajax({
 	    		type:'POST',
 	    		url:url,
@@ -68,11 +68,12 @@ var transformIntoQueriesUrl = require('../../../routes/views/helpers/commonFunct
 	    		success:function(response){
 	    			response.queries = transformIntoQueriesUrl(response.queries);
             response.pathname = window.location.pathname;
-            catalogGridUpdate(response, $catalogGrid, $topPreloader);
+            catalogGridUpdate(response, selectors);
+            $('.addToCart').click({$shoppingIndicator: selectors.shoppingIndicator}, addToCartHandler);
 	    		},
           error:function(XMLHttpRequest, textStatus, errorThrow){
             console.log(XMLHttpRequest, textStatus, errorThrow);
-            $topPreloader.hide();
+            selectors.topPreloader.hide();
           }
 	    	});
         e.preventDefault();

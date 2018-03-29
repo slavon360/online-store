@@ -8,12 +8,13 @@
 }
 .filter-wrp{
 	color: #000;
-	font-weight: 700;
 	padding-top: 20px;
 	overflow: hidden;
+	font-family: 'PT Sans', sans-serif;
 }
 .filter-wrp-item{
 	position: relative;
+	font-size: 16px;
 }
 .filter-wrp label{
 	cursor: pointer;
@@ -26,6 +27,7 @@
 	padding: 5px;
 	width: 100%;
 	overflow: hidden;
+	font-size: 15px;
 }
 .filter-wrp .filter-key::before{
 	content: "";
@@ -41,22 +43,50 @@
 	overflow: hidden;
 	transition: all .5s;
 	height: auto;
-	padding-top: 7px;
 }
-.filter-container input{
+.filter-container span,
+.filter-container input,
+.filter-container .submit-filter-numbers{
 	font-weight: 100;
 	font-family: sans-serif;
-	width: 85px;
+	font-size: 15px;
+	display: inline-block;
+	transform: translate(0, -3px);
+}
+.filter-container .submit-filter-numbers{
+	border: 1px solid #bbb;
+	transform:translate(0, -1px) scale(.85);
+	background: #d9edf7;
+	border-radius: 5px;
+}
+.filter-container .submit-filter-numbers:hover{
+	box-shadow: 0 0 2px #000;
+}
+.filter-container span{
+	padding-right: 5px;
+}
+.filter-container input{
+	font-size: 13px;
+	text-indent: 3px;
+	width: 45px;
+	height: 21px;
+	border-radius: 5px;
+	border: 1px solid #bbb;
+}
+.filter-container input:focus{
+	border-color: #78d8c6;
 }
 .filter-wrp .filter-key + input:checked ~ .filter-container,
 .filter-wrp .filter-key + input:checked ~ .roll-unroll{
 	height: 0 !important;
 	margin: 0;
 }
-
 .filter-container .filter-values{
 	list-style: none;
 	padding: 0;
+}
+.filter-container label{
+		font-weight: 100;
 }
 .filter-values .filter-value input{
 	display: none;
@@ -101,6 +131,7 @@
 	color:#1974ce;
 	height: 24px;
 	transition: .5s;
+	font-weight: 100;
 }
 .roll-unroll:hover{
 	text-decoration: underline;
@@ -119,7 +150,7 @@
 }
 .catalog-main-wrapper{
 	font-family: 'PT Sans', sans-serif;
-	padding: 0 40px;
+	padding: 0 40px 0 10px;
 }
 .catalog-main-wrapper .catalog-main{
 	padding: 0;
@@ -173,6 +204,8 @@
 	top: -55%;
 	color: #222;
 	font-size: 2em;
+	font-family: 'Poiret One', cursive;
+	font-weight: 100;
 }
 .categ-submenu{
    height: 0;
@@ -274,11 +307,41 @@ vertical-align: top;
 	cursor: default;
 }
 .catalog-right-section-grid-item-inner{
+	position: relative;
+	z-index: 3;
 	padding-top: 5px;
 	border: 1px solid #ddd;
 }
+.additional-info-wrp{
+	position: absolute;
+	background: #fff;
+	top: 100%;
+	left: -1px;
+	right: -1px;
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-top: none;
+	box-shadow: 0 0 5px rgba(0,0,0,.3);
+	font-size: 16px;
+	display: none;
+}
+.additional-info-wrp::before{
+	content: '';
+	position: absolute;
+	top: -5px;
+	left: 0;
+	height: 5px;
+	background: #fff;
+	width: 100%;
+}
+.additional-info-key{
+	color: #777;
+}
 .catalog-right-section-grid-item-inner:hover{
 	box-shadow: 0 0 5px rgba(0,0,0,.3);
+}
+.catalog-right-section-grid-item-inner:hover .additional-info-wrp{
+	display: block;
 }
 .catalog-right-section-grid-item .title{
 	font-weight: 700;

@@ -1,4 +1,5 @@
 (function(){
+  var deleteSelectedProp = require('../../../routes/views/helpers/commonFunctions').deleteSelectedProp;
   function showCatalog(dataCatalog){
     var catalogTemplate='   <div>\
     <h1>КАТАЛОГ</h1>\
@@ -95,7 +96,7 @@
     var dataNavbar=templateNavbar({dataCatalog:dataCatalog});
     $('#right-catalog').html(dataNavbar);
   }
-  function catalogGridUpdate(products, $catalogGrid, $topPreloader){
+  function catalogGridUpdate(products, selectors){
     var catalogGridTemplate='\
     {{#if products.results.length}}\
     {{# each products.results}}\
@@ -113,6 +114,9 @@
               <i class="fa fa-shopping-cart" aria-hidden="true"></i>\
             </button>\
           </div>\
+          <div class="additional-info-wrp">\
+						{{showAdditionalInfo this needed="Тепловая мощность (кВт),Емкость водонагревателя,Назначение котла,Способ нагрева,Тип котла,Тип водонагревателя,Максимальная температура нагрева воды (°С)"}}\
+					</div>\
         </div>\
       </div>\
     {{/each}}\
@@ -139,10 +143,48 @@
     ';
     var templateCatalogGrid=Handlebars.compile(catalogGridTemplate);
     var dataCatalogGrid=templateCatalogGrid({products:products});
-    $catalogGrid.html(dataCatalogGrid);
-    $topPreloader.hide();
+    selectors.catalogGrid.html(dataCatalogGrid);
+    selectors.topPreloader.hide();
+  }
+  function activeFilters(activeFiltersWrp, urlParamsObj){
+    var updatedUrlParamsObj = deleteSelectedProp(urlParamsObj, '_id page');
+    var template = {
+      single: function(key){
+        var output = '<div class="active-filter">\
+                        <span>' + key + '</span>\
+                        <button type="submit">\
+                          <input type="checkbox" id="' + key + '-' + key + '" name="' + key + '-' + key + '" />\
+                          <label for="' + key + '-' + key + '">✖</label>\
+                        </button>\
+                      </div>';
+        return output;
+      },
+      plural: function(values){
+        var inner = '';
+        values.forEach(function(value){
+            inner += '<span>' + value + '</span>\
+                      <button type="submit">\
+                        <input type="checkbox" id="' + value + '-' + value + '" name="' + value + '-' + value + '" />\
+                        <label for="' + value + '-' + value + '">✖</label>\
+                      </button>';
+        })
+        return '<div class="active-filter">' + inner + '</div>';
+      }
+    }
+    console.log(updatedUrlParamsObj);
+    var activeFiltersTemplate='<form action="/do-filters-request" method="post" class="active-filters-form">\
+                                {{# each updatedUrlParamsObj }}\
+                                    {{ haveMeasure @key this template }}
+                                {{/each}}\
+                              </form>';
+    var templateActiveFilters=Handlebars.compile(activeFiltersTemplate);
+    var dataFilter=templateActiveFilters({
+                                        updatedUrlParamsObj:updatedUrlParamsObj,
+                                        template:template
+                                        });
   }
   function filterCatalog(filterObject, checkedFilterParams, urlParamsObj){
+    console.log( urlParamsObj);
     var filterTemplate='<form action="/do-filters-request" method="post" id="filter-form" class="filter-wrp">\
           {{# each filterObject}}\
             {{#if this}}\
@@ -150,10 +192,10 @@
               <label class="filter-key categ-name-check" for="categ-name-check-{{@key}}">\
                 <span class="filter-key-inner">{{@key}}</span>\
                 </label>\
-                <input id="categ-name-check-{{@key}}" {{{checkedAttr @key}}} class="hidden" type="checkbox"/>\
+                <input id="categ-name-check-{{@key}}" {{{checkedAttr @key @root.urlParamsObj}}} class="hidden" type="checkbox"/>\
                 <span class="item-menu-arrow item-menu-arrow-filter"></span>\
               <input class="hidden roll-unroll-checkbox" type="checkbox" id="roll-{{@key}}"/>\
-              <div id="{{@key}}" class="filter-container"{{#ifGreaterThan this.length 4}}style="height:120px"{{else}}style="height:{{multiply this.length 31}}px"{{/ifGreaterThan}}>\
+              <div id="{{@key}}" class="filter-container"{{#ifGreaterThan this.length 4}}style="height:110px"{{else}}style="height:{{multiply this.length 28}}px"{{/ifGreaterThan}}>\
                 {{#if this.length}}\
                 <ul class="filter-values">\
                   {{# each this}}\
@@ -221,7 +263,6 @@
       $.get('/search?categid='+$chCatBtn.attr('data-categ-id')+'&product='+this.value)
       .done(function(res){
         var data=res;
-        console.log(data);
         $categList.css('display') === 'block' ? $categList.css('display','none') : '';
         $productsList.css('display') === 'none' ? $productsList.css('display','block') : '';
         if(data.length){
@@ -249,7 +290,6 @@
       if(e.key === 'ArrowUp'){
         this.selectionStart>inputPosition ? inputPosition=this.selectionStart : this.selectionStart=inputPosition;
         if(currentIndex>0){
-          console.log('ArrowUp')
           currentIndex--;
           listedProductArr.some(function(item,index){
             if(currentIndex === index){
@@ -263,7 +303,6 @@
       }
       if(e.key === 'ArrowDown'){
         if(currentIndex<$listedProduct.length-1){
-          console.log('ArrowDown')
           currentIndex++;
           listedProductArr.some(function(item,index){
             if(currentIndex === index){
@@ -303,7 +342,8 @@
     showHoverableCatalog:showHoverableCatalog,
     filterCatalog:filterCatalog,
     getCurrentCategoryId:getCurrentCategoryId,
-    catalogGridUpdate:catalogGridUpdate
+    catalogGridUpdate:catalogGridUpdate,
+    activeFilters:activeFilters
   }
   function productsList(list){
     return list.map(function(item){

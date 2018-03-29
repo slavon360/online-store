@@ -17,9 +17,22 @@ module.exports = function () {
 	 * Generic HBS Helpers
 	 * ===================
 	 */
-
 	// standard hbs equality check, pass in two values from template
 	// {{#ifeq keyToCheck data.myKey}} [requires an else blockin template regardless]
+	_helpers.showAdditionalInfo = function (productInfo, options){
+    var needed = options.hash.needed.split(','), data='';
+		if (needed) {
+			needed.forEach(function(item){
+				if (productInfo[item] && productInfo[item] !== 'выбрать вариант'){
+					data += '<div class="additional-info">\
+										<span class="additional-info-key">'+item+': </span>\
+										<span class="additional-info-value">'+productInfo[item]+'</span>\
+									 </div>';
+				}
+			})
+			return new hbs.SafeString(data);
+		}
+  }
 	_helpers.ifeq = function (a, b, options) {
 		if ((a+'') === (b+'')) { // eslint-disable-line eqeqeq
 		    //console.log(options.fn(this))

@@ -34,7 +34,21 @@ exports=module.exports=function(req,res){
 				perPage:3,
 				filters:finalFilters
 			})
+			.select({
+				'slug': 1,
+				'title': 1,
+				'Тепловая мощность (кВт)': 1,
+				'Цена': 1,
+				'Емкость водонагревателя': 1,
+				'Назначение котла': 1,
+				'Способ нагрева': 1,
+				'Тип котла': 1,
+				'Тип водонагревателя': 1,
+				'Максимальная температура нагрева воды (°С)': 1,
+				'image': 1
+			})
 		 	.exec(function(err,products){
+				//console.log(products);
 		 		locals.data.products=products;
 		 		next(err);
 		 	})

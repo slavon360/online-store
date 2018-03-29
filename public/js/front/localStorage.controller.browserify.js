@@ -17088,6 +17088,7 @@
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],2:[function(require,module,exports){
 (function(){
+  var deleteSelectedProp = require('../../../routes/views/helpers/commonFunctions').deleteSelectedProp;
   function showCatalog(dataCatalog){
     var catalogTemplate='   <div>\
     <h1>КАТАЛОГ</h1>\
@@ -17184,7 +17185,7 @@
     var dataNavbar=templateNavbar({dataCatalog:dataCatalog});
     $('#right-catalog').html(dataNavbar);
   }
-  function catalogGridUpdate(products, $catalogGrid, $topPreloader){
+  function catalogGridUpdate(products, selectors){
     var catalogGridTemplate='\
     {{#if products.results.length}}\
     {{# each products.results}}\
@@ -17202,6 +17203,9 @@
               <i class="fa fa-shopping-cart" aria-hidden="true"></i>\
             </button>\
           </div>\
+          <div class="additional-info-wrp">\
+						{{showAdditionalInfo this needed="Тепловая мощность (кВт),Емкость водонагревателя,Назначение котла,Способ нагрева,Тип котла,Тип водонагревателя,Максимальная температура нагрева воды (°С)"}}\
+					</div>\
         </div>\
       </div>\
     {{/each}}\
@@ -17228,10 +17232,21 @@
     ';
     var templateCatalogGrid=Handlebars.compile(catalogGridTemplate);
     var dataCatalogGrid=templateCatalogGrid({products:products});
-    $catalogGrid.html(dataCatalogGrid);
-    $topPreloader.hide();
+    selectors.catalogGrid.html(dataCatalogGrid);
+    selectors.topPreloader.hide();
+  }
+  function activeFilters(activeFiltersWrp, urlParamsObj){
+    var updatedUrlParamsObj = deleteSelectedProp(urlParamsObj, '_id page');
+    console.log(updatedUrlParamsObj);
+    var activeFiltersTemplate='<form action="/do-filters-request" method="post" class="active-filters-form">\
+                                {{# each urlParamsObj }}\
+                                  <div>\
+                                  </div>\
+                                {{/each}}\
+                              </form>'
   }
   function filterCatalog(filterObject, checkedFilterParams, urlParamsObj){
+    console.log( urlParamsObj);
     var filterTemplate='<form action="/do-filters-request" method="post" id="filter-form" class="filter-wrp">\
           {{# each filterObject}}\
             {{#if this}}\
@@ -17239,10 +17254,10 @@
               <label class="filter-key categ-name-check" for="categ-name-check-{{@key}}">\
                 <span class="filter-key-inner">{{@key}}</span>\
                 </label>\
-                <input id="categ-name-check-{{@key}}" {{{checkedAttr @key}}} class="hidden" type="checkbox"/>\
+                <input id="categ-name-check-{{@key}}" {{{checkedAttr @key @root.urlParamsObj}}} class="hidden" type="checkbox"/>\
                 <span class="item-menu-arrow item-menu-arrow-filter"></span>\
               <input class="hidden roll-unroll-checkbox" type="checkbox" id="roll-{{@key}}"/>\
-              <div id="{{@key}}" class="filter-container"{{#ifGreaterThan this.length 4}}style="height:120px"{{else}}style="height:{{multiply this.length 31}}px"{{/ifGreaterThan}}>\
+              <div id="{{@key}}" class="filter-container"{{#ifGreaterThan this.length 4}}style="height:110px"{{else}}style="height:{{multiply this.length 28}}px"{{/ifGreaterThan}}>\
                 {{#if this.length}}\
                 <ul class="filter-values">\
                   {{# each this}}\
@@ -17310,7 +17325,6 @@
       $.get('/search?categid='+$chCatBtn.attr('data-categ-id')+'&product='+this.value)
       .done(function(res){
         var data=res;
-        console.log(data);
         $categList.css('display') === 'block' ? $categList.css('display','none') : '';
         $productsList.css('display') === 'none' ? $productsList.css('display','block') : '';
         if(data.length){
@@ -17338,7 +17352,6 @@
       if(e.key === 'ArrowUp'){
         this.selectionStart>inputPosition ? inputPosition=this.selectionStart : this.selectionStart=inputPosition;
         if(currentIndex>0){
-          console.log('ArrowUp')
           currentIndex--;
           listedProductArr.some(function(item,index){
             if(currentIndex === index){
@@ -17352,7 +17365,6 @@
       }
       if(e.key === 'ArrowDown'){
         if(currentIndex<$listedProduct.length-1){
-          console.log('ArrowDown')
           currentIndex++;
           listedProductArr.some(function(item,index){
             if(currentIndex === index){
@@ -17392,7 +17404,8 @@
     showHoverableCatalog:showHoverableCatalog,
     filterCatalog:filterCatalog,
     getCurrentCategoryId:getCurrentCategoryId,
-    catalogGridUpdate:catalogGridUpdate
+    catalogGridUpdate:catalogGridUpdate,
+    activeFilters:activeFilters
   }
   function productsList(list){
     return list.map(function(item){
@@ -17401,8 +17414,9 @@
   }
 })();
 
-},{}],3:[function(require,module,exports){
+},{"../../../routes/views/helpers/commonFunctions":8}],3:[function(require,module,exports){
 var catalogGridUpdate = require('./catalog-template').catalogGridUpdate;
+var addToCartHandler = require('./shoppingCart.controller').addToCartHandler;
 var transformIntoQueriesUrl = require('../../../routes/views/helpers/commonFunctions').transformIntoQueriesUrl;
   function lastWordExtracter (obj, collection, divider){
     var endpoint, middlepoint, word;
@@ -17454,9 +17468,9 @@ var transformIntoQueriesUrl = require('../../../routes/views/helpers/commonFunct
         }
       }
   }
-  module.exports.filterFormSubmit = function (form, $catalogGrid, $topPreloader, categoryId){
+  module.exports.filterFormSubmit = function (form, selectors, categoryId, initialFilterParams){
       form.submit(function(e){
-        $topPreloader.show();
+        selectors.topPreloader.show();
         var url = $(form).attr('action'),
             filtersData = $(form).serializeFormJSON(),
             collection = [];
@@ -17464,7 +17478,6 @@ var transformIntoQueriesUrl = require('../../../routes/views/helpers/commonFunct
             var updatedCollection = collection.reduce(filtersCollectionToServerWrp(filtersData),{});
             updateNumericFilters(filtersData, updatedCollection)
             updatedCollection['_id'] = [categoryId];
-            console.log(collection, filtersData, updatedCollection)
         $.ajax({
 	    		type:'POST',
 	    		url:url,
@@ -17472,18 +17485,19 @@ var transformIntoQueriesUrl = require('../../../routes/views/helpers/commonFunct
 	    		success:function(response){
 	    			response.queries = transformIntoQueriesUrl(response.queries);
             response.pathname = window.location.pathname;
-            catalogGridUpdate(response, $catalogGrid, $topPreloader);
+            catalogGridUpdate(response, selectors);
+            $('.addToCart').click({$shoppingIndicator: selectors.shoppingIndicator}, addToCartHandler);
 	    		},
           error:function(XMLHttpRequest, textStatus, errorThrow){
             console.log(XMLHttpRequest, textStatus, errorThrow);
-            $topPreloader.hide();
+            selectors.topPreloader.hide();
           }
 	    	});
         e.preventDefault();
       })
   }
 
-},{"../../../routes/views/helpers/commonFunctions":8,"./catalog-template":2}],4:[function(require,module,exports){
+},{"../../../routes/views/helpers/commonFunctions":8,"./catalog-template":2,"./shoppingCart.controller":6}],4:[function(require,module,exports){
 
 (function(){
 	var helpers=require('../handlebars/helpers');
@@ -17502,6 +17516,7 @@ var transformIntoQueriesUrl = require('../../../routes/views/helpers/commonFunct
 	var catalogNavBar=document.getElementById('catalog');
 	var currentCategoryId;
 	var $topPreloader=$('#top-preloader');
+	var $activeFilters=$('#active-filters');
 	var $catalogGrid=$('#catalog-grid');
 	//---------------------MAIN Page-------------------------//
 	if(document.getElementById('banners')){
@@ -17545,7 +17560,6 @@ var transformIntoQueriesUrl = require('../../../routes/views/helpers/commonFunct
 				url:'/getCatalog',
 				type:'GET',
 				success:function(data){
-					console.log(currentCategoryId)
 					if (!currentCategoryId && catalogFilterBlock){
 						currentCategoryId = catalogTemplate.getCurrentCategoryId(window.location, data);
 						getPredefinedFilters(currentCategoryId);
@@ -17613,6 +17627,7 @@ var transformIntoQueriesUrl = require('../../../routes/views/helpers/commonFunct
 	*/
      //----------------SHOPPING CART--------------------//
 	//click events//
+
 	$('.addToCart').click({$shoppingIndicator:$shoppingIndicator},shoppingCart.addToCartHandler);
 	//click events//
 	$('.shopping-cart').click({$shoppingIndicator:$shoppingIndicator,
@@ -17646,7 +17661,14 @@ var transformIntoQueriesUrl = require('../../../routes/views/helpers/commonFunct
 				stringsOfObjPropsIntoArray(urlParamsObj);
 				localStorage.setItem('predefined-filters',JSON.stringify(data));
 				catalogTemplate.filterCatalog(data, checkedFilterParams, urlParamsObj);
-				filtersActions.filterFormSubmit($('#filter-form'), $catalogGrid, $topPreloader, currentCategoryId);
+				var selectors = {
+						catalogGrid: $catalogGrid,
+						topPreloader: $topPreloader,
+						shoppingIndicator: $shoppingIndicator,
+						activeFilters: $activeFilters
+				}
+				filtersActions.filterFormSubmit($('#filter-form'), selectors, currentCategoryId, urlParamsObj);
+				catalogTemplate.activeFilters(0, urlParamsObj);
 			},
 			error:function(err){
 				throw err;
@@ -17987,6 +18009,7 @@ var shoppingCartHandler=function(event){
 
 }
 var addToCartHandler=function(event){
+	console.log(event)
 	var cart=localStorage.getItem('shoppingCart'),
 	$shoppingIndicator=event.$shoppingIndicator || event.data.$shoppingIndicator,
 	productTitle=$(this).attr('data-product-title') || event.productTitle,
@@ -18179,7 +18202,27 @@ function cartTemplate(cartAreaWrp, allProducts, $shoppingIndicator, $purchaseFor
 		}
 		return helpers.pageUrl(nextPage, pathname, options);
 	};
-
+  helpers.showAdditionalInfo = function (productInfo, options){
+    var needed = options.hash.needed.split(','), data='';
+		if (needed) {
+			needed.forEach(function(item){
+				if (productInfo[item] && productInfo[item] !== 'выбрать вариант'){
+					data += '<div class="additional-info">\
+										<span class="additional-info-key">'+item+': </span>\
+										<span class="additional-info-value">'+productInfo[item]+'</span>\
+									 </div>';
+				}
+			})
+			return new Handlebars.SafeString(data);
+		}
+  };
+  helpers.isFilterChecked = function(item, checkedFilterParams){
+    if (checkedFilterParams && checkedFilterParams.indexOf(item) >= 0){
+      return 'checked';
+    } else {
+      return '';
+    }
+  };
   helpers.paginationNavigation = function (pages, currentPage, totalPages, pathname, options) {
 		var html = '';
 		// pages should be an array ex.  [1,2,3,4,5,6,7,8,9,10, '....']
@@ -18204,38 +18247,17 @@ function cartTemplate(cartAreaWrp, allProducts, $shoppingIndicator, $purchaseFor
 		});
 		return html;
 	};
-  function extractFilterNumbers(currentKey, urlParamsObj){
-      var values = '';
-      for (var key in urlParamsObj){
-        if (key === currentKey){
-          values = urlParamsObj[key];
-          return values;
-        }
-      }
-      return values;
-  }
-
-  Handlebars.registerHelper('pageUrl', helpers.pageUrl);
-  Handlebars.registerHelper('paginationPreviousUrl', helpers.paginationPreviousUrl);
-  Handlebars.registerHelper('paginationNextUrl', helpers.paginationNextUrl);
-  Handlebars.registerHelper('paginationNavigation', helpers.paginationNavigation);
-  Handlebars.registerHelper('isFilterChecked', function(item, checkedFilterParams){
-    if (checkedFilterParams && checkedFilterParams.indexOf(item) >= 0){
-      return 'checked';
-    } else {
-      return '';
-    }
-  })
-  Handlebars.registerHelper('textFilterBuilder', function(key, value, urlParamsObj){
+  helpers.textFilterBuilder = function(key, value, urlParamsObj){
       var values = extractFilterNumbers(key, urlParamsObj);
+      var units = extractUnitsOfMeasurement(key);
       if (key.indexOf('Максимальн') >= 0){
-        return new Handlebars.SafeString('<input name="single_'+key+'" type="number" value="'+values+'" /> <span>грн</span><button type="submit">OK</button>');
+        return new Handlebars.SafeString('<input class="border-outline-0" min="0" name="single_'+key+'" type="number" value="'+values+'" /> <span>'+units+'</span><button class="submit-filter-numbers border-outline-0" type="submit">OK</button>');
       } else {
         values = values && values.length === 2 ? values : ['',''];
-        return new Handlebars.SafeString('<input name="min_'+key+'" type="number" value="'+values[0]+'" /> - <input name="max_'+key+'" type="number" value="'+values[1]+'" /> <span>грн</span><button type="submit">OK</button>');
+        return new Handlebars.SafeString('<input class="border-outline-0" min="0" name="min_'+key+'" type="number" value="'+values[0]+'" /> <span> - </span><input class="border-outline-0" min="0" name="max_'+key+'" type="number" value="'+values[1]+'" /> <span>'+units+'</span><button class="submit-filter-numbers border-outline-0" type="submit">OK</button>');
       }
-  })
-  Handlebars.registerHelper('checkedAttr', function(val){
+  };
+  helpers.checkedAttr = function(val, urlParamsObj){
     var checked;
     switch (val) {
       case 'Производитель':
@@ -18265,57 +18287,94 @@ function cartTemplate(cartAreaWrp, allProducts, $shoppingIndicator, $purchaseFor
       default:
         checked='checked';
     }
+    if (urlParamsObj && urlParamsObj[val]) {
+      return '';
+    }
     return checked;
-  })
-  Handlebars.registerHelper('multiply', function(val1,val2){
+  };
+  helpers.multiply = function(val1,val2){
     var val1=val1 || 1;
     var val2=val2 || 1;
     return val1*val2;
-  })
-  Handlebars.registerHelper('ifGreaterThan', function(value1,value2,options){
+  };
+  helpers.ifGreaterThan = function(value1,value2,options){
     if(value1>value2){
       return options.fn(this);
     }else{
       return options.inverse(this);
     }
-  })
-  Handlebars.registerHelper('ifParent', function(subCategNames, options){
+  };
+  helpers.ifParent = function(subCategNames, options){
     return subCategNames.length ? options.fn(this) : options.inverse(this);
-  })
-  Handlebars.registerHelper('submenu', function(subCategNames, subCategSlug){
+  };
+  helpers.submenu = function(subCategNames, subCategSlug){
       var template=[];
       subCategNames.forEach(function(item,index){
        template.push('<div><a href="/product-categories/'+subCategSlug[index]+'">'+item+'</a></div>');
       });
       return template.join('');
-  })
-  Handlebars.registerHelper('getCategoryLink', function(linkArray, index){
+  };
+  helpers.getCategoryLink = function(linkArray, index){
    return linkArray[index];
-  });
-  Handlebars.registerHelper('ifContain', function(string, array, index, options) {
-     if(string.indexOf(array[index])>=0){
-       return options.fn(this);
-     }else{
-       return options.inverse(this);
-     }
- });
- Handlebars.registerHelper('getTotalSum', function(products){
-   var sum=products.reduce(function(result,current){
-     result+=current.quantity*current['Цена'];
-     return result;
-   },0);
-   return sum;
- });
- Handlebars.registerHelper('totalPrice', function(price,quantity){
-   return price*quantity;
- });
- Handlebars.registerHelper('totalSum', function(products,propName){
-   var totalSum=0;
-   products.forEach(function(item){
-     totalSum+=item.quantity*item[propName];
-   });
-   return totalSum;
- });
+  };
+  helpers.ifContain = function(string, array, index, options) {
+    if(string.indexOf(array[index])>=0){
+      return options.fn(this);
+    }else{
+      return options.inverse(this);
+    }
+  };
+  helpers.getTotalSum = function(products){
+    var sum=products.reduce(function(result,current){
+      result+=current.quantity*current['Цена'];
+      return result;
+    },0);
+    return sum;
+  };
+  helpers.totalPrice = function(price,quantity){
+    return price*quantity;
+  };
+  helpers.totalSum = function(products,propName){
+    var totalSum=0;
+    products.forEach(function(item){
+      totalSum+=item.quantity*item[propName];
+    });
+    return totalSum;
+  };
+  function extractFilterNumbers(currentKey, urlParamsObj){
+      var values = '';
+      for (var key in urlParamsObj){
+        if (key === currentKey){
+          values = urlParamsObj[key];
+          return values;
+        }
+      }
+      return values;
+  }
+  function extractUnitsOfMeasurement(key){
+    var startPoint = key.indexOf('(');
+    var endPoint = key.indexOf(')');
+    var units = endPoint === key.length-1 ? key.slice(startPoint, endPoint+1) : 'грн';
+    return units;
+  }
+
+  Handlebars.registerHelper('pageUrl', helpers.pageUrl);
+  Handlebars.registerHelper('paginationPreviousUrl', helpers.paginationPreviousUrl);
+  Handlebars.registerHelper('paginationNextUrl', helpers.paginationNextUrl);
+  Handlebars.registerHelper('paginationNavigation', helpers.paginationNavigation);
+  Handlebars.registerHelper('showAdditionalInfo', helpers.showAdditionalInfo);
+  Handlebars.registerHelper('isFilterChecked', helpers.isFilterChecked);
+  Handlebars.registerHelper('textFilterBuilder', helpers.textFilterBuilder);
+  Handlebars.registerHelper('checkedAttr', helpers.checkedAttr);
+  Handlebars.registerHelper('multiply', helpers.multiply);
+  Handlebars.registerHelper('ifGreaterThan', helpers.ifGreaterThan);
+  Handlebars.registerHelper('ifParent', helpers.ifParent);
+  Handlebars.registerHelper('submenu', helpers.submenu);
+  Handlebars.registerHelper('getCategoryLink', helpers.getCategoryLink);
+  Handlebars.registerHelper('ifContain', helpers.ifContain);
+  Handlebars.registerHelper('getTotalSum', helpers.getTotalSum);
+  Handlebars.registerHelper('totalPrice', helpers.totalPrice);
+  Handlebars.registerHelper('totalSum', helpers.totalSum);
 
 module.exports=helpers;
 
@@ -18327,6 +18386,13 @@ module.exports.allPropertiesExceptOne = function(obj,prop){
       output[key]=obj[key];
     }
   }
+}
+module.exports.deleteSelectedProp = function(obj, props){
+    var updObj = Object.assign({}, obj);
+    for (var key in updObj){
+      props.indexOf(key) >= 0 && delete obj[key];
+    }
+    return updObj;
 }
 module.exports.predefinedQuery = function (clause, filters, queriedObj){
     for (var key in filters){
