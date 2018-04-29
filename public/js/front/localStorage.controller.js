@@ -16,7 +16,7 @@
 	var catalogNavBar=document.getElementById('catalog');
 	var currentCategoryId;
 	var $topPreloader=$('#top-preloader');
-	var $activeFilters=$('#active-filters');
+	var $activeFilters=$('#active-filters form');
 	var $catalogGrid=$('#catalog-grid');
 	//---------------------MAIN Page-------------------------//
 	if(document.getElementById('banners')){
@@ -151,7 +151,7 @@
 		.css('transform','scale(.8)');
 	}
 	function getPredefinedFilters(currentCategoryId){
-		$.ajax({
+		currentCategoryId && $.ajax({
 			url:'/predefined-filters?category=' + currentCategoryId,
 			type:'GET',
 			success:function(data){
@@ -168,7 +168,7 @@
 						activeFilters: $activeFilters
 				}
 				filtersActions.filterFormSubmit($('#filter-form'), selectors, currentCategoryId, urlParamsObj);
-				catalogTemplate.activeFilters(0, urlParamsObj);
+				catalogTemplate.activeFilters($activeFilters, urlParamsObj);
 			},
 			error:function(err){
 				throw err;

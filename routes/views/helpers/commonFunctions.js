@@ -1,3 +1,15 @@
+module.exports.deepCopyOfObject = function(obj){
+  let copiedObj = Object.assign({}, obj);
+	for (let key in obj){
+  		if (copiedObj[key] instanceof Array && copiedObj[key].constructor.toString().indexOf("Array") >= 0) {
+      	copiedObj[key] = obj[key].slice();
+      }
+      if (copiedObj[key] instanceof Object && copiedObj[key].constructor.toString().indexOf("Array") < 0) {
+      	copiedObj[key] = Object.assign({}, obj[key])
+      }
+  }
+  return copiedObj;
+}
 module.exports.allPropertiesExceptOne = function(obj,prop){
   var output={};
   for(var key in obj){
@@ -9,7 +21,7 @@ module.exports.allPropertiesExceptOne = function(obj,prop){
 module.exports.deleteSelectedProp = function(obj, props){
     var updObj = Object.assign({}, obj);
     for (var key in updObj){
-      props.indexOf(key) >= 0 && delete obj[key];
+      props.indexOf(key) >= 0 && delete updObj[key];
     }
     return updObj;
 }

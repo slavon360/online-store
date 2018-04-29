@@ -17089,6 +17089,34 @@
 },{}],2:[function(require,module,exports){
 (function(){
   var deleteSelectedProp = require('../../../routes/views/helpers/commonFunctions').deleteSelectedProp;
+  var activeTemplateSingle = function(key, values){
+              var range = values.length === 2 ? values[0] + ' - ' + values[1] : values[0], newKey = key, keySpaceReplaced = key;
+              keySpaceReplaced = keySpaceReplaced.replace(/ |\(|\)|\°/g, '');
+              var updKey = newKey !== 'Цена' ? newKey.replace('(', range + ' (') : newKey += ' ' + range + ' (грн)';
+              var output = '<div class="active-filter" data-active-filter="' + keySpaceReplaced + '">\
+                              <span>' + updKey + '</span>\
+                              <button type="submit">\
+                                <input type="checkbox" id="' + keySpaceReplaced + '-' + keySpaceReplaced + '" name="' +
+                                  keySpaceReplaced + '-' + keySpaceReplaced + '" />\
+                                <label for="' + keySpaceReplaced + '-' + keySpaceReplaced + '">✖</label>\
+                              </button>\
+                            </div>';
+              return output;
+  };
+  var activeTemplatePlural = function(values){
+              var inner = '';
+              values.forEach(function(value){
+                  inner += '<div class="active-filter" data-active-filter="' + value + '">\
+                              <span>' + value + '</span>\
+                              <button type="submit">\
+                                <input type="checkbox" id="' + value + '-' + value + '" name="' + value + '-' + value + '" />\
+                                <label for="' + value + '-' + value + '">✖</label>\
+                              </button>\
+                            </div>';
+              })
+              return '' + inner + '';
+  };
+
   function showCatalog(dataCatalog){
     var catalogTemplate='   <div>\
     <h1>КАТАЛОГ</h1>\
@@ -17237,16 +17265,21 @@
   }
   function activeFilters(activeFiltersWrp, urlParamsObj){
     var updatedUrlParamsObj = deleteSelectedProp(urlParamsObj, '_id page');
-    console.log(updatedUrlParamsObj);
-    var activeFiltersTemplate='<form action="/do-filters-request" method="post" class="active-filters-form">\
-                                {{# each urlParamsObj }}\
-                                  <div>\
-                                  </div>\
-                                {{/each}}\
-                              </form>'
+    var template = {
+      single: activeTemplateSingle,
+      plural: activeTemplatePlural
+    }
+    var activeFiltersTemplate='{{# each updatedUrlParamsObj }}\
+                                    {{ haveMeasure @key @root.outputedTemplate this }}\
+                                {{/each}}';
+    var templateActiveFilters=Handlebars.compile(activeFiltersTemplate);
+    var dataFilter=templateActiveFilters({
+                                        updatedUrlParamsObj: updatedUrlParamsObj,
+                                        outputedTemplate: template
+                                        });
+    activeFiltersWrp.html(dataFilter);
   }
   function filterCatalog(filterObject, checkedFilterParams, urlParamsObj){
-    console.log( urlParamsObj);
     var filterTemplate='<form action="/do-filters-request" method="post" id="filter-form" class="filter-wrp">\
           {{# each filterObject}}\
             {{#if this}}\
@@ -17396,16 +17429,18 @@
     return categId;
   }
   var catalogTemplateModule = module.exports={
-    showCatalog:showCatalog,
-    showNavbar:showNavbar,
-    showRightCatalog:showRightCatalog,
-    showFooterCatalog:showFooterCatalog,
-    searchCatalog:searchCatalog,
-    showHoverableCatalog:showHoverableCatalog,
-    filterCatalog:filterCatalog,
-    getCurrentCategoryId:getCurrentCategoryId,
-    catalogGridUpdate:catalogGridUpdate,
-    activeFilters:activeFilters
+    showCatalog: showCatalog,
+    showNavbar: showNavbar,
+    showRightCatalog: showRightCatalog,
+    showFooterCatalog: showFooterCatalog,
+    searchCatalog: searchCatalog,
+    showHoverableCatalog: showHoverableCatalog,
+    filterCatalog: filterCatalog,
+    getCurrentCategoryId: getCurrentCategoryId,
+    catalogGridUpdate: catalogGridUpdate,
+    activeFilters: activeFilters,
+    activeTemplateSingle: activeTemplateSingle,
+    activeTemplatePlural: activeTemplatePlural
   }
   function productsList(list){
     return list.map(function(item){
@@ -17416,8 +17451,13 @@
 
 },{"../../../routes/views/helpers/commonFunctions":8}],3:[function(require,module,exports){
 var catalogGridUpdate = require('./catalog-template').catalogGridUpdate;
+var activeTemplateSingle = require('./catalog-template').activeTemplateSingle;
+var activeTemplatePlural = require('./catalog-template').activeTemplatePlural;
 var addToCartHandler = require('./shoppingCart.controller').addToCartHandler;
 var transformIntoQueriesUrl = require('../../../routes/views/helpers/commonFunctions').transformIntoQueriesUrl;
+var deleteSelectedProp = require('../../../routes/views/helpers/commonFunctions').deleteSelectedProp;
+var getObjectLength = require('../../../routes/views/helpers/commonFunctions').getObjectLength;
+var deepCopyOfObject = require('../../../routes/views/helpers/commonFunctions').deepCopyOfObject;
   function lastWordExtracter (obj, collection, divider){
     var endpoint, middlepoint, word;
     for (var key in obj){
@@ -17468,7 +17508,105 @@ var transformIntoQueriesUrl = require('../../../routes/views/helpers/commonFunct
         }
       }
   }
+  function updateExistedMeasureFilter(filter, comparedFilter, key){
+      var index, result = []
+      if (filter) {
+        different = filter.filter(function(item, i, arr){
+            var updItem = typeof this[0] === 'string' ? item.toString() : (+item);
+            this.indexOf(updItem) < 0 && (result[i] = updItem);
+            if (result.length) {
+              this.length > 1 && i === 0 && !index && (index = i + 1);
+              this.length > 1 && i === this.length-1 && !index && (index = i - 1);
+            }
+          }, comparedFilter);
+        if (result.length) {
+          result = result.filter(function(item){ return item });
+          index === 0 && result.unshift(filter[index]);
+          index === 1 && result.push(filter[index]);
+          result.unshift(key);
+          return result;
+        }
+    }
+  }
+  function getDifferentFilter(filters, comparedFilters){
+      var different;
+      for (var key in filters){
+        if (!comparedFilters[key] && typeof filters[key][0] !== 'string') {
+          var values = filters[key].slice();
+          values.unshift(key)
+          return values;
+        };
+        if (!comparedFilters[key]) return filters[key];
+        if (filters[key] && comparedFilters[key] && filters[key].length > comparedFilters[key].length) {
+          different = filters[key].filter(function(item){ return this.indexOf(item) < 0 }, comparedFilters[key]);
+          return different;
+        }
+        if (filters[key] && comparedFilters[key] && filters[key].length < comparedFilters[key].length) {
+          different = comparedFilters[key].filter(function(item){ return this.indexOf(item) < 0 }, filters[key]);
+          return different;
+        }
+        if (filters[key] && comparedFilters[key] && typeof filters[key][0] !== 'string') {
+          different = updateExistedMeasureFilter(filters[key], comparedFilters[key], key);
+          if (different) return different;
+        }
+      }
+  }
+  function getDifferentFilterElement(initialCollection, updatedCollection){
+    var initialCollectionLength = getObjectLength(initialCollection), updatedCollectionLength = getObjectLength(updatedCollection);
+    var differentFilter = initialCollectionLength > updatedCollectionLength ? getDifferentFilter(initialCollection, updatedCollection) :
+                                  getDifferentFilter(updatedCollection, initialCollection);
+    return differentFilter;
+  }
+  function checkForEmptiness(arr){
+    var empty;
+    arr.forEach(function(item, index){
+      empty = index > 0 && (!item || item === '0') ? true : false;
+    })
+    return empty;
+  }
+  function isIdentic(initialObject, differentFilter){
+    var filterParams = differentFilter.slice(1, differentFilter.length);
+    var identic = true;
+    initialObject[differentFilter[0]].forEach(function(item, index){
+      identic = item === filterParams[index] && identic ? true : false;
+    });
+    console.log('identic: ', identic);
+    return identic;
+  }
+  function setActiveTemplateSingle(differentFilter, newActiveFilter){
+    var updDifferentFilter = differentFilter.slice();
+    updDifferentFilter.splice(0, 1);
+    newActiveFilter = activeTemplateSingle(differentFilter[0], updDifferentFilter);
+  }
+  function filterSectionUpdate(reupdatedCollection, generalInitialFilterParams, selectors){
+    var updatedInitialFilterParams = deleteSelectedProp(generalInitialFilterParams, '_id page');
+    var differentFilter = getDifferentFilterElement(updatedInitialFilterParams, reupdatedCollection);
+    var selector = differentFilter && typeof differentFilter[0] === 'string' ? differentFilter[0].replace(/ |\(|\)|\°/g, '') : null;
+    var activeFilter = selector ? $('[data-active-filter=' + selector + ']')[0] : null;
+  //  console.log(activeFilter, differentFilter);
+  //  differentFilter && console.log(generalInitialFilterParams[differentFilter[0]]);
+    if (activeFilter){
+      differentFilter.length === 1 && activeFilter.remove();
+      differentFilter.length > 1 && !isIdentic(generalInitialFilterParams, differentFilter);
+      differentFilter.length > 1 && checkForEmptiness(differentFilter) && activeFilter.remove();
+      activeFilter = null;
+      return;
+    }
+    if (!activeFilter && differentFilter){
+      var newActiveFilter;
+      differentFilter.length === 1 && (newActiveFilter = activeTemplatePlural(differentFilter));
+      if (differentFilter.length > 1){
+        setActiveTemplateSingle(differentFilter, newActiveFilter);
+      }
+      selectors.activeFilters.append(newActiveFilter);
+      //console.log(updDifferentFilter)
+    }
+  }
   module.exports.filterFormSubmit = function (form, selectors, categoryId, initialFilterParams){
+      var generalInitialFilterParams = deepCopyOfObject(initialFilterParams);
+      $(document).on("keypress", form, function(event) {
+          return event.keyCode != 13;
+      });
       form.submit(function(e){
         selectors.topPreloader.show();
         var url = $(form).attr('action'),
@@ -17476,23 +17614,26 @@ var transformIntoQueriesUrl = require('../../../routes/views/helpers/commonFunct
             collection = [];
             lastWordExtracter(filtersData, collection, '-');
             var updatedCollection = collection.reduce(filtersCollectionToServerWrp(filtersData),{});
-            updateNumericFilters(filtersData, updatedCollection)
             updatedCollection['_id'] = [categoryId];
-        $.ajax({
-	    		type:'POST',
-	    		url:url,
-	    		data:updatedCollection,
-	    		success:function(response){
-	    			response.queries = transformIntoQueriesUrl(response.queries);
-            response.pathname = window.location.pathname;
-            catalogGridUpdate(response, selectors);
-            $('.addToCart').click({$shoppingIndicator: selectors.shoppingIndicator}, addToCartHandler);
-	    		},
-          error:function(XMLHttpRequest, textStatus, errorThrow){
-            console.log(XMLHttpRequest, textStatus, errorThrow);
-            selectors.topPreloader.hide();
-          }
-	    	});
+            updateNumericFilters(filtersData, updatedCollection);
+            var reupdatedCollection = deleteSelectedProp(updatedCollection, '_id page');
+            filterSectionUpdate(reupdatedCollection, generalInitialFilterParams, selectors);
+            generalInitialFilterParams = deepCopyOfObject(reupdatedCollection);
+      $.ajax({
+    	    		type:'POST',
+    	    		url:url,
+    	    		data:updatedCollection,
+    	    		success:function(response){
+    	    			response.queries = transformIntoQueriesUrl(response.queries);
+                response.pathname = window.location.pathname;
+                catalogGridUpdate(response, selectors);
+                $('.addToCart').click({$shoppingIndicator: selectors.shoppingIndicator}, addToCartHandler);
+    	    		},
+              error:function(XMLHttpRequest, textStatus, errorThrow){
+                console.log(XMLHttpRequest, textStatus, errorThrow);
+                selectors.topPreloader.hide();
+              }
+    	    	});
         e.preventDefault();
       })
   }
@@ -17516,7 +17657,7 @@ var transformIntoQueriesUrl = require('../../../routes/views/helpers/commonFunct
 	var catalogNavBar=document.getElementById('catalog');
 	var currentCategoryId;
 	var $topPreloader=$('#top-preloader');
-	var $activeFilters=$('#active-filters');
+	var $activeFilters=$('#active-filters form');
 	var $catalogGrid=$('#catalog-grid');
 	//---------------------MAIN Page-------------------------//
 	if(document.getElementById('banners')){
@@ -17651,7 +17792,7 @@ var transformIntoQueriesUrl = require('../../../routes/views/helpers/commonFunct
 		.css('transform','scale(.8)');
 	}
 	function getPredefinedFilters(currentCategoryId){
-		$.ajax({
+		currentCategoryId && $.ajax({
 			url:'/predefined-filters?category=' + currentCategoryId,
 			type:'GET',
 			success:function(data){
@@ -17668,7 +17809,7 @@ var transformIntoQueriesUrl = require('../../../routes/views/helpers/commonFunct
 						activeFilters: $activeFilters
 				}
 				filtersActions.filterFormSubmit($('#filter-form'), selectors, currentCategoryId, urlParamsObj);
-				catalogTemplate.activeFilters(0, urlParamsObj);
+				catalogTemplate.activeFilters($activeFilters, urlParamsObj);
 			},
 			error:function(err){
 				throw err;
@@ -18341,6 +18482,13 @@ function cartTemplate(cartAreaWrp, allProducts, $shoppingIndicator, $purchaseFor
     });
     return totalSum;
   };
+  helpers.haveMeasure = function(key, template, values){
+      if ( key === 'Цена' || key.indexOf('(') > 0 ) {
+        return new Handlebars.SafeString(template.single(key, values));
+      } else {
+        return new Handlebars.SafeString(template.plural(values));
+      }
+  }
   function extractFilterNumbers(currentKey, urlParamsObj){
       var values = '';
       for (var key in urlParamsObj){
@@ -18375,10 +18523,23 @@ function cartTemplate(cartAreaWrp, allProducts, $shoppingIndicator, $purchaseFor
   Handlebars.registerHelper('getTotalSum', helpers.getTotalSum);
   Handlebars.registerHelper('totalPrice', helpers.totalPrice);
   Handlebars.registerHelper('totalSum', helpers.totalSum);
+  Handlebars.registerHelper('haveMeasure', helpers.haveMeasure);
 
 module.exports=helpers;
 
 },{"lodash":1}],8:[function(require,module,exports){
+module.exports.deepCopyOfObject = function(obj){
+  let copiedObj = Object.assign({}, obj);
+	for (let key in obj){
+  		if (copiedObj[key] instanceof Array && copiedObj[key].constructor.toString().indexOf("Array") >= 0) {
+      	copiedObj[key] = obj[key].slice();
+      }
+      if (copiedObj[key] instanceof Object && copiedObj[key].constructor.toString().indexOf("Array") < 0) {
+      	copiedObj[key] = Object.assign({}, obj[key])
+      }
+  }
+  return copiedObj;
+}
 module.exports.allPropertiesExceptOne = function(obj,prop){
   var output={};
   for(var key in obj){
@@ -18390,7 +18551,7 @@ module.exports.allPropertiesExceptOne = function(obj,prop){
 module.exports.deleteSelectedProp = function(obj, props){
     var updObj = Object.assign({}, obj);
     for (var key in updObj){
-      props.indexOf(key) >= 0 && delete obj[key];
+      props.indexOf(key) >= 0 && delete updObj[key];
     }
     return updObj;
 }

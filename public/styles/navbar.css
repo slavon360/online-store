@@ -1,5 +1,8 @@
 #active-filters{
-	height: 25px;
+	height: auto;
+}
+.active-filters-form .active-filter{
+	display: inline-block;
 }
 .search-form{
 	padding: 5px 5px 11px;

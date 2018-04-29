@@ -1,5 +1,33 @@
 (function(){
   var deleteSelectedProp = require('../../../routes/views/helpers/commonFunctions').deleteSelectedProp;
+  var activeTemplateSingle = function(key, values){
+              var range = values.length === 2 ? values[0] + ' - ' + values[1] : values[0], newKey = key, keySpaceReplaced = key;
+              keySpaceReplaced = keySpaceReplaced.replace(/ |\(|\)|\°/g, '');
+              var updKey = newKey !== 'Цена' ? newKey.replace('(', range + ' (') : newKey += ' ' + range + ' (грн)';
+              var output = '<div class="active-filter" data-active-filter="' + keySpaceReplaced + '">\
+                              <span>' + updKey + '</span>\
+                              <button type="submit">\
+                                <input type="checkbox" id="' + keySpaceReplaced + '-' + keySpaceReplaced + '" name="' +
+                                  keySpaceReplaced + '-' + keySpaceReplaced + '" />\
+                                <label for="' + keySpaceReplaced + '-' + keySpaceReplaced + '">✖</label>\
+                              </button>\
+                            </div>';
+              return output;
+  };
+  var activeTemplatePlural = function(values){
+              var inner = '';
+              values.forEach(function(value){
+                  inner += '<div class="active-filter" data-active-filter="' + value + '">\
+                              <span>' + value + '</span>\
+                              <button type="submit">\
+                                <input type="checkbox" id="' + value + '-' + value + '" name="' + value + '-' + value + '" />\
+                                <label for="' + value + '-' + value + '">✖</label>\
+                              </button>\
+                            </div>';
+              })
+              return '' + inner + '';
+  };
+
   function showCatalog(dataCatalog){
     var catalogTemplate='   <div>\
     <h1>КАТАЛОГ</h1>\
@@ -149,42 +177,20 @@
   function activeFilters(activeFiltersWrp, urlParamsObj){
     var updatedUrlParamsObj = deleteSelectedProp(urlParamsObj, '_id page');
     var template = {
-      single: function(key){
-        var output = '<div class="active-filter">\
-                        <span>' + key + '</span>\
-                        <button type="submit">\
-                          <input type="checkbox" id="' + key + '-' + key + '" name="' + key + '-' + key + '" />\
-                          <label for="' + key + '-' + key + '">✖</label>\
-                        </button>\
-                      </div>';
-        return output;
-      },
-      plural: function(values){
-        var inner = '';
-        values.forEach(function(value){
-            inner += '<span>' + value + '</span>\
-                      <button type="submit">\
-                        <input type="checkbox" id="' + value + '-' + value + '" name="' + value + '-' + value + '" />\
-                        <label for="' + value + '-' + value + '">✖</label>\
-                      </button>';
-        })
-        return '<div class="active-filter">' + inner + '</div>';
-      }
+      single: activeTemplateSingle,
+      plural: activeTemplatePlural
     }
-    console.log(updatedUrlParamsObj);
-    var activeFiltersTemplate='<form action="/do-filters-request" method="post" class="active-filters-form">\
-                                {{# each updatedUrlParamsObj }}\
-                                    {{ haveMeasure @key this template }}
-                                {{/each}}\
-                              </form>';
+    var activeFiltersTemplate='{{# each updatedUrlParamsObj }}\
+                                    {{ haveMeasure @key @root.outputedTemplate this }}\
+                                {{/each}}';
     var templateActiveFilters=Handlebars.compile(activeFiltersTemplate);
     var dataFilter=templateActiveFilters({
-                                        updatedUrlParamsObj:updatedUrlParamsObj,
-                                        template:template
+                                        updatedUrlParamsObj: updatedUrlParamsObj,
+                                        outputedTemplate: template
                                         });
+    activeFiltersWrp.html(dataFilter);
   }
   function filterCatalog(filterObject, checkedFilterParams, urlParamsObj){
-    console.log( urlParamsObj);
     var filterTemplate='<form action="/do-filters-request" method="post" id="filter-form" class="filter-wrp">\
           {{# each filterObject}}\
             {{#if this}}\
@@ -334,16 +340,18 @@
     return categId;
   }
   var catalogTemplateModule = module.exports={
-    showCatalog:showCatalog,
-    showNavbar:showNavbar,
-    showRightCatalog:showRightCatalog,
-    showFooterCatalog:showFooterCatalog,
-    searchCatalog:searchCatalog,
-    showHoverableCatalog:showHoverableCatalog,
-    filterCatalog:filterCatalog,
-    getCurrentCategoryId:getCurrentCategoryId,
-    catalogGridUpdate:catalogGridUpdate,
-    activeFilters:activeFilters
+    showCatalog: showCatalog,
+    showNavbar: showNavbar,
+    showRightCatalog: showRightCatalog,
+    showFooterCatalog: showFooterCatalog,
+    searchCatalog: searchCatalog,
+    showHoverableCatalog: showHoverableCatalog,
+    filterCatalog: filterCatalog,
+    getCurrentCategoryId: getCurrentCategoryId,
+    catalogGridUpdate: catalogGridUpdate,
+    activeFilters: activeFilters,
+    activeTemplateSingle: activeTemplateSingle,
+    activeTemplatePlural: activeTemplatePlural
   }
   function productsList(list){
     return list.map(function(item){

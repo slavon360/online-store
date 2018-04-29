@@ -10,7 +10,9 @@
 	</div>
 	<div class="catalog-right-section-grid col-sm-10">
 		<div id="customNavbar"></div>
-		<div id="active-filters"></div>
+		<div id="active-filters">
+			<form action="/do-filters-request" method="post" class="active-filters-form"></form>
+		</div>
 		<div id="catalog-grid" >
 			{{# each data.products.results}}
 			<div class="catalog-right-section-grid-item col-sm-4">

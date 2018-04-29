@@ -8,8 +8,8 @@ module.exports = function(req, res){
       delete keyValues['_id'];
   arraysOfObjPropsIntoString(keyValues);
   predefinedQuery('$in', filters, queriedObj);
+  console.log('queriedObj: ', queriedObj, 'filters: ', filters);
   queriedObj.productCategory = filters['_id'][0];
-  console.log(queriedObj);
   keystone.list('ProductSelf')
   .paginate({
     page:req.query.page || 1,

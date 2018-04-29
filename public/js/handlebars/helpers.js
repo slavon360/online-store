@@ -160,11 +160,11 @@
     });
     return totalSum;
   };
-  helpers.haveMeasure = function(key, template){
+  helpers.haveMeasure = function(key, template, values){
       if ( key === 'Цена' || key.indexOf('(') > 0 ) {
-        return template.single(key);
+        return new Handlebars.SafeString(template.single(key, values));
       } else {
-        return template.plural;
+        return new Handlebars.SafeString(template.plural(values));
       }
   }
   function extractFilterNumbers(currentKey, urlParamsObj){
