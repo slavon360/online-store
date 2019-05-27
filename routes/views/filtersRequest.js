@@ -1,5 +1,4 @@
 var keystone = require('keystone');
-var mongoose = require('mongoose');
 var predefinedQuery = require('./helpers/commonFunctions').predefinedQuery;
 var arraysOfObjPropsIntoString = require('./helpers/commonFunctions').arraysOfObjPropsIntoString;
 module.exports = function(req, res){
@@ -13,7 +12,7 @@ module.exports = function(req, res){
   keystone.list('ProductSelf')
   .paginate({
     page:req.query.page || 1,
-    perPage:3,
+    perPage:6,
     filters:queriedObj
   })
   .populate('productCategory', 'slug')

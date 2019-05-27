@@ -1,5 +1,4 @@
 var keystone = require('keystone');
-var mongoose = require('mongoose');
 var productProperties = require('./helpers/productProperties');
 
 //mongoose.set('debug', true);

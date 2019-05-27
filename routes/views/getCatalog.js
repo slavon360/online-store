@@ -11,18 +11,26 @@ exports=module.exports=function(req,res){
 			return false;
 		}
 		var catalog=categories.reduce(function(result,current,index){
-			var categItem={categName:current.title,
-							categSlug:current.slug,
-							categLink:'/product-exact-category/'+current.slug,
-						    _id:current._id,
-						    subCategNames:[],
-						    subCategSlug:[]};
+			var categItem = {
+							categName: current.title,
+							categSlug: current.slug,
+							categLink: '/product-exact-category/' + current.slug,
+						    _id: current._id,
+						    subCategNames: [],
+							subCategSlug: [],
+							subCategIds: []
+						};
 							result.push(categItem);
 							return result;
 		},[]);		
 		catalog.map(function(item,index){
 			subcategories.forEach(function(i){
-				item._id.toString()===i.productCategory.toString() ? item.subCategNames.push(i.title) && item.subCategSlug.push(i.slug) : '';
+				console.log(item, i);
+				if (item._id.toString()===i.productCategory.toString()) {
+					item.subCategNames.push(i.title);
+					item.subCategSlug.push(i.slug);
+					item.subCategIds.push(i._id);
+				};
 			})
 		});
 		res.send(catalog);		

@@ -35,26 +35,32 @@ var routes = {
 exports = module.exports = function (app) {
 	// Views
 	app.get('/', routes.views.index);
-	app.get('/getCatalog',routes.views.getCatalog);
+	app.post('/client-log-in', keystone.middleware.cors, routes.views.logIn);
+	app.get('/re-authenticate', keystone.middleware.cors, routes.views.reauth);
+	app.post('/client-sign-in', keystone.middleware.cors, routes.views.signIn);
+	app.get('/getBanners', keystone.middleware.cors, routes.views.getBanners);
+	app.get('/getCatalog', keystone.middleware.cors, routes.views.getCatalog);
+	app.get('/list-products', keystone.middleware.cors, routes.views.listProducts);
+	app.get('/product-details/:slug', keystone.middleware.cors, routes.views.productDetails);
 	app.get('/blog/:category?', routes.views.blog);
 	app.get('/blog/post/:post', routes.views.post);
 	app.get('/gallery', routes.views.gallery);
 	app.all('/contact', routes.views.contact);
 	app.get('/products', routes.views.products);
 	app.get('/products/:product', routes.views.product);
-  app.get('/about', routes.views.about);
-  app.get('/product-categories', routes.views.productCategories);
-  app.get('/product-categories/:subcategory', routes.views.productSubCategories);
-  app.get('/product-categories/:subcategory/:productself',routes.views.productSelf);
-  app.get('/product-exact-category/:categoryname', routes.views.allProducts);
-  app.get('/product-exact-category/:categoryname/:productself', routes.views.productSelf);
+	app.get('/about', routes.views.about);
+	app.get('/product-categories', routes.views.productCategories);
+	app.get('/product-categories/:subcategory', routes.views.productSubCategories);
+	app.get('/product-categories/:subcategory/:productself',routes.views.productSelf);
+	app.get('/product-exact-category/:categoryname', routes.views.allProducts);
+	app.get('/product-exact-category/:categoryname/:productself', routes.views.productSelf);
 	app.get('/product-categories/customer-search/search?', routes.views.productSelf);
 //  app.post('/product-exact-category/:categoryname', routes.views.addToCart);
-  app.get('/shopping-cart', routes.views.shoppingCart);
-  app.post('/make-order', routes.views.makeOrder);
-	app.get('/search?', routes.views.searchProducts);
+	app.get('/shopping-cart', routes.views.shoppingCart);
+	app.post('/make-order', keystone.middleware.cors, routes.views.makeOrder);
+	app.get('/search?', keystone.middleware.cors, routes.views.searchProducts);
 	//app.get('/get-model-props', routes.views.getModelProps);
-	app.get('/predefined-filters', routes.views.predefinedFilters);
+	app.get('/predefined-filters',keystone.middleware.cors, routes.views.predefinedFilters);
 	app.post('/do-filters-request', routes.views.filtersRequest);
 	// NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
 	// app.get('/protected', middleware.requireUser, routes.views.protected);

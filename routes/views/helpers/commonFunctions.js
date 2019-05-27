@@ -1,3 +1,5 @@
+var jwt = require('jsonwebtoken');
+
 module.exports.deepCopyOfObject = function(obj){
   let copiedObj = Object.assign({}, obj);
 	for (let key in obj){
@@ -67,4 +69,26 @@ module.exports.urlParamsToObject = function(params){
     var parsed = JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
     return parsed;
   }
+}
+module.exports.generateToken = function(user){
+  const usr = {
+    firstName: user.firstName,
+    phone: user.phone,
+    id: user._id
+  }
+  return token = jwt.sign(usr, process.env.JWT_SECRET, {
+    expiresIn: 60 * 60 * 24
+  })
+}
+module.exports.getCleanUser = function(user){
+  const usr = {
+    firstName: user.firstName,
+    phone: user.phone,
+    email: user.email
+  }
+  return usr;
+}
+module.exports.sendJSONresponse = function(res,status,content){
+  res.status(status);
+	res.json(content);
 }

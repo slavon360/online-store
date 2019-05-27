@@ -5,11 +5,18 @@ require('dotenv').config();
 // Require keystone
 var keystone = require('keystone');
 var handlebars = require('express-handlebars');
+var cloudinary = require('cloudinary');
+var mongoose = require('mongoose');
 
 // Initialise Keystone with your project's configuration.
 // See http://keystonejs.com/guide/config for available options
 // and documentation.
 
+cloudinary.config({
+	cloud_name: 'dxnslfgii',
+	api_key: '712556615644867',
+	api_secret: '4nF764o7kB98DEbb0b9YPnAicrQ',
+})
 keystone.init({
 	'name': 'keystoneApp',
 	'brand': 'keystoneApp',
@@ -18,7 +25,8 @@ keystone.init({
 	'favicon': 'public/favicon.ico',
 	'views': 'templates/views',
 	'view engine': '.hbs',
-
+	'cookie secret': 'slavon-123',
+	'cloudinary config': 'cloudinary://712556615644867:4nF764o7kB98DEbb0b9YPnAicrQ@dxnslfgii',
 	'custom engine': handlebars.create({
 		layoutsDir: 'templates/views/layouts',
 		partialsDir: 'templates/views/partials',
@@ -36,6 +44,10 @@ keystone.init({
 // Load your project's Models
 keystone.import('models');
 
+keystone.set('cors allow origin', true);
+keystone.set('cors allow methods', true);
+keystone.set('cors allow headers', true);
+
 // Setup common locals for your templates. The following are required for the
 // bundled templates and layouts. Any runtime locals (that should be set uniquely
 // for each request) should be added to ./routes/middleware.js
@@ -48,7 +60,6 @@ keystone.set('locals', {
 
 // Load your project's Routes
 keystone.set('routes', require('./routes'));
-
 
 // Configure the navigation bar in Keystone's Admin UI
 keystone.set('nav', {

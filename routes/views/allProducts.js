@@ -31,7 +31,7 @@ exports=module.exports=function(req,res){
 		 	keystone.list('ProductSelf')
 		 	.paginate({
 				page:req.query.page || 1,
-				perPage:3,
+				perPage:9,
 				filters:finalFilters
 			})
 			.select({
@@ -48,7 +48,7 @@ exports=module.exports=function(req,res){
 				'image': 1
 			})
 		 	.exec(function(err,products){
-				//console.log(products);
+				console.log(products);
 		 		locals.data.products=products;
 		 		next(err);
 		 	})
