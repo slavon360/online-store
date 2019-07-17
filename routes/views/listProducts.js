@@ -6,10 +6,14 @@ module.exports = function(req,res){
         subcategid: req.query.subcategid,
         categid: req.query.categid
       }
-    var filters = {
-        productCategory: query.categid
+    var filters = { };
+    var perPage = 16;
+    if (query.categid) {
+        filters = Object.assign(filters, { productCategory: query.categid });
     }
-    var perPage = 4;
+    if (query.subcategid) {
+        filters = Object.assign(filters, { productSubCategory: query.subcategid });
+    }
     if (query.categid || query.subcategid) {
         keystone.list('ProductSelf')
         .paginate({
