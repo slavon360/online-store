@@ -19,8 +19,6 @@ exports=module.exports=function(req,res){
 		.exec(function(err,product){
 			locals.data.product=product;
 			locals.data.product.productsProps=productProperties.productsProps(product);
-			//console.log(locals.data.product.productsProps);
-			console.log(locals.data.product)
 			next(err);
 		});
 	});

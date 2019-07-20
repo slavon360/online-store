@@ -162,7 +162,7 @@ var ProductSelf = new keystone.List('ProductSelf',{
 		'Ширина (мм)': { type:Number },
 		'Высота (мм)': { type:Number },
 		'Вес (кг)': { type:Number, index: true },
-      	'Описание': { type: Types.Html, height: 400 },
+      	'Описание': { type: Types.Html, height: 400, wysiwyg:true },
 		createdAt: { type: Date }
     });
     ProductSelf.register();
