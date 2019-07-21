@@ -35,9 +35,9 @@ var routes = {
 exports = module.exports = function (app) {
 	// Views
 	app.get('/', routes.views.index);
-	app.post('/client-log-in', keystone.middleware.cors, routes.views.logIn);
-	app.get('/re-authenticate', keystone.middleware.cors, routes.views.reauth);
-	app.post('/client-sign-in', keystone.middleware.cors, routes.views.signIn);
+	// app.post('/client-log-in', keystone.middleware.cors, routes.views.logIn);
+	// app.get('/re-authenticate', keystone.middleware.cors, routes.views.reauth);
+	// app.post('/client-sign-in', keystone.middleware.cors, routes.views.signIn);
 	app.get('/getBanners', keystone.middleware.cors, routes.views.getBanners);
 	app.get('/getCatalog', keystone.middleware.cors, routes.views.getCatalog);
 	app.get('/list-products', keystone.middleware.cors, routes.views.listProducts);
