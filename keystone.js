@@ -6,7 +6,6 @@ require('dotenv').config();
 var keystone = require('keystone');
 var handlebars = require('express-handlebars');
 var cloudinary = require('cloudinary');
-var mongoose = require('mongoose');
 
 // Initialise Keystone with your project's configuration.
 // See http://keystonejs.com/guide/config for available options
@@ -21,19 +20,19 @@ keystone.init({
 	'name': 'keystoneApp',
 	'brand': 'keystoneApp',
 	'sass': 'public',
-	'static': 'public',
+	'static': ['public', 'landing'],
 	'favicon': 'public/favicon.ico',
 	'views': 'templates/views',
-	'view engine': '.hbs',
+	// 'view engine': '.hbs',
 	'cookie secret': 'slavon-123',
 	'cloudinary config': 'cloudinary://712556615644867:4nF764o7kB98DEbb0b9YPnAicrQ@dxnslfgii',
-	'custom engine': handlebars.create({
-		layoutsDir: 'templates/views/layouts',
-		partialsDir: 'templates/views/partials',
-		defaultLayout: 'default',
-		helpers: new require('./templates/views/helpers')(),
-		extname: '.hbs',
-	}).engine,
+	// 'custom engine': handlebars.create({
+	// 	layoutsDir: 'templates/views/layouts',
+	// 	partialsDir: 'templates/views/partials',
+	// 	defaultLayout: 'default',
+	// 	helpers: new require('./templates/views/helpers')(),
+	// 	extname: '.hbs',
+	// }).engine,
 
 	'auto update': true,
 	'session': true,
