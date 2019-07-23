@@ -1,7 +1,7 @@
 {
   "main.css": "/static/css/main.9e9452f0.chunk.css",
-  "main.js": "/static/js/main.c7a38e66.chunk.js",
-  "main.js.map": "/static/js/main.c7a38e66.chunk.js.map",
+  "main.js": "/static/js/main.a65bda8e.chunk.js",
+  "main.js.map": "/static/js/main.a65bda8e.chunk.js.map",
   "static/css/1.b485cfc7.chunk.css": "/static/css/1.b485cfc7.chunk.css",
   "static/js/1.8351eec6.chunk.js": "/static/js/1.8351eec6.chunk.js",
   "static/js/1.8351eec6.chunk.js.map": "/static/js/1.8351eec6.chunk.js.map",
@@ -13,6 +13,6 @@
   "static/media/zapchasti_kolonki.jpg": "/static/media/zapchasti_kolonki.31dcff05.jpg",
   "static/css/main.9e9452f0.chunk.css.map": "/static/css/main.9e9452f0.chunk.css.map",
   "index.html": "/index.html",
-  "precache-manifest.089707c3e76d374ec468a59143f8db89.js": "/precache-manifest.089707c3e76d374ec468a59143f8db89.js",
+  "precache-manifest.fd34366cee42e4018fb6d598b4e3a7e3.js": "/precache-manifest.fd34366cee42e4018fb6d598b4e3a7e3.js",
   "service-worker.js": "/service-worker.js"
 }
