@@ -45,12 +45,12 @@ exports = module.exports = function (app) {
 	// })
 	// Views
 	app.get('/', sendHomePage);
-	// app.post('/client-log-in', keystone.middleware.cors, routes.views.logIn);
-	// app.get('/re-authenticate', keystone.middleware.cors, routes.views.reauth);
-	// app.post('/client-sign-in', keystone.middleware.cors, routes.views.signIn);
-	app.get('/getBanners', keystone.middleware.cors, routes.views.getBanners);
-	app.get('/getCatalog', keystone.middleware.cors, routes.views.getCatalog);
-	app.get('/list-products', keystone.middleware.cors, routes.views.listProducts);
+	// app.post('/client-log-in',  routes.views.logIn);
+	// app.get('/re-authenticate',  routes.views.reauth);
+	// app.post('/client-sign-in',  routes.views.signIn);
+	app.get('/getBanners',  routes.views.getBanners);
+	app.get('/getCatalog', routes.views.getCatalog);
+	app.get('/list-products',  routes.views.listProducts);
 	app.get('/api/product-details/:slug', routes.views.productDetails);
 	app.get('/product-details/:slug', sendHomePage);
 	app.get('/blog/:category?', routes.views.blog);
@@ -69,12 +69,12 @@ exports = module.exports = function (app) {
 //  app.post('/product-exact-category/:categoryname', routes.views.addToCart);
 	app.get('/shopping-cart', sendHomePage);
 	app.get('/order', sendHomePage);
-	app.post('/make-order', keystone.middleware.cors, routes.views.makeOrder);
-	app.get('/search?', keystone.middleware.cors, routes.views.searchProducts);
+	app.post('/make-order', routes.views.makeOrder);
+	app.get('/search?', routes.views.searchProducts);
 	//app.get('/get-model-props', routes.views.getModelProps);
-	app.get('/predefined-filters',keystone.middleware.cors, routes.views.predefinedFilters);
+	app.get('/predefined-filters', routes.views.predefinedFilters);
 	app.post('/do-filters-request', routes.views.filtersRequest);
-	app.get('/getContacts', keystone.middleware.cors, routes.views.getContacts);
+	app.get('/getContacts',  routes.views.getContacts);
 	app.get('/services', function (req, res) {
 		res.sendFile(appDir + '/landing/index.html');
 	})

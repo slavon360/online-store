@@ -26,7 +26,7 @@ exports=module.exports=function(req,res){
 		catalog.map(function(item,index){
 			subcategories.forEach(function(i){
 				console.log(item, i);
-				if (item._id.toString()===i.productCategory.toString()) {
+				if (item._id && i.productCategory && item._id.toString()===i.productCategory.toString()) {
 					item.subCategNames.push(i.title);
 					item.subCategSlug.push(i.slug);
 					item.subCategIds.push(i._id);

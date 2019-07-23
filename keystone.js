@@ -6,6 +6,16 @@ require('dotenv').config();
 var keystone = require('keystone');
 var handlebars = require('express-handlebars');
 var cloudinary = require('cloudinary');
+var mongo_instance = require('mongoose');
+
+mongo_instance.connect(process.env.MONGO_URL);
+mongo_instance.connection.on('error', function () {
+  console.log('MongoDB Connection Error. Please make sure that MongoDB is running.');
+  process.exit(1);
+});
+mongo_instance.connection.on('open', function (ref) {
+	console.log('REEF: ', ref);
+})
 
 // Initialise Keystone with your project's configuration.
 // See http://keystonejs.com/guide/config for available options
@@ -17,6 +27,7 @@ cloudinary.config({
 	api_secret: '4nF764o7kB98DEbb0b9YPnAicrQ',
 })
 keystone.init({
+	'mongoose': mongo_instance,
 	'name': 'keystoneApp',
 	'brand': 'keystoneApp',
 	'sass': 'public',
