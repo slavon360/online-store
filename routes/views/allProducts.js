@@ -48,7 +48,6 @@ exports=module.exports=function(req,res){
 				'image': 1
 			})
 		 	.exec(function(err,products){
-				console.log(products);
 		 		locals.data.products=products;
 		 		next(err);
 		 	})

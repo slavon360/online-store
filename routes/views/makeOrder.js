@@ -7,7 +7,7 @@ const TelegramBot = require('node-telegram-bot-api');
 const token = '949146703:AAEX0hDtWofS-FMnQ-AOsuA1BhWX3ltajgw';
 
 // Create a bot that uses 'polling' to fetch new updates
-const bot = new TelegramBot(token, {polling: true});
+// const bot = new TelegramBot(token, {polling: true});
 
 // Matches "/echo [whatever]"
 // bot.onText(/\/echo (.+)/, (msg, match) => {
@@ -56,10 +56,10 @@ exports=module.exports=function(req,res, next){
 		axios.post(`https://api.telegram.org/bot${token}/sendMessage?chat_id=251733133&text=${a}&parse_mode=HTML`)
 		.then((res) => {
 			
-		  })
-		  .catch((error) => {
-			  
-		  })
+		})
+		.catch((error) => {
+			
+		})
 		// bot.sendMessage(251733133, JSON.stringify(order['товары']));
 	})
 }

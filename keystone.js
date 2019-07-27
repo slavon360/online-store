@@ -4,7 +4,7 @@ require('dotenv').config();
 
 // Require keystone
 var keystone = require('keystone');
-var handlebars = require('express-handlebars');
+// var handlebars = require('express-handlebars');
 var cloudinary = require('cloudinary');
 var mongo_instance = require('mongoose');
 
@@ -25,7 +25,8 @@ cloudinary.config({
 	cloud_name: 'dxnslfgii',
 	api_key: '712556615644867',
 	api_secret: '4nF764o7kB98DEbb0b9YPnAicrQ',
-})
+});
+
 keystone.init({
 	'mongoose': mongo_instance,
 	'name': 'keystoneApp',

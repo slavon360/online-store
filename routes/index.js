@@ -24,6 +24,8 @@ var importRoutes = keystone.importer(__dirname);
 var path = require('path');
 var appDir = path.dirname(require.main.filename);
 
+var makeCurrencyRequest = require('../updates/currencyService');
+
 // Common Middleware
 keystone.pre('routes', middleware.initLocals);
 keystone.pre('render', middleware.flashMessages);
@@ -36,6 +38,8 @@ var routes = {
 var sendHomePage = function (req, res, next) {
 	res.sendFile(appDir + '/public/index.html');
 };
+
+makeCurrencyRequest();
 
 // Setup Route Bindings
 exports = module.exports = function (app) {
@@ -77,7 +81,8 @@ exports = module.exports = function (app) {
 	app.get('/getContacts', keystone.middleware.cors, routes.views.getContacts);
 	app.get('/services', function (req, res) {
 		res.sendFile(appDir + '/landing/index.html');
-	})
+	});
+	app.get('/get-currency-data', keystone.middleware.cors, routes.views.getCurrency)
 	// keystone.redirect('/landing', './services.html');
 	// NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
 	// app.get('/protected', middleware.requireUser, routes.views.protected);
