@@ -8,7 +8,7 @@ var keystone = require('keystone');
 var cloudinary = require('cloudinary');
 var mongo_instance = require('mongoose');
 
-mongo_instance.connect(process.env.MONGO_URL);
+mongo_instance.connect(process.env.MONGO_URL, { useFindAndModify: false });
 mongo_instance.connection.on('error', function () {
   console.log('MongoDB Connection Error. Please make sure that MongoDB is running.');
   process.exit(1);
@@ -33,7 +33,7 @@ keystone.init({
 	'brand': 'keystoneApp',
 	'sass': 'public',
 	'static': ['public', 'landing'],
-	'favicon': 'public/favicon.ico',
+	// 'favicon': 'public/favicon.ico',
 	'views': 'templates/views',
 	// 'view engine': '.hbs',
 	'cookie secret': 'slavon-123',

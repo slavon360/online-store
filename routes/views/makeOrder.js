@@ -1,7 +1,6 @@
 var keystone = require('keystone');
 var ClientOrder = keystone.list('ClientOrder');
 const axios = require('axios');
-const TelegramBot = require('node-telegram-bot-api');
 
 // replace the value below with the Telegram token you receive from @BotFather
 const token = '949146703:AAEX0hDtWofS-FMnQ-AOsuA1BhWX3ltajgw';
