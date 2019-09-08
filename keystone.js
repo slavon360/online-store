@@ -55,9 +55,11 @@ keystone.init({
 // Load your project's Models
 keystone.import('models');
 
-keystone.set('cors allow origin', true);
-keystone.set('cors allow methods', true);
-keystone.set('cors allow headers', true);
+if (process.env.NODE_ENV === 'development') {
+	keystone.set('cors allow origin', true);
+	keystone.set('cors allow methods', true);
+	keystone.set('cors allow headers', true);
+}
 
 // Setup common locals for your templates. The following are required for the
 // bundled templates and layouts. Any runtime locals (that should be set uniquely

@@ -38,24 +38,27 @@ var routes = {
 var sendHomePage = function (req, res, next) {
 	res.sendFile(appDir + '/public/index.html');
 };
+var cors_middleware = function (req, res, next) {
+	return process.env.NODE_ENV === 'development' ? keystone.middleware.cors(req, res, next)
+	: function () { next() };
+};
 
 makeCurrencyRequest();
 
 // Setup Route Bindings
 exports = module.exports = function (app) {
-	// app.use(function (req, res, next) {
-	// 	res.sendFile(appDir + '/public/index.html');
-	// 	next();
-	// })
+
 	// Views
 	app.get('/', sendHomePage);
+	
 	// app.post('/client-log-in', keystone.middleware.cors, routes.views.logIn);
 	// app.get('/re-authenticate', keystone.middleware.cors, routes.views.reauth);
 	// app.post('/client-sign-in', keystone.middleware.cors, routes.views.signIn);
-	app.get('/getBanners', routes.views.getBanners);
-	app.get('/getCatalog', routes.views.getCatalog);
-	app.get('/list-products', routes.views.listProducts);
-	app.get('/api/product-details/:slug', routes.views.productDetails);
+
+	app.get('/getBanners', cors_middleware, routes.views.getBanners);
+	app.get('/getCatalog', cors_middleware, routes.views.getCatalog);
+	app.get('/list-products', cors_middleware, routes.views.listProducts);
+	app.get('/api/product-details/:slug', cors_middleware, routes.views.productDetails);
 	app.get('/product-details/:slug', sendHomePage);
 	app.get('/blog/:category?', routes.views.blog);
 	app.get('/blog/post/:post', routes.views.post);
@@ -70,19 +73,24 @@ exports = module.exports = function (app) {
 	app.get('/product-exact-category/:categoryname', routes.views.allProducts);
 	app.get('/product-exact-category/:categoryname/:productself', routes.views.productSelf);
 	app.get('/product-categories/customer-search/search?', routes.views.productSelf);
+
 //  app.post('/product-exact-category/:categoryname', routes.views.addToCart);
+
 	app.get('/shopping-cart', sendHomePage);
 	app.get('/order', sendHomePage);
-	app.post('/make-order', routes.views.makeOrder);
-	app.get('/search?', routes.views.searchProducts);
+	app.post('/make-order', cors_middleware, routes.views.makeOrder);
+	app.get('/search?', cors_middleware, routes.views.searchProducts);
+
 	//app.get('/get-model-props', routes.views.getModelProps);
+
 	app.get('/predefined-filters', routes.views.predefinedFilters);
 	app.post('/do-filters-request', routes.views.filtersRequest);
-	app.get('/getContacts',  routes.views.getContacts);
+	app.get('/getContacts', cors_middleware, routes.views.getContacts);
 	app.get('/services', function (req, res) {
 		res.sendFile(appDir + '/landing/index.html');
 	});
-	app.get('/get-currency-data',  routes.views.getCurrency)
+	app.get('/get-currency-data', cors_middleware, routes.views.getCurrency);
+
 	// keystone.redirect('/landing', './services.html');
 	// NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
 	// app.get('/protected', middleware.requireUser, routes.views.protected);
