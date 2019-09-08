@@ -27,7 +27,7 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "start": "NODE_ENV=development node keystone.js",
+    "start": "node keystone.js",
     "build-js": "browserify public/js/front/localStorage.controller.js > public/js/front/localStorage.controller.browserify.js",
     "watch-js": "watchify public/js/front/localStorage.controller.js -o public/js/front/localStorage.controller.browserify.js"
   },
