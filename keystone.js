@@ -28,6 +28,7 @@ cloudinary.config({
 });
 
 keystone.init({
+	'port': process.env.NODE_ENV === 'development' ? 3000 : 80,
 	'mongoose': mongo_instance,
 	'name': 'keystoneApp',
 	'brand': 'keystoneApp',
