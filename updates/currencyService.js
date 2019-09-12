@@ -1,3 +1,4 @@
+require('dotenv').config();
 const keystone = require('keystone');
 const axios = require('axios');
 const schedule = require('node-schedule');
