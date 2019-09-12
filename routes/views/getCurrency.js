@@ -10,7 +10,7 @@ module.exports = function(req, res){
     .findById(searched_id)
     .exec(function(err, currency){
         try {
-            axios.post(`https://api.telegram.org/bot${token}/sendMessage?chat_id=251733133&text=currency:${currency}&parse_mode=HTML`)
+            axios.post(`https://api.telegram.org/bot${token}/sendMessage?chat_id=251733133&text=searched_id:${searched_id}currency:${currency}&parse_mode=HTML`)
                 .then((res) => {
                     
                 })
