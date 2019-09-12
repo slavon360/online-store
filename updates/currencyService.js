@@ -6,7 +6,7 @@ const Currency = keystone.list('Currency');
 const searched_id = process.env.CURRENCY_ID // each time we should override the same currency instance;
 
 const makeCurrencyRequest = () => {
-    schedule.scheduleJob('03 23 * * *', () => {
+    schedule.scheduleJob('45 23 * * *', () => {
         axios
             .get(`http://free.currconv.com/api/v7/convert?q=EUR_UAH&compact=ultra&apiKey=${process.env.CURRCONV_KEY}`)
             .then(response => {
