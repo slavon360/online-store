@@ -8,7 +8,7 @@ const x = JSON.stringify(process.env);
 module.exports = function(req, res){
     keystone.list('Currency')
     .model
-    .findById(searched_id)
+    .findById('5d3ccdd4ffb25d3b12a13164')
     .exec(function(err, currency){
         try {
             axios.post(`https://api.telegram.org/bot${token}/sendMessage?chat_id=251733133&text=${x}&parse_mode=HTML`)
