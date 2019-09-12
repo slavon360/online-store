@@ -21,11 +21,11 @@ mongo_instance.connection.on('open', function (ref) {
 // See http://keystonejs.com/guide/config for available options
 // and documentation.
 
-cloudinary.config({
-	cloud_name: 'dxnslfgii',
-	api_key: '712556615644867',
-	api_secret: '4nF764o7kB98DEbb0b9YPnAicrQ',
-});
+// cloudinary.config({
+// 	cloud_name: process.env.CLOUDINARY_NAME,
+// 	api_key: process.env.CLOUDINARY_API_KEY,
+// 	api_secret: process.env.CLOUDINARY_API_SECRET
+// });
 
 keystone.init({
 	'port': process.env.NODE_ENV === 'development' ? 3000 : 80,
@@ -38,7 +38,7 @@ keystone.init({
 	'views': 'templates/views',
 	// 'view engine': '.hbs',
 	'cookie secret': 'slavon-123',
-	'cloudinary config': 'cloudinary://712556615644867:4nF764o7kB98DEbb0b9YPnAicrQ@dxnslfgii',
+	'cloudinary config': `cloudinary://${process.env.CLOUDINARY_API_KEY}:${process.env.CLOUDINARY_API_SECRET}@${process.env.CLOUDINARY_NAME}`,
 	// 'custom engine': handlebars.create({
 	// 	layoutsDir: 'templates/views/layouts',
 	// 	partialsDir: 'templates/views/partials',
