@@ -5,7 +5,6 @@ require('dotenv').config();
 // Require keystone
 var keystone = require('keystone');
 // var handlebars = require('express-handlebars');
-var cloudinary = require('cloudinary');
 var mongo_instance = require('mongoose');
 
 mongo_instance.connect(process.env.MONGO_URL, { useFindAndModify: false });

@@ -1,4 +1,3 @@
-require('dotenv').config();
 var keystone = require('keystone');
 var searched_id = process.env.CURRENCY_ID;
 const axios = require('axios');
