@@ -51,13 +51,13 @@ exports=module.exports=function(req,res, next){
 			throw err;
 		};
 		sendJSONresponse(res,200,order);
-		const a = `<a href="https://flaviocopes.com/node-http-post/${order._id}">New Order</a>`;
-		axios.post(`https://api.telegram.org/bot${token}/sendMessage?chat_id=251733133&text=${a}&parse_mode=HTML`)
+		const orderLink = `<a href="http://voda-teplo-service.com/keystone/client-orders/${order._id}">New order</a>`;
+		axios.post(`https://api.telegram.org/bot${token}/sendMessage?chat_id=251733133&text=${orderLink}&parse_mode=HTML`)
 		.then((res) => {
-			
+			console.log(res);
 		})
 		.catch((error) => {
-			
+			console.log(error);
 		})
 		// bot.sendMessage(251733133, JSON.stringify(order['товары']));
 	})
