@@ -1,6 +1,6 @@
 {
-  "main.css": "/static/css/main.cf629c56.chunk.css",
-  "main.js": "/static/js/main.4356c1a9.chunk.js",
+  "main.css": "/static/css/main.3883d63b.chunk.css",
+  "main.js": "/static/js/main.e18d73b6.chunk.js",
   "static/css/1.500c6e48.chunk.css": "/static/css/1.500c6e48.chunk.css",
   "static/js/1.a4d2987f.chunk.js": "/static/js/1.a4d2987f.chunk.js",
   "runtime~main.js": "/static/js/runtime~main.229c360f.js",
@@ -8,6 +8,6 @@
   "static/media/zapchasti-k-gazovym.jpg": "/static/media/zapchasti-k-gazovym.0db49706.jpg",
   "static/media/zapchasti_kolonki.jpg": "/static/media/zapchasti_kolonki.31dcff05.jpg",
   "index.html": "/index.html",
-  "precache-manifest.668741d7b38f94f15f01bf379815f475.js": "/precache-manifest.668741d7b38f94f15f01bf379815f475.js",
+  "precache-manifest.bef410d1e6cde1a9090c8d848f904645.js": "/precache-manifest.bef410d1e6cde1a9090c8d848f904645.js",
   "service-worker.js": "/service-worker.js"
 }
