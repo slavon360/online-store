@@ -5,16 +5,16 @@ require('dotenv').config();
 // Require keystone
 var keystone = require('keystone');
 // var handlebars = require('express-handlebars');
-var mongo_instance = require('mongoose');
+// var mongo_instance = require('mongoose');
 
-mongo_instance.connect(process.env.MONGO_URL, { useFindAndModify: false });
-mongo_instance.connection.on('error', function () {
-  console.log('MongoDB Connection Error. Please make sure that MongoDB is running.');
-  process.exit(1);
-});
-mongo_instance.connection.on('open', function (ref) {
-	console.log('REEF: ', ref);
-})
+// mongo_instance.connect(process.env.MONGO_URL, { useFindAndModify: false });
+// mongo_instance.connection.on('error', function () {
+//   console.log('MongoDB Connection Error. Please make sure that MongoDB is running.');
+//   process.exit(1);
+// });
+// mongo_instance.connection.on('open', function (ref) {
+// 	console.log('REEF: ', ref);
+// });
 
 // Initialise Keystone with your project's configuration.
 // See http://keystonejs.com/guide/config for available options
@@ -27,8 +27,9 @@ mongo_instance.connection.on('open', function (ref) {
 // });
 
 keystone.init({
+	'less': ['public', 'public-app'],
 	'port': process.env.NODE_ENV === 'development' ? 3000 : 80,
-	'mongoose': mongo_instance,
+	// 'mongoose': mongo_instance,
 	'name': 'keystoneApp',
 	'brand': 'keystoneApp',
 	'sass': 'public',
@@ -68,8 +69,9 @@ keystone.set('locals', {
 	_: require('lodash'),
 	env: keystone.get('env'),
 	utils: keystone.utils,
-	editable: keystone.content.editable,
+	editable: keystone.content.editable
 });
+keystone.set('adminui custom styles', './public/styles/keystone.less');
 
 // Load your project's Routes
 keystone.set('routes', require('./routes'));
