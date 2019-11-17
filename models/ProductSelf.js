@@ -163,7 +163,10 @@ var ProductSelf = new keystone.List('ProductSelf',{
 		'Высота (мм)': { type:Number },
 		'Вес (кг)': { type:Number, index: true },
 		'Описание': { type: Types.Html, height: 400, wysiwyg:true },
-		'В наличии': { type: Boolean, default: true },  
-		createdAt: { type: Date }
+		'В наличии': { type: Boolean, default: true },
+		'Не отображать на сайте': { type: Boolean, default: false },
+		'Акционная цена': { type: Number },
+		'Конец акции': { type: Date },
+		createdAt: { type: Date, default: Date.now }
     });
     ProductSelf.register();

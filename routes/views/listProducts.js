@@ -8,6 +8,8 @@ module.exports = function(req,res){
       }
     var filters = { };
     var perPage = 16;
+    var hideOnSite = 'Не отображать на сайте';
+
     if (query.categid) {
         filters = Object.assign(filters, { productCategory: query.categid });
     }
@@ -19,7 +21,7 @@ module.exports = function(req,res){
         .paginate({
             page: query.page || 1,
             perPage: perPage,
-            filters: filters
+            filters: Object.assign(filters, { [hideOnSite]: false || undefined })
         })
         .select([
             'productCategory',
