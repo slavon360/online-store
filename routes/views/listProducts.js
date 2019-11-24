@@ -21,7 +21,7 @@ module.exports = function(req,res){
         .paginate({
             page: query.page || 1,
             perPage: perPage,
-            filters: Object.assign(filters, { [hideOnSite]: false || undefined })
+            filters: Object.assign(filters, {[hideOnSite]: { $ne: true }})
         })
         .select([
             'productCategory',
@@ -33,10 +33,13 @@ module.exports = function(req,res){
             'Тип котла',
             'Тип водонагревателя',
             'Максимальная температура нагрева воды (°С)',
-            'Цена'
+            'Цена',
+            'Акционная цена',
+            'Конец акции'
         ])
         .exec(function(err, products){
             try {
+                console.log(products);
                 res.send(products);
             } catch {
                 console.log(err)
