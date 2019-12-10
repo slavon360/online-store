@@ -1,13 +1,15 @@
 {
-  "main.css": "/static/css/main.e8f44ef7.chunk.css",
-  "main.js": "/static/js/main.6d83e5e0.chunk.js",
-  "static/css/1.9ac8cbc2.chunk.css": "/static/css/1.9ac8cbc2.chunk.css",
-  "static/js/1.14c84a9d.chunk.js": "/static/js/1.14c84a9d.chunk.js",
+  "main.css": "/static/css/main.a7bb535d.chunk.css",
+  "main.js": "/static/js/main.b9ff88fb.chunk.js",
+  "static/css/1.373ef41a.chunk.css": "/static/css/1.373ef41a.chunk.css",
+  "static/js/1.66cf3a85.chunk.js": "/static/js/1.66cf3a85.chunk.js",
   "runtime~main.js": "/static/js/runtime~main.229c360f.js",
   "static/media/zapchasti-k-vodonagrevatelyam.jpg": "/static/media/zapchasti-k-vodonagrevatelyam.276c8743.jpg",
   "static/media/zapchasti-k-gazovym.jpg": "/static/media/zapchasti-k-gazovym.0db49706.jpg",
+  "static/media/boiler1.b87a7cb2.jpg": "/static/media/boiler1.b87a7cb2.b87a7cb2.jpg",
+  "static/media/details1.5a1fd390.jpg": "/static/media/details1.5a1fd390.5a1fd390.jpg",
   "static/media/zapchasti_kolonki.jpg": "/static/media/zapchasti_kolonki.31dcff05.jpg",
   "index.html": "/index.html",
-  "precache-manifest.6b6893516fe9f475ff95757e5bd1e9bf.js": "/precache-manifest.6b6893516fe9f475ff95757e5bd1e9bf.js",
+  "precache-manifest.4d8146b49f1484e9309b13f9958ec27b.js": "/precache-manifest.4d8146b49f1484e9309b13f9958ec27b.js",
   "service-worker.js": "/service-worker.js"
 }
