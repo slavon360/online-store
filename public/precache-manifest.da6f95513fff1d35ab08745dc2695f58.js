@@ -4,8 +4,8 @@ self.__precacheManifest = [
     "url": "/static/media/zapchasti-k-vodonagrevatelyam.276c8743.jpg"
   },
   {
-    "revision": "0dda6be5fa8c21b7e992",
-    "url": "/static/css/main.ea51fb13.chunk.css"
+    "revision": "e206c308a26dd7ade39d",
+    "url": "/static/css/main.5085c362.chunk.css"
   },
   {
     "revision": "5a1fd390fd1931ab6a3b2b07aa735d78",
@@ -20,8 +20,8 @@ self.__precacheManifest = [
     "url": "/static/js/runtime~main.229c360f.js"
   },
   {
-    "revision": "0dda6be5fa8c21b7e992",
-    "url": "/static/js/main.0dda6be5.chunk.js"
+    "revision": "e206c308a26dd7ade39d",
+    "url": "/static/js/main.e206c308.chunk.js"
   },
   {
     "revision": "31dcff0533266dd23a6e9598b10a771b",
@@ -40,7 +40,7 @@ self.__precacheManifest = [
     "url": "/static/css/1.373ef41a.chunk.css"
   },
   {
-    "revision": "4b5580f9f2feca4dd3dfebf0bfa0be4a",
+    "revision": "0951f44d14430bb006456cfe0faa9739",
     "url": "/index.html"
   }
 ];
