@@ -7,19 +7,19 @@ var ProductSelf = new keystone.List('ProductSelf',{
 	plural: 'Продукты',
 	autokey: { path:'slug', from:'title', unique:true }
 });
-    ProductSelf.add({
-    	title: { type: String,required: true },
-    	productSubCategory: {
-    		type: Types.Relationship,
-    		ref: 'ProductSubCategory',
-        index: true
-    	},
-      	productCategory: {
-            type: Types.Relationship,
-            ref: 'ProductCategory',
-            index: true
-        },
-      	image: { type: Types.CloudinaryImage },
+	ProductSelf.add({
+		title: { type: String,required: true },
+		productSubCategory: {
+			type: Types.Relationship,
+			ref: 'ProductSubCategory',
+		index: true
+		},
+	  	productCategory: {
+			type: Types.Relationship,
+			ref: 'ProductCategory',
+			index: true
+		},
+	  	image: { type: Types.CloudinaryImage },
 		'Артикул': { type: String },
 		'Производитель': { type: String, index: true },
 		'Тип водонагревателя': {
@@ -107,8 +107,8 @@ var ProductSelf = new keystone.List('ProductSelf',{
 			default: 'выбрать вариант',
 			index: true
 			},
-    	'Тепловая мощность (кВт)': { type: Number, index: true },
-     	'Цена': { type: Number, index: true },
+		'Тепловая мощность (кВт)': { type: Number, index: true },
+	 	'Цена': { type: Number, index: true, default: 0 },
 		'Страна производитель': { type: String, index: true },
 		'Назначение котла': {
 			type: Types.Select,
@@ -168,5 +168,5 @@ var ProductSelf = new keystone.List('ProductSelf',{
 		'Акционная цена': { type: Number },
 		'Конец акции': { type: Date },
 		createdAt: { type: Date, default: Date.now }
-    });
-    ProductSelf.register();
+	});
+	ProductSelf.register();

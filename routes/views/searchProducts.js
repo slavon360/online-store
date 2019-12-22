@@ -28,7 +28,7 @@ exports=module.exports=function(req,res){
         .model
         .find({'title':{"$regex":query.product,"$options":"i"}})
         .select({ title: 1, slug: 1, [hideOnSite]: 1 })
-        .limit(10)
+        .limit(20)
         .exec(function(err,products){
           if(err){
             throw err;
