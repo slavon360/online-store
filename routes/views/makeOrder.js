@@ -1,7 +1,7 @@
 var keystone = require('keystone');
 var ClientOrder = keystone.list('ClientOrder');
 const axios = require('axios');
-const services = require('../../updates/currencyService');
+const services = require('../../updates/services');
 
 // replace the value below with the Telegram token you receive from @BotFather
 const token = process.env.TELEGRAM_TOKEN;
@@ -54,7 +54,8 @@ exports=module.exports=function(req,res, next){
 		};
 		sendJSONresponse(res,200,order);
 		const orderLink = `<a href="http://voda-teplo-service.com/keystone/client-orders/${order._id}">New order</a>`;
-		const botUrl = services.telegramBotUrl(token, chat_id, orderLink);
+		const mode = 'parse_mode=HTML';
+		const botUrl = services.telegramBotUrl(token, chat_id, orderLink, mode);
 		axios.post(botUrl)
 			.then((res) => {
 				console.log(res);

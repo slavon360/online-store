@@ -25,7 +25,7 @@ var path = require('path');
 var appDir = path.dirname(require.main.filename);
 const schedule = require('node-schedule');
 
-var services = require('../updates/currencyService');
+var services = require('../updates/services');
 
 // Common Middleware
 keystone.pre('routes', middleware.initLocals);
@@ -43,7 +43,7 @@ var cors_middleware = function (req, res, next) {
 	return process.env.NODE_ENV === 'development' ? keystone.middleware.cors(req, res, next) : next();
 };
 
-schedule.scheduleJob('18 00 * * *', () => {
+schedule.scheduleJob('30 00 * * *', () => {
 	const currentDate = new Date();
 
 	services.findEmptiesPrices();

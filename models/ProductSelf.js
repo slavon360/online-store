@@ -12,12 +12,14 @@ var ProductSelf = new keystone.List('ProductSelf',{
 		productSubCategory: {
 			type: Types.Relationship,
 			ref: 'ProductSubCategory',
-		index: true
+			index: true,
+			many: true
 		},
 	  	productCategory: {
 			type: Types.Relationship,
 			ref: 'ProductCategory',
-			index: true
+			index: true,
+			many: true
 		},
 	  	image: { type: Types.CloudinaryImage },
 		'Артикул': { type: String },
