@@ -48,7 +48,9 @@ const findProductsWithNonExistedImages = () => {
             if (err) {
                 return console.error(err);
             }
-            generateTitlesList(products, preface);
+            if (products && products.length) {
+                generateTitlesList(products, preface);
+            }
         });
 };
 
@@ -75,10 +77,13 @@ const findEmptiesPrices = () => {
             .select({ _id: 1, title: 1 })
             .exec((err, products) => {
                 const preface = 'products without prices: ';
+                
                 if (err) {
                     return console.error(err);
                 }
-                generateTitlesList(products, preface);
+                if (products && products.length) {
+                    generateTitlesList(products, preface);
+                }
             });
 };
 

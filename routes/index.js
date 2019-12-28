@@ -43,7 +43,7 @@ var cors_middleware = function (req, res, next) {
 	return process.env.NODE_ENV === 'development' ? keystone.middleware.cors(req, res, next) : next();
 };
 
-schedule.scheduleJob('30 00 * * *', () => {
+schedule.scheduleJob('30 01 * * *', () => {
 	const currentDate = new Date();
 
 	services.findEmptiesPrices();

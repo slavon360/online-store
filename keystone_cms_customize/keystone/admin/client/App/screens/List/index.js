@@ -68,7 +68,7 @@ const ListView = React.createClass({
 		// side routed page before, we need to initialize the list and parse
 		// possibly specified query parameters
 		this.props.dispatch(selectList(this.props.params.listId));
-		this.props.dispatch(setActiveSort('createdAt'));
+		// this.props.dispatch(setActiveSort('createdAt'));
 
 		const isNoCreate = this.props.lists.data[this.props.params.listId].nocreate;
 		const shouldOpenCreate = this.props.location.search === '?create';
