@@ -7,7 +7,7 @@ module.exports = function(req, res){
     .findById(searched_id)
     .exec(function(err, currency){
         try {
-            res.send(Object.assign({}, currency, { env: process.env }));
+            res.send(currency);
         } catch {
             console.log(err)
             res.send(err);
