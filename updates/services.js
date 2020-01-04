@@ -23,6 +23,7 @@ const updateDate = (_id, endDate) => {
 };
 
 const findAndUpdateDates = (currentDate) => {
+    console.log(currentDate);
     const endOfProposition = currentDate.setDate(currentDate.getDate() + 2);
 
     Products.model
