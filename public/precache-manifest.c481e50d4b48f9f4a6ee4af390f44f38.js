@@ -4,24 +4,24 @@ self.__precacheManifest = [
     "url": "/static/media/zapchasti-k-vodonagrevatelyam.276c8743.jpg"
   },
   {
-    "revision": "ba5f75c5fd1413b2511b",
-    "url": "/static/css/main.98d3f317.chunk.css"
+    "revision": "f82121ac49570e1cb9ac",
+    "url": "/static/css/main.63e00fb6.chunk.css"
+  },
+  {
+    "revision": "1b922744246c39b6bc43",
+    "url": "/static/js/runtime~main.1b922744.js"
   },
   {
     "revision": "5a1fd390fd1931ab6a3b2b07aa735d78",
     "url": "/static/media/details1.5a1fd390.5a1fd390.jpg"
   },
   {
-    "revision": "66cf3a85215570ab2141",
-    "url": "/static/js/1.66cf3a85.chunk.js"
+    "revision": "968856383aba8a4e67e5",
+    "url": "/static/js/2.96885638.chunk.js"
   },
   {
-    "revision": "229c360febb4351a89df",
-    "url": "/static/js/runtime~main.229c360f.js"
-  },
-  {
-    "revision": "ba5f75c5fd1413b2511b",
-    "url": "/static/js/main.ba5f75c5.chunk.js"
+    "revision": "f82121ac49570e1cb9ac",
+    "url": "/static/js/main.f82121ac.chunk.js"
   },
   {
     "revision": "31dcff0533266dd23a6e9598b10a771b",
@@ -36,11 +36,11 @@ self.__precacheManifest = [
     "url": "/static/media/boiler1.b87a7cb2.b87a7cb2.jpg"
   },
   {
-    "revision": "66cf3a85215570ab2141",
-    "url": "/static/css/1.373ef41a.chunk.css"
+    "revision": "968856383aba8a4e67e5",
+    "url": "/static/css/2.9212c6ac.chunk.css"
   },
   {
-    "revision": "5b38727a825075229ccff4b78c4be535",
+    "revision": "ae46c0eb7fc60899bd09adfba641a12f",
     "url": "/index.html"
   }
 ];

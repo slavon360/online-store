@@ -21,7 +21,7 @@ var ProductSelf = new keystone.List('ProductSelf',{
 			index: true,
 			many: true
 		},
-	  	image: { type: Types.CloudinaryImage },
+	  	image: { type: Types.CloudinaryImages },
 		'Артикул': { type: String },
 		'Производитель': { type: String, index: true },
 		'Тип водонагревателя': {

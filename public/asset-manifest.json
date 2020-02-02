@@ -1,15 +1,15 @@
 {
-  "main.css": "/static/css/main.98d3f317.chunk.css",
-  "main.js": "/static/js/main.ba5f75c5.chunk.js",
-  "static/css/1.373ef41a.chunk.css": "/static/css/1.373ef41a.chunk.css",
-  "static/js/1.66cf3a85.chunk.js": "/static/js/1.66cf3a85.chunk.js",
-  "runtime~main.js": "/static/js/runtime~main.229c360f.js",
-  "static/media/zapchasti-k-vodonagrevatelyam.jpg": "/static/media/zapchasti-k-vodonagrevatelyam.276c8743.jpg",
-  "static/media/zapchasti-k-gazovym.jpg": "/static/media/zapchasti-k-gazovym.0db49706.jpg",
+  "main.css": "/static/css/main.63e00fb6.chunk.css",
+  "main.js": "/static/js/main.f82121ac.chunk.js",
+  "runtime~main.js": "/static/js/runtime~main.1b922744.js",
+  "static/css/2.9212c6ac.chunk.css": "/static/css/2.9212c6ac.chunk.css",
+  "static/js/2.96885638.chunk.js": "/static/js/2.96885638.chunk.js",
+  "index.html": "/index.html",
+  "precache-manifest.c481e50d4b48f9f4a6ee4af390f44f38.js": "/precache-manifest.c481e50d4b48f9f4a6ee4af390f44f38.js",
+  "service-worker.js": "/service-worker.js",
   "static/media/boiler1.b87a7cb2.jpg": "/static/media/boiler1.b87a7cb2.b87a7cb2.jpg",
   "static/media/details1.5a1fd390.jpg": "/static/media/details1.5a1fd390.5a1fd390.jpg",
-  "static/media/zapchasti_kolonki.jpg": "/static/media/zapchasti_kolonki.31dcff05.jpg",
-  "index.html": "/index.html",
-  "precache-manifest.3becc7d4f4ce7745b5061bde4c881b31.js": "/precache-manifest.3becc7d4f4ce7745b5061bde4c881b31.js",
-  "service-worker.js": "/service-worker.js"
+  "static/media/zapchasti-k-gazovym.jpg": "/static/media/zapchasti-k-gazovym.0db49706.jpg",
+  "static/media/zapchasti-k-vodonagrevatelyam.jpg": "/static/media/zapchasti-k-vodonagrevatelyam.276c8743.jpg",
+  "static/media/zapchasti_kolonki.jpg": "/static/media/zapchasti_kolonki.31dcff05.jpg"
 }
