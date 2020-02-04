@@ -4,8 +4,8 @@ self.__precacheManifest = [
     "url": "/static/media/zapchasti-k-vodonagrevatelyam.276c8743.jpg"
   },
   {
-    "revision": "f82121ac49570e1cb9ac",
-    "url": "/static/css/main.63e00fb6.chunk.css"
+    "revision": "12db5e3928e327104dd1",
+    "url": "/static/css/main.7743445f.chunk.css"
   },
   {
     "revision": "1b922744246c39b6bc43",
@@ -16,12 +16,12 @@ self.__precacheManifest = [
     "url": "/static/media/details1.5a1fd390.5a1fd390.jpg"
   },
   {
-    "revision": "968856383aba8a4e67e5",
-    "url": "/static/js/2.96885638.chunk.js"
+    "revision": "16387527d3f1d08dcc59",
+    "url": "/static/js/2.16387527.chunk.js"
   },
   {
-    "revision": "f82121ac49570e1cb9ac",
-    "url": "/static/js/main.f82121ac.chunk.js"
+    "revision": "12db5e3928e327104dd1",
+    "url": "/static/js/main.12db5e39.chunk.js"
   },
   {
     "revision": "31dcff0533266dd23a6e9598b10a771b",
@@ -36,11 +36,11 @@ self.__precacheManifest = [
     "url": "/static/media/boiler1.b87a7cb2.b87a7cb2.jpg"
   },
   {
-    "revision": "968856383aba8a4e67e5",
+    "revision": "16387527d3f1d08dcc59",
     "url": "/static/css/2.9212c6ac.chunk.css"
   },
   {
-    "revision": "ae46c0eb7fc60899bd09adfba641a12f",
+    "revision": "8a3c892dc1212ab2d2717bd5d2db2b51",
     "url": "/index.html"
   }
 ];
