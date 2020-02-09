@@ -83,8 +83,9 @@ keystone.set('nav', {
 	enquiries: 'enquiries',
 	users: 'users',
 	'Продукция': ['product-categories','product-sub-categories','product-selves'],
-	'Заказы':'client-orders',
-	'Баннеры':'banners'
+	'Заказы': 'client-orders',
+	'Баннеры': 'banners',
+	'Курс': 'currencies'
 });
 
 // Start Keystone to connect to your database and initialise the web server

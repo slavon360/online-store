@@ -10,7 +10,7 @@ const searched_id = process.env.CURRENCY_ID // each time we should override the 
 const hideOnSite = 'Не отображать на сайте';
 
 const telegramBotUrl = (token, chatId, link, mode = '') => {
-    return `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${link}&${mode}`;
+    return encodeURI(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${link}&${mode}`);
 };
 
 const updateDate = (_id, endDate) => {
@@ -40,11 +40,11 @@ const findAndUpdateDates = (currentDate) => {
 
 const findProductsWithNonExistedImages = () => {
     Products.model
-        .find({ 'image': { "$exists" : false }, [hideOnSite]: false })
+        .find({ 'image': { $size: 0 } })
         .select({ _id: 1, title: 1 })
         .exec((err, products) => {
             const preface = 'products without images: ';
-
+            // console.log(preface, products);
             if (err) {
                 return console.error(err);
             }
