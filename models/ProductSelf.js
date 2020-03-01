@@ -110,7 +110,8 @@ var ProductSelf = new keystone.List('ProductSelf',{
 			index: true
 			},
 		'Тепловая мощность (кВт)': { type: Number, index: true },
-	 	'Цена': { type: Number, index: true, default: 0 },
+		 'Цена': { type: Number, index: true, default: 0 },
+		 'Отображать цену в грн': { type: Boolean, default: false },
 		'Страна производитель': { type: String, index: true },
 		'Назначение котла': {
 			type: Types.Select,
