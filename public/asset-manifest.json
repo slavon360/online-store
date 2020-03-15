@@ -1,13 +1,14 @@
 {
-  "main.css": "/static/css/main.8237fe0b.chunk.css",
-  "main.js": "/static/js/main.00ba888d.chunk.js",
+  "main.css": "/static/css/main.bbb9b52d.chunk.css",
+  "main.js": "/static/js/main.ce1fad18.chunk.js",
   "runtime~main.js": "/static/js/runtime~main.1b922744.js",
-  "static/css/2.1a964a3e.chunk.css": "/static/css/2.1a964a3e.chunk.css",
-  "static/js/2.f9fc2524.chunk.js": "/static/js/2.f9fc2524.chunk.js",
+  "static/css/2.ae55863a.chunk.css": "/static/css/2.ae55863a.chunk.css",
+  "static/js/2.a3db49bf.chunk.js": "/static/js/2.a3db49bf.chunk.js",
   "index.html": "/index.html",
-  "precache-manifest.0bb8b79cf67118a75a5e4dbc8d346e9b.js": "/precache-manifest.0bb8b79cf67118a75a5e4dbc8d346e9b.js",
+  "precache-manifest.e89264e31dd6bb5a31d8f6e35022581f.js": "/precache-manifest.e89264e31dd6bb5a31d8f6e35022581f.js",
   "service-worker.js": "/service-worker.js",
   "static/media/boiler1.b87a7cb2.jpg": "/static/media/boiler1.b87a7cb2.b87a7cb2.jpg",
   "static/media/details1.5a1fd390.jpg": "/static/media/details1.5a1fd390.5a1fd390.jpg",
+  "static/media/img-placeholder.jpg": "/static/media/img-placeholder.3469a1f8.jpg",
   "static/media/installing.54615328.jpg": "/static/media/installing.54615328.54615328.jpg"
 }

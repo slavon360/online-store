@@ -38,6 +38,9 @@ module.exports = function(req,res){
             'Конец акции',
             'Отображать цену в грн'
         ])
+        .sort({
+            'Цена': 1
+        })
         .exec(function(err, products){
             try {
                 console.log(products);
