@@ -68,8 +68,7 @@ var ProductSelf = new keystone.List('ProductSelf',{
 				'уголь',
 				'электричество'
 			],
-			default: 'выбрать вариант',
-			index: true,
+			// initial: true,
 			many: true
 			},
 		'Вид теплоносителя': {
@@ -94,6 +93,7 @@ var ProductSelf = new keystone.List('ProductSelf',{
 			},
 		'Диапазон температуры отопления (°С)': { type: String },
 		'Диапазон температуры водоснабжения (°С)': { type: String },
+		'Время нагрева (мин)': { type: String },
 		'Способ нагрева': {
 			type: Types.Select,
 			options: 'выбрать вариант, газовый, комбинированный, косвенный, электрический',
@@ -106,16 +106,21 @@ var ProductSelf = new keystone.List('ProductSelf',{
 			options: 'выбрать вариант, закрытая, открытая',
 			default: 'выбрать вариант',
 			index: true
-			},
+		},
+		'Форма бака': {
+			type: Types.Select,
+			options: 'выбрать вариант, цилиндрическая, плоская',
+			default: 'выбрать вариант'
+		},
 		'Нагревательный элемент': {
 			type: Types.Select,
-			options: 'выбрать вариант, трубчатый, спиральный',
+			options: 'выбрать вариант, трубчатый, спиральный, сухой, мокрый',
 			default: 'выбрать вариант'
-			},
+		},
 		'Давление на входе (min атм)': { type: Number },
 		'Давление на входе (max атм)': { type: Number },
 		'Максимальная температура нагрева воды (°С)': { type: Number, index: true },
-		'Напряжение сети (B)': { type: Number },
+		'Напряжение сети (B)': { type: String },
 		'Тип бака': {
 			type: Types.Select,
 			options: 'выбрать вариант, безнапорный, напорный',
@@ -123,8 +128,9 @@ var ProductSelf = new keystone.List('ProductSelf',{
 			index: true
 			},
 		'Тепловая мощность (кВт)': { type: Number, index: true },
-		 'Цена': { type: Number, index: true, default: 0 },
-		 'Отображать цену в грн': { type: Boolean, default: false },
+		'Электрическая мощность (кВт)': { type: Number, index: true },
+		'Цена': { type: Number, index: true },
+		'Отображать цену в грн': { type: Boolean, default: false },
 		'Страна производитель': { type: String, index: true },
 		'Назначение котла': {
 			type: Types.Select,
@@ -174,15 +180,28 @@ var ProductSelf = new keystone.List('ProductSelf',{
 			options: 'выбрать вариант, 1, 2, 3, 4, 5, 6, 7, 8',
 			default: 'выбрать вариант'
 			},
-		'Глубина (мм)': { type:Number },
 		'Ширина (мм)': { type:Number },
 		'Высота (мм)': { type:Number },
+		'Глубина (мм)': { type:Number },
 		'Вес (кг)': { type:Number, index: true },
 		'Описание': { type: Types.Html, height: 400, wysiwyg:true },
+		'Гарантия': { type: String, index: true },
 		'В наличии': { type: Boolean, default: true },
 		'Не отображать на сайте': { type: Boolean, default: false },
 		'Акционная цена': { type: Number },
 		'Конец акции': { type: Date },
 		createdAt: { type: Date, default: Date.now }
 	});
+
+	ProductSelf.schema.pre('validate', function (next) {
+		if (!this.isNew && !this['Цена']) {
+			next(Error('Укажите цену продукта!'));
+		}
+		if (!this.isNew && this.image.length < 1) {
+			next(Error('Нужно добавить изображение к товару!'))
+		} else {
+			next();
+		}
+	});
+
 	ProductSelf.register();
