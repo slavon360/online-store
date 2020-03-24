@@ -128,7 +128,7 @@ var ProductSelf = new keystone.List('ProductSelf',{
 			index: true
 			},
 		'Тепловая мощность (кВт)': { type: Number, index: true },
-		'Электрическая мощность (кВт)': { type: Number, index: true },
+		'Электрическая мощность (кВт)': { type: String, index: true },
 		'Цена': { type: Number, index: true },
 		'Отображать цену в грн': { type: Boolean, default: false },
 		'Страна производитель': { type: String, index: true },
@@ -140,7 +140,7 @@ var ProductSelf = new keystone.List('ProductSelf',{
 			},
 		'Способ установки': {
 			type: Types.Select,
-			options: 'выбрать вариант, навесной, напольный',
+			options: 'выбрать вариант, навесной, напольный, вертикальный, горизонтальный',
 			default: 'выбрать вариант',
 			index: true
 			},
