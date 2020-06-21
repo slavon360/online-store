@@ -190,6 +190,20 @@ var ProductSelf = new keystone.List('ProductSelf',{
 		'Не отображать на сайте': { type: Boolean, default: false },
 		'Акционная цена': { type: Number },
 		'Конец акции': { type: Date },
+		reviewRates: {
+			type: Types.TextArray,
+			hidden: true
+			// set: function(rate) {
+			// 	console.log('this.reviewRates: ', this.reviewRates);
+			// 	console.log('rate: ', rate);
+			// 	var updatedRates = this.reviewRates + ' ' + rate;
+			// 	return updatedRates;
+			// }
+		},
+		totalRate: {
+			type: Number,
+			hidden: true
+		},
 		createdAt: { type: Date, default: Date.now }
 	});
 
@@ -203,5 +217,12 @@ var ProductSelf = new keystone.List('ProductSelf',{
 			next();
 		}
 	});
+
+	// ProductSelf.schema.pre('save', function (next) {
+	// 	console.log('this.reviewRates: ', this.reviewRates);
+	// 	next();
+	// })
+
+	// ProductSelf.relationship({ref:'Review', path:'title', refPath:'ProductSelf'});
 
 	ProductSelf.register();
