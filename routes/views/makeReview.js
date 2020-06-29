@@ -1,10 +1,10 @@
 const keystone = require('keystone');
 const ClientReview = keystone.list('Review');
-const Product = keystone.list('ProductSelf');
+// const Product = keystone.list('ProductSelf');
 
 const sendJSONresponse = function(res,status,content){
-	res.json(content);
 	res.status(status);
+	res.json(content);
 }
 exports = module.exports = function(req, res, next) {
 	const incomingReview = req.body.review;
@@ -18,7 +18,7 @@ exports = module.exports = function(req, res, next) {
 		'комментарий': incomingReview.comment
 	});
 
-	Review.save(async function (err, review) {
+	Review.save(function (err, review) {
 		if (err) {
 			sendJSONresponse(res, 500, { error: err });
 			throw err;
@@ -32,11 +32,9 @@ exports = module.exports = function(req, res, next) {
 			// updatedProductData.reviewRates = updReviewRates;
 			// updatedProductData.totalRate = Math.round(totalRate);
 			// await updatedProductData.save();
-
 			sendJSONresponse(res, 200, review);
 		} catch (error) {
-			console.log(err)
-			res.send(err);
+			res.send(error);
 		}
 	});
 };

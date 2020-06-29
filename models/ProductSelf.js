@@ -192,7 +192,8 @@ var ProductSelf = new keystone.List('ProductSelf',{
 		'Конец акции': { type: Date },
 		reviewRates: {
 			type: Types.TextArray,
-			hidden: true
+			default: []
+			// hidden: true
 			// set: function(rate) {
 			// 	console.log('this.reviewRates: ', this.reviewRates);
 			// 	console.log('rate: ', rate);
