@@ -15,7 +15,7 @@ module.exports = {
 		env_production: {
 			NODE_ENV: 'production',
 			MONGO_URL: 'mongodb://slavon360:slavaUkraini1@ds245647.mlab.com:45647/keystoneapp',
-			TELEGRAM_CHATID: '25173313',
+			TELEGRAM_CHATID: '251733133',
 			CLOUDINARY_API_SECRET: '4nF764o7kB98DEbb0b9YPnAicrQ',
 			CLOUDINARY_API_KEY: '712556615644867',
 			CLOUDINARY_NAME: 'dxnslfgii',
