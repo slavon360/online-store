@@ -131,8 +131,6 @@ module.exports = function (opts) {
 		}
 
 		fs.readFile(outputFilename, function (err, data) {
-			console.log('outputFilename: ', outputFilename);
-			console.log('data: ', data);
 			if (data) {
 				updateBundle(data);
 				if (devMode) {

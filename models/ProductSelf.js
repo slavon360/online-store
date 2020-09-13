@@ -226,4 +226,5 @@ var ProductSelf = new keystone.List('ProductSelf',{
 
 	// ProductSelf.relationship({ref:'Review', path:'title', refPath:'ProductSelf'});
 
+	ProductSelf.defaultSort = 'createdAt';
 	ProductSelf.register();

@@ -220,6 +220,22 @@
  .DayPicker-Indicator__bg {
      border-bottom-color: #fafafa;
  }
+
+ .Table.ItemList .ItemList__col .ItemList__value--recently-visited {
+        background-color: #00f1ff61;
+        color: #3350ef;
+        animation-name: recentlyVisited;
+        animation-duration: 1.5s;
+        animation-timing-function: linear;
+        animation-fill-mode: forwards;
+ }
+
+ @keyframes recentlyVisited {
+	0%   {background-color: #00f1ff61; color: #3350ef;}
+	25%  {background-color: #00f1ff1c; color: #3350ef;}
+	50%  {background-color: #00f1ff61; color: #3350ef;}
+	100% {background-color: #00f1ff1c; color: #3350ef;}
+}
  
  // CUSTOM ADMIN APPLICATION STYLES
  @import (optional) "@{customStylesPath}";

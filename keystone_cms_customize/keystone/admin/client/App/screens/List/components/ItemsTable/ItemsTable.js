@@ -5,7 +5,6 @@ import TableRow from './ItemsTableRow';
 import DragDrop from './ItemsTableDragDrop';
 
 import { TABLE_CONTROL_COLUMN_WIDTH } from '../../../../../constants';
-import { setCurrentPage } from '../../actions';
 
 const ItemsTable = React.createClass({
 	propTypes: {
@@ -17,29 +16,6 @@ const ItemsTable = React.createClass({
 		list: PropTypes.object.isRequired,
 		manageMode: PropTypes.bool.isRequired,
 		rowAlert: PropTypes.object.isRequired,
-	},
-	getInitialState () {
-		return {
-			initialRender: true
-		};
-	},
-	getPageQueryParam () {
-		const { location: { search }} = window;
-		const searchedWord = 'page=';
-		if (search.includes(searchedWord)) {
-			console.log(search[search.indexOf(searchedWord) + searchedWord.length]);
-		}
-	},
-	scrollToRecentItem () {
-		const { recentData, list } = this.props;
-		const recentItem = document.querySelectorAll(`a[href="${Keystone.adminPath}/${list.path}/${recentData.id}"]`)[0];
-		this.getPageQueryParam();
-		if (recentItem && this.state.initialRender) {
-			// this.props.dispatch(setCurrentPage(this.props.currentPage));
-			recentItem.classList.add('ItemList__value--recently-edited');
-			recentItem.scrollIntoView({block: "center", behavior: "smooth"});
-			this.setState({ initialRender: false });
-		};
 	},
 	renderCols () {
 		let cols = this.props.columns.map(col => (
@@ -128,13 +104,12 @@ const ItemsTable = React.createClass({
 				{items.results.map((item, i) => {
 					return (
 						<TableRow key={item.id}
-							scrollToRecentItem={this.scrollToRecentItem}
-							recentData={this.props.recentData}
 							deleteTableItem={this.props.deleteTableItem}
 							index={i}
 							sortOrder={item.sortOrder || 0}
 							id={item.id}
 							item={item}
+							recentData={this.props.recentData}
 							{...this.props}
 						/>
 					);

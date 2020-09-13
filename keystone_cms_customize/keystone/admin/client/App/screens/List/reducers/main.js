@@ -33,7 +33,7 @@ const initialState = {
 	},
 	page: {
 		size: null,
-		index: undefined,
+		index: 1,
 	},
 	rowAlert: {
 		success: false,
@@ -84,7 +84,7 @@ function lists (state = initialState, action) {
 				items: items,
 				page: {
 					...state.page,
-					index: 1,
+					// index: 1,
 					size: list.perPage,
 				},
 			});
@@ -141,7 +141,6 @@ function lists (state = initialState, action) {
 				},
 			});
 		case SET_CURRENT_PAGE:
-			console.log(action.index);
 			return assign({}, state, {
 				loading: true,
 				page: {

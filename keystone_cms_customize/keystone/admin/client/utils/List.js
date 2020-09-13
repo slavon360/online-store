@@ -66,7 +66,7 @@ function buildQueryString (options) {
 	if (options.filters.length) query.filters = JSON.stringify(getFilters(options.filters));
 	if (options.columns) query.fields = options.columns.map(i => i.path).join(',');
 	if (options.page && options.page.size) query.limit = options.page.size;
-	if (options.page && options.page.index > 1) query.skip = (options.page.index - 1) * options.page.size;
+	// if (options.page && options.page.index > 1) query.skip = (options.page.index - 1) * options.page.size;
 	if (options.sort) query.sort = getSortString(options.sort);
 	query.expandRelationshipFields = true;
 	return '?' + qs.stringify(query);
@@ -251,7 +251,6 @@ List.prototype.loadItem = function (itemId, options, callback) {
  * @param  {Function} callback
  */
 List.prototype.loadItems = function (options, callback) {
-	console.dir(options);
 	const url = Keystone.adminPath + '/api/' + this.path + buildQueryString(options);
 	xhr({
 		url: url,

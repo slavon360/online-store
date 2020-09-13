@@ -10185,105 +10185,6 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _styles = _interopRequireDefault(require("./styles"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-var Form =
-/*#__PURE__*/
-function (_Component) {
-  _inherits(Form, _Component);
-
-  function Form() {
-    _classCallCheck(this, Form);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(Form).apply(this, arguments));
-  }
-
-  _createClass(Form, [{
-    key: "getChildContext",
-    value: function getChildContext() {
-      return {
-        formLayout: this.props.layout,
-        labelWidth: this.props.labelWidth
-      };
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      // NOTE `labelWidth` is declared to remove it from `props`, though never used
-      var _this$props = this.props,
-          className = _this$props.className,
-          Component = _this$props.component,
-          labelWidth = _this$props.labelWidth,
-          layout = _this$props.layout,
-          props = _objectWithoutProperties(_this$props, ["className", "component", "labelWidth", "layout"]);
-
-      props.className = (0, _glamor.css)(_styles["default"].Form, _styles["default"]['Form__' + layout], className);
-      return _react["default"].createElement(Component, props);
-    }
-  }]);
-
-  return Form;
-}(_react.Component);
-
-;
-Form.childContextTypes = {
-  formLayout: _react.PropTypes.oneOf(['basic', 'horizontal', 'inline']),
-  labelWidth: _react.PropTypes.oneOfType([_react.PropTypes.number, _react.PropTypes.string])
-};
-Form.propTypes = {
-  children: _react.PropTypes.node.isRequired,
-  component: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.func]),
-  layout: _react.PropTypes.oneOf(['basic', 'horizontal', 'inline'])
-};
-Form.defaultProps = {
-  component: 'form',
-  layout: 'basic'
-};
-module.exports = Form;
-
-},{"./styles":332,"glamor":undefined,"react":undefined}],332:[function(require,module,exports){
-"use strict";
-
-// ==============================
-// Form
-// ==============================
-module.exports = {
-  Form: {}
-};
-
-},{}],333:[function(require,module,exports){
-"use strict";
-
-var _glamor = require("glamor");
-
-var _react = _interopRequireWildcard(require("react"));
-
-var _styles = _interopRequireDefault(require("./styles"));
-
 var _FormLabel = _interopRequireDefault(require("../FormLabel"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -10414,7 +10315,7 @@ function generateId() {
 ;
 module.exports = FormField;
 
-},{"../FormLabel":338,"./styles":334,"glamor":undefined,"react":undefined}],334:[function(require,module,exports){
+},{"../FormLabel":336,"./styles":332,"glamor":undefined,"react":undefined}],332:[function(require,module,exports){
 "use strict";
 
 var _theme = _interopRequireDefault(require("../../../theme"));
@@ -10454,7 +10355,7 @@ module.exports = {
   }
 };
 
-},{"../../../theme":456}],335:[function(require,module,exports){
+},{"../../../theme":456}],333:[function(require,module,exports){
 "use strict";
 
 var _react = _interopRequireWildcard(require("react"));
@@ -10588,7 +10489,7 @@ FormInput.contextTypes = {
 };
 module.exports = FormInput;
 
-},{"../../../utils/concatClassnames":459,"./noedit":336,"./styles":337,"glamor":undefined,"react":undefined}],336:[function(require,module,exports){
+},{"../../../utils/concatClassnames":459,"./noedit":334,"./styles":335,"glamor":undefined,"react":undefined}],334:[function(require,module,exports){
 "use strict";
 
 var _react = _interopRequireWildcard(require("react"));
@@ -10678,7 +10579,7 @@ var classes = {
 };
 module.exports = FormInputNoedit;
 
-},{"../../../theme":456,"../../../utils/color":458,"glamor":undefined,"react":undefined}],337:[function(require,module,exports){
+},{"../../../theme":456,"../../../utils/color":458,"glamor":undefined,"react":undefined}],335:[function(require,module,exports){
 "use strict";
 
 var _theme = _interopRequireDefault(require("../../../theme"));
@@ -10729,7 +10630,7 @@ module.exports = {
   }
 };
 
-},{"../../../theme":456}],338:[function(require,module,exports){
+},{"../../../theme":456}],336:[function(require,module,exports){
 "use strict";
 
 var _glamor = require("glamor");
@@ -10799,7 +10700,7 @@ FormLabel.contextTypes = {
 };
 module.exports = FormLabel;
 
-},{"./styles":339,"glamor":undefined,"react":undefined}],339:[function(require,module,exports){
+},{"./styles":337,"glamor":undefined,"react":undefined}],337:[function(require,module,exports){
 "use strict";
 
 var _theme = _interopRequireDefault(require("../../../theme"));
@@ -10834,7 +10735,7 @@ module.exports = {
   }
 };
 
-},{"../../../theme":456}],340:[function(require,module,exports){
+},{"../../../theme":456}],338:[function(require,module,exports){
 "use strict";
 
 var _react = _interopRequireWildcard(require("react"));
@@ -10883,7 +10784,7 @@ FormNote.defaultProps = {
 };
 module.exports = FormNote;
 
-},{"./styles":341,"glamor":undefined,"react":undefined}],341:[function(require,module,exports){
+},{"./styles":339,"glamor":undefined,"react":undefined}],339:[function(require,module,exports){
 "use strict";
 
 var _theme = _interopRequireDefault(require("../../../theme"));
@@ -10901,7 +10802,7 @@ module.exports = {
   }
 };
 
-},{"../../../theme":456}],342:[function(require,module,exports){
+},{"../../../theme":456}],340:[function(require,module,exports){
 "use strict";
 
 var _glamor = require("glamor");
@@ -10998,7 +10899,7 @@ FormSelect.propTypes = {
 };
 module.exports = FormSelect;
 
-},{"./styles":343,"glamor":undefined,"react":undefined}],343:[function(require,module,exports){
+},{"./styles":341,"glamor":undefined,"react":undefined}],341:[function(require,module,exports){
 "use strict";
 
 var _theme = _interopRequireDefault(require("../../../theme"));
@@ -11082,7 +10983,257 @@ module.exports = {
   }
 };
 
-},{"../../../theme":456,"../../../utils/color":458}],344:[function(require,module,exports){
+},{"../../../theme":456,"../../../utils/color":458}],342:[function(require,module,exports){
+"use strict";
+
+var _glamor = require("glamor");
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _styles = _interopRequireDefault(require("./styles"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var Form =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(Form, _Component);
+
+  function Form() {
+    _classCallCheck(this, Form);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(Form).apply(this, arguments));
+  }
+
+  _createClass(Form, [{
+    key: "getChildContext",
+    value: function getChildContext() {
+      return {
+        formLayout: this.props.layout,
+        labelWidth: this.props.labelWidth
+      };
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      // NOTE `labelWidth` is declared to remove it from `props`, though never used
+      var _this$props = this.props,
+          className = _this$props.className,
+          Component = _this$props.component,
+          labelWidth = _this$props.labelWidth,
+          layout = _this$props.layout,
+          props = _objectWithoutProperties(_this$props, ["className", "component", "labelWidth", "layout"]);
+
+      props.className = (0, _glamor.css)(_styles["default"].Form, _styles["default"]['Form__' + layout], className);
+      return _react["default"].createElement(Component, props);
+    }
+  }]);
+
+  return Form;
+}(_react.Component);
+
+;
+Form.childContextTypes = {
+  formLayout: _react.PropTypes.oneOf(['basic', 'horizontal', 'inline']),
+  labelWidth: _react.PropTypes.oneOfType([_react.PropTypes.number, _react.PropTypes.string])
+};
+Form.propTypes = {
+  children: _react.PropTypes.node.isRequired,
+  component: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.func]),
+  layout: _react.PropTypes.oneOf(['basic', 'horizontal', 'inline'])
+};
+Form.defaultProps = {
+  component: 'form',
+  layout: 'basic'
+};
+module.exports = Form;
+
+},{"./styles":343,"glamor":undefined,"react":undefined}],343:[function(require,module,exports){
+"use strict";
+
+// ==============================
+// Form
+// ==============================
+module.exports = {
+  Form: {}
+};
+
+},{}],344:[function(require,module,exports){
+"use strict";
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _Button = _interopRequireDefault(require("../Button"));
+
+var _Glyph = _interopRequireDefault(require("../Glyph"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function GlyphButton(_ref) {
+  var children = _ref.children,
+      glyph = _ref.glyph,
+      glyphColor = _ref.glyphColor,
+      glyphSize = _ref.glyphSize,
+      glyphStyle = _ref.glyphStyle,
+      position = _ref.position,
+      props = _objectWithoutProperties(_ref, ["children", "glyph", "glyphColor", "glyphSize", "glyphStyle", "position"]);
+
+  var isDefault = position === 'default';
+  var isLeft = position === 'left';
+  var isRight = position === 'right';
+  var offset = {};
+  if (isLeft) offset.marginRight = '0.5em';
+  if (isRight) offset.marginLeft = '0.5em';
+
+  var glyphStyles = _objectSpread({}, offset, {}, glyphStyle);
+
+  var icon = _react["default"].createElement(_Glyph["default"], {
+    cssStyles: classes.glyph,
+    color: glyphColor,
+    name: glyph,
+    size: glyphSize,
+    style: glyphStyles
+  });
+
+  return _react["default"].createElement(_Button["default"], props, (isDefault || isLeft) && icon, children, isRight && icon);
+}
+
+; // For props "glyph", "glyphColor", and "glyphSize":
+// prop type validation will occur within the Glyph component, no need to
+// duplicate, just pass it through.
+
+GlyphButton.propTypes = {
+  glyph: _react.PropTypes.string,
+  glyphColor: _react.PropTypes.string,
+  glyphSize: _react.PropTypes.string,
+  glyphStyle: _react.PropTypes.object,
+  position: _react.PropTypes.oneOf(['default', 'left', 'right'])
+};
+GlyphButton.defaultProps = {
+  glyphStyle: {},
+  position: 'default' // no margin, assumes no children
+
+};
+var classes = {
+  glyph: {
+    display: 'inline-block',
+    marginTop: '-0.125em',
+    // fix icon alignment
+    verticalAlign: 'middle'
+  }
+};
+module.exports = GlyphButton;
+
+},{"../Button":320,"../Glyph":347,"react":undefined}],345:[function(require,module,exports){
+"use strict";
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _FormField = _interopRequireDefault(require("../FormField"));
+
+var _Glyph = _interopRequireDefault(require("../Glyph"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function GlyphField(_ref) {
+  var children = _ref.children,
+      glyph = _ref.glyph,
+      glyphColor = _ref.glyphColor,
+      glyphSize = _ref.glyphSize,
+      position = _ref.position,
+      props = _objectWithoutProperties(_ref, ["children", "glyph", "glyphColor", "glyphSize", "position"]);
+
+  var isLeft = position === 'left';
+  var isRight = position === 'right';
+  var glyphStyles = {};
+  if (isLeft) glyphStyles.marginRight = '0.5em';
+  if (isRight) glyphStyles.marginLeft = '0.5em';
+
+  var icon = _react["default"].createElement(_Glyph["default"], {
+    cssStyles: classes.glyph,
+    color: glyphColor,
+    name: glyph,
+    size: glyphSize,
+    style: glyphStyles
+  });
+
+  return _react["default"].createElement(_FormField["default"], _extends({
+    cssStyles: classes.wrapper
+  }, props), isLeft && icon, children, isRight && icon);
+}
+
+; // For props "glyph", "glyphColor", and "glyphSize":
+// prop type validation will occur within the Glyph component, no need to
+// duplicate, just pass it through.
+
+GlyphField.propTypes = {
+  glyph: _react.PropTypes.string,
+  glyphColor: _react.PropTypes.string,
+  glyphSize: _react.PropTypes.string,
+  position: _react.PropTypes.oneOf(['left', 'right'])
+};
+GlyphField.defaultProps = {
+  position: 'left'
+};
+var classes = {
+  wrapper: {
+    alignItems: 'center',
+    display: 'flex'
+  },
+  glyph: {
+    display: 'inline-block',
+    marginTop: '-0.125em',
+    // fix icon alignment
+    verticalAlign: 'middle'
+  }
+};
+module.exports = GlyphField;
+
+},{"../FormField":331,"../Glyph":347,"react":undefined}],346:[function(require,module,exports){
 "use strict";
 
 var _theme = _interopRequireDefault(require("../../../theme"));
@@ -11098,7 +11249,7 @@ module.exports = {
   warning: _theme["default"].glyph.color.warning
 };
 
-},{"../../../theme":456}],345:[function(require,module,exports){
+},{"../../../theme":456}],347:[function(require,module,exports){
 "use strict";
 
 var _glamor = require("glamor");
@@ -11170,7 +11321,7 @@ Glyph.defaultProps = {
 };
 module.exports = Glyph;
 
-},{"./colors":344,"./octicons":346,"./sizes":347,"./styles":348,"glamor":undefined,"react":undefined}],346:[function(require,module,exports){
+},{"./colors":346,"./octicons":348,"./sizes":349,"./styles":350,"glamor":undefined,"react":undefined}],348:[function(require,module,exports){
 "use strict";
 
 /* eslint quote-props: ["error", "as-needed"] */
@@ -11368,7 +11519,7 @@ module.exports = {
   zap: 'octicon octicon-zap'
 };
 
-},{}],347:[function(require,module,exports){
+},{}],349:[function(require,module,exports){
 "use strict";
 
 var _theme = _interopRequireDefault(require("../../../theme"));
@@ -11381,7 +11532,7 @@ module.exports = {
   large: _theme["default"].glyph.size.large
 };
 
-},{"../../../theme":456}],348:[function(require,module,exports){
+},{"../../../theme":456}],350:[function(require,module,exports){
 "use strict";
 
 var _colors = _interopRequireDefault(require("./colors"));
@@ -11414,183 +11565,7 @@ module.exports = _objectSpread({
   glyph: {}
 }, colorVariants, {}, sizeVariants);
 
-},{"./colors":344,"./sizes":347}],349:[function(require,module,exports){
-"use strict";
-
-var _react = _interopRequireWildcard(require("react"));
-
-var _Button = _interopRequireDefault(require("../Button"));
-
-var _Glyph = _interopRequireDefault(require("../Glyph"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
-function GlyphButton(_ref) {
-  var children = _ref.children,
-      glyph = _ref.glyph,
-      glyphColor = _ref.glyphColor,
-      glyphSize = _ref.glyphSize,
-      glyphStyle = _ref.glyphStyle,
-      position = _ref.position,
-      props = _objectWithoutProperties(_ref, ["children", "glyph", "glyphColor", "glyphSize", "glyphStyle", "position"]);
-
-  var isDefault = position === 'default';
-  var isLeft = position === 'left';
-  var isRight = position === 'right';
-  var offset = {};
-  if (isLeft) offset.marginRight = '0.5em';
-  if (isRight) offset.marginLeft = '0.5em';
-
-  var glyphStyles = _objectSpread({}, offset, {}, glyphStyle);
-
-  var icon = _react["default"].createElement(_Glyph["default"], {
-    cssStyles: classes.glyph,
-    color: glyphColor,
-    name: glyph,
-    size: glyphSize,
-    style: glyphStyles
-  });
-
-  return _react["default"].createElement(_Button["default"], props, (isDefault || isLeft) && icon, children, isRight && icon);
-}
-
-; // For props "glyph", "glyphColor", and "glyphSize":
-// prop type validation will occur within the Glyph component, no need to
-// duplicate, just pass it through.
-
-GlyphButton.propTypes = {
-  glyph: _react.PropTypes.string,
-  glyphColor: _react.PropTypes.string,
-  glyphSize: _react.PropTypes.string,
-  glyphStyle: _react.PropTypes.object,
-  position: _react.PropTypes.oneOf(['default', 'left', 'right'])
-};
-GlyphButton.defaultProps = {
-  glyphStyle: {},
-  position: 'default' // no margin, assumes no children
-
-};
-var classes = {
-  glyph: {
-    display: 'inline-block',
-    marginTop: '-0.125em',
-    // fix icon alignment
-    verticalAlign: 'middle'
-  }
-};
-module.exports = GlyphButton;
-
-},{"../Button":320,"../Glyph":345,"react":undefined}],350:[function(require,module,exports){
-"use strict";
-
-var _react = _interopRequireWildcard(require("react"));
-
-var _FormField = _interopRequireDefault(require("../FormField"));
-
-var _Glyph = _interopRequireDefault(require("../Glyph"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
-
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
-function GlyphField(_ref) {
-  var children = _ref.children,
-      glyph = _ref.glyph,
-      glyphColor = _ref.glyphColor,
-      glyphSize = _ref.glyphSize,
-      position = _ref.position,
-      props = _objectWithoutProperties(_ref, ["children", "glyph", "glyphColor", "glyphSize", "position"]);
-
-  var isLeft = position === 'left';
-  var isRight = position === 'right';
-  var glyphStyles = {};
-  if (isLeft) glyphStyles.marginRight = '0.5em';
-  if (isRight) glyphStyles.marginLeft = '0.5em';
-
-  var icon = _react["default"].createElement(_Glyph["default"], {
-    cssStyles: classes.glyph,
-    color: glyphColor,
-    name: glyph,
-    size: glyphSize,
-    style: glyphStyles
-  });
-
-  return _react["default"].createElement(_FormField["default"], _extends({
-    cssStyles: classes.wrapper
-  }, props), isLeft && icon, children, isRight && icon);
-}
-
-; // For props "glyph", "glyphColor", and "glyphSize":
-// prop type validation will occur within the Glyph component, no need to
-// duplicate, just pass it through.
-
-GlyphField.propTypes = {
-  glyph: _react.PropTypes.string,
-  glyphColor: _react.PropTypes.string,
-  glyphSize: _react.PropTypes.string,
-  position: _react.PropTypes.oneOf(['left', 'right'])
-};
-GlyphField.defaultProps = {
-  position: 'left'
-};
-var classes = {
-  wrapper: {
-    alignItems: 'center',
-    display: 'flex'
-  },
-  glyph: {
-    display: 'inline-block',
-    marginTop: '-0.125em',
-    // fix icon alignment
-    verticalAlign: 'middle'
-  }
-};
-module.exports = GlyphField;
-
-},{"../FormField":333,"../Glyph":345,"react":undefined}],351:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "Col", {
-  enumerable: true,
-  get: function get() {
-    return _GridCol["default"];
-  }
-});
-Object.defineProperty(exports, "Row", {
-  enumerable: true,
-  get: function get() {
-    return _GridRow["default"];
-  }
-});
-
-var _GridCol = _interopRequireDefault(require("../GridCol"));
-
-var _GridRow = _interopRequireDefault(require("../GridRow"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-},{"../GridCol":352,"../GridRow":353}],352:[function(require,module,exports){
+},{"./colors":346,"./sizes":349}],351:[function(require,module,exports){
 "use strict";
 
 var _react = _interopRequireWildcard(require("react"));
@@ -11707,7 +11682,7 @@ function prepareWidths(prefix, obj) {
 ;
 module.exports = GridCol;
 
-},{"../../../theme":456,"glamor":undefined,"react":undefined}],353:[function(require,module,exports){
+},{"../../../theme":456,"glamor":undefined,"react":undefined}],352:[function(require,module,exports){
 "use strict";
 
 var _react = _interopRequireWildcard(require("react"));
@@ -11811,7 +11786,139 @@ var classes = {
 };
 module.exports = GridRow;
 
-},{"glamor":undefined,"react":undefined}],354:[function(require,module,exports){
+},{"glamor":undefined,"react":undefined}],353:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "Col", {
+  enumerable: true,
+  get: function get() {
+    return _GridCol["default"];
+  }
+});
+Object.defineProperty(exports, "Row", {
+  enumerable: true,
+  get: function get() {
+    return _GridRow["default"];
+  }
+});
+
+var _GridCol = _interopRequireDefault(require("../GridCol"));
+
+var _GridRow = _interopRequireDefault(require("../GridRow"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+},{"../GridCol":351,"../GridRow":352}],354:[function(require,module,exports){
+"use strict";
+
+var _glamor = require("glamor");
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _styles = _interopRequireDefault(require("./styles"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+// NOTE: Inline Group Section accepts a single child
+function InlineGroupSection(_ref) {
+  var active = _ref.active,
+      cssStyles = _ref.cssStyles,
+      children = _ref.children,
+      className = _ref.className,
+      contiguous = _ref.contiguous,
+      grow = _ref.grow,
+      position = _ref.position,
+      props = _objectWithoutProperties(_ref, ["active", "cssStyles", "children", "className", "contiguous", "grow", "position"]);
+
+  // evaluate position
+  var separate = position === 'last' || position === 'middle'; // A `contiguous` section must manipulate it's child directly
+  // A separate (default) section just wraps the child
+
+  return contiguous ? (0, _react.cloneElement)(children, _objectSpread({
+    cssStyles: [_styles["default"].contiguous, _styles["default"]['contiguous__' + position], active ? _styles["default"].active : null, grow ? _styles["default"].grow : null, cssStyles]
+  }, props)) : _react["default"].createElement("div", _extends({
+    className: (0, _glamor.css)(!!grow && _styles["default"].grow, !!separate && _styles["default"].separate, cssStyles)
+  }, props), children);
+}
+
+;
+InlineGroupSection.propTypes = {
+  active: _react.PropTypes.bool,
+  // buttons only
+  children: _react.PropTypes.element.isRequired,
+  contiguous: _react.PropTypes.bool,
+  grow: _react.PropTypes.bool,
+  position: _react.PropTypes.oneOf(['first', 'last', 'middle', 'only'])
+};
+module.exports = InlineGroupSection;
+
+},{"./styles":355,"glamor":undefined,"react":undefined}],355:[function(require,module,exports){
+"use strict";
+
+var _theme = _interopRequireDefault(require("../../../theme"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+// ==============================
+// Inline Group: Section
+// ==============================
+// Takes only FormInput and Button as children, rendering them as a
+// tidy inline array
+module.exports = {
+  // pull active elements up
+  active: {
+    position: 'relative'
+  },
+  // stretch to fill available width
+  grow: {
+    flex: '1 1 0'
+  },
+  // separate applicable non-contiguous elements
+  separate: {
+    paddingLeft: '0.75em'
+  },
+  // Contiguous: manipulate children directly
+  // pull focused contiguous elements up
+  contiguous: {
+    ':focus': {
+      position: 'relative',
+      zIndex: 1
+    }
+  },
+  // position
+  contiguous__middle: {
+    borderRadius: 0,
+    marginLeft: _theme["default"].button.borderWidth * -1
+  },
+  contiguous__first: {
+    borderBottomRightRadius: '0 !important',
+    borderTopRightRadius: '0 !important'
+  },
+  contiguous__last: {
+    borderBottomLeftRadius: '0 !important',
+    borderTopLeftRadius: '0 !important',
+    marginLeft: _theme["default"].button.borderWidth * -1
+  }
+};
+
+},{"../../../theme":456}],356:[function(require,module,exports){
 "use strict";
 
 var _glamor = require("glamor");
@@ -11891,114 +11998,7 @@ var classes = {
 };
 module.exports = InlineGroup;
 
-},{"glamor":undefined,"react":undefined}],355:[function(require,module,exports){
-"use strict";
-
-var _glamor = require("glamor");
-
-var _react = _interopRequireWildcard(require("react"));
-
-var _styles = _interopRequireDefault(require("./styles"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
-
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
-// NOTE: Inline Group Section accepts a single child
-function InlineGroupSection(_ref) {
-  var active = _ref.active,
-      cssStyles = _ref.cssStyles,
-      children = _ref.children,
-      className = _ref.className,
-      contiguous = _ref.contiguous,
-      grow = _ref.grow,
-      position = _ref.position,
-      props = _objectWithoutProperties(_ref, ["active", "cssStyles", "children", "className", "contiguous", "grow", "position"]);
-
-  // evaluate position
-  var separate = position === 'last' || position === 'middle'; // A `contiguous` section must manipulate it's child directly
-  // A separate (default) section just wraps the child
-
-  return contiguous ? (0, _react.cloneElement)(children, _objectSpread({
-    cssStyles: [_styles["default"].contiguous, _styles["default"]['contiguous__' + position], active ? _styles["default"].active : null, grow ? _styles["default"].grow : null, cssStyles]
-  }, props)) : _react["default"].createElement("div", _extends({
-    className: (0, _glamor.css)(!!grow && _styles["default"].grow, !!separate && _styles["default"].separate, cssStyles)
-  }, props), children);
-}
-
-;
-InlineGroupSection.propTypes = {
-  active: _react.PropTypes.bool,
-  // buttons only
-  children: _react.PropTypes.element.isRequired,
-  contiguous: _react.PropTypes.bool,
-  grow: _react.PropTypes.bool,
-  position: _react.PropTypes.oneOf(['first', 'last', 'middle', 'only'])
-};
-module.exports = InlineGroupSection;
-
-},{"./styles":356,"glamor":undefined,"react":undefined}],356:[function(require,module,exports){
-"use strict";
-
-var _theme = _interopRequireDefault(require("../../../theme"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-// ==============================
-// Inline Group: Section
-// ==============================
-// Takes only FormInput and Button as children, rendering them as a
-// tidy inline array
-module.exports = {
-  // pull active elements up
-  active: {
-    position: 'relative'
-  },
-  // stretch to fill available width
-  grow: {
-    flex: '1 1 0'
-  },
-  // separate applicable non-contiguous elements
-  separate: {
-    paddingLeft: '0.75em'
-  },
-  // Contiguous: manipulate children directly
-  // pull focused contiguous elements up
-  contiguous: {
-    ':focus': {
-      position: 'relative',
-      zIndex: 1
-    }
-  },
-  // position
-  contiguous__middle: {
-    borderRadius: 0,
-    marginLeft: _theme["default"].button.borderWidth * -1
-  },
-  contiguous__first: {
-    borderBottomRightRadius: '0 !important',
-    borderTopRightRadius: '0 !important'
-  },
-  contiguous__last: {
-    borderBottomLeftRadius: '0 !important',
-    borderTopLeftRadius: '0 !important',
-    marginLeft: _theme["default"].button.borderWidth * -1
-  }
-};
-
-},{"../../../theme":456}],357:[function(require,module,exports){
+},{"glamor":undefined,"react":undefined}],357:[function(require,module,exports){
 "use strict";
 
 var _glamor = require("glamor");
@@ -12506,7 +12506,7 @@ var classes = {
 };
 module.exports = ModalHeader;
 
-},{"../../../theme":456,"../GlyphButton":349,"glamor":undefined,"react":undefined}],364:[function(require,module,exports){
+},{"../../../theme":456,"../GlyphButton":344,"glamor":undefined,"react":undefined}],364:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13600,7 +13600,7 @@ module.exports = {
   Spinner: require('./Spinner')
 };
 
-},{"./Alert":317,"./BlankState":319,"./Button":320,"./Center":322,"./Chip":325,"./Container":327,"./DropdownButton":330,"./Form":331,"./FormField":333,"./FormInput":335,"./FormLabel":338,"./FormNote":340,"./FormSelect":342,"./Glyph":345,"./GlyphButton":349,"./GlyphField":350,"./Grid":351,"./InlineGroup":354,"./InlineGroupSection":355,"./LabelledControl":357,"./LoadingButton":359,"./Modal":364,"./Pagination":365,"./ResponsiveText":369,"./ScreenReaderOnly":370,"./SegmentedControl":373,"./Spinner":376}],380:[function(require,module,exports){
+},{"./Alert":317,"./BlankState":319,"./Button":320,"./Center":322,"./Chip":325,"./Container":327,"./DropdownButton":330,"./Form":342,"./FormField":331,"./FormInput":333,"./FormLabel":336,"./FormNote":338,"./FormSelect":340,"./Glyph":347,"./GlyphButton":344,"./GlyphField":345,"./Grid":353,"./InlineGroup":356,"./InlineGroupSection":354,"./LabelledControl":357,"./LoadingButton":359,"./Modal":364,"./Pagination":365,"./ResponsiveText":369,"./ScreenReaderOnly":370,"./SegmentedControl":373,"./Spinner":376}],380:[function(require,module,exports){
 "use strict";
 
 require("@babel/polyfill");
@@ -16478,7 +16478,6 @@ var RelatedItemsList = _react["default"].createClass({
       });
     }
 
-    console.log('columns, refList, relatedItemId, relationship: \n', columns, refList, relatedItemId, relationship);
     this.props.dispatch((0, _actions.loadRelationshipItemData)({
       columns: columns,
       refList: refList,
@@ -16970,7 +16969,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
  * item. This mainly renders the form to edit the item content in.
  */
 // import FlashMessages from '../../shared/FlashMessages';
-// import actions from List folder
 var ItemView = _react["default"].createClass({
   displayName: 'ItemView',
   contextTypes: {
@@ -16978,8 +16976,7 @@ var ItemView = _react["default"].createClass({
   },
   getInitialState: function getInitialState() {
     return {
-      createIsOpen: false,
-      pageWasSet: false
+      createIsOpen: false
     };
   },
   componentDidMount: function componentDidMount() {
@@ -16999,24 +16996,6 @@ var ItemView = _react["default"].createClass({
       this.props.dispatch((0, _actions2.selectList)(nextProps.params.listId));
       this.initializeItem(nextProps.params.itemId);
     }
-
-    if (nextProps.data && nextProps.data.fields.createdAt) {
-      this.setLastQueryPage(nextProps);
-    }
-  },
-  setLastQueryPage: function setLastQueryPage(nextProps) {
-    var createdTimeMs = new Date(nextProps.data.fields.createdAt).getTime();
-    var _this$props = this.props,
-        productsQty = _this$props.productsQty,
-        perPage = _this$props.currentList.perPage;
-    var currentPage = Math.ceil(productsQty / perPage);
-
-    if (Date.now() - createdTimeMs <= 2000 && !this.state.pageWasSet) {
-      this.props.dispatch((0, _actions2.setCurrentPage)(currentPage));
-      this.setState({
-        pageWasSet: true
-      });
-    }
   },
   // Initialize an item
   initializeItem: function initializeItem(itemId) {
@@ -17029,7 +17008,6 @@ var ItemView = _react["default"].createClass({
     this.toggleCreateModal(false); // Redirect to newly created item path
 
     var list = this.props.currentList;
-    this.props.dispatch((0, _actions2.setCurrentPage)(2));
     this.context.router.push("".concat(Keystone.adminPath, "/").concat(list.path, "/").concat(item.id));
   },
   // Open and close the create new item modal
@@ -17050,11 +17028,11 @@ var ItemView = _react["default"].createClass({
     }, _react["default"].createElement(_elemental.Container, null, _react["default"].createElement("h2", null, "Relationships"), keys.map(function (key) {
       var relationship = relationships[key];
       var refList = _lists.listsByKey[relationship.ref];
-      var _this$props2 = _this.props,
-          currentList = _this$props2.currentList,
-          params = _this$props2.params,
-          relationshipData = _this$props2.relationshipData,
-          drag = _this$props2.drag;
+      var _this$props = _this.props,
+          currentList = _this$props.currentList,
+          params = _this$props.params,
+          relationshipData = _this$props.relationshipData,
+          drag = _this$props.drag;
       return _react["default"].createElement(_RelatedItemsList["default"], {
         key: relationship.path,
         list: currentList,
@@ -17148,8 +17126,7 @@ module.exports = (0, _reactRedux.connect)(function (state) {
     error: state.item.error,
     currentList: state.lists.currentList,
     relationshipData: state.item.relationshipData,
-    drag: state.item.drag,
-    productsQty: state.lists.items.count
+    drag: state.item.drag
   };
 })(ItemView);
 
@@ -18462,8 +18439,6 @@ var _ItemsTableDragDrop = _interopRequireDefault(require("./ItemsTableDragDrop")
 
 var _constants = require("../../../../../constants");
 
-var _actions = require("../../actions");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
@@ -18481,41 +18456,6 @@ var ItemsTable = _react["default"].createClass({
     list: _react.PropTypes.object.isRequired,
     manageMode: _react.PropTypes.bool.isRequired,
     rowAlert: _react.PropTypes.object.isRequired
-  },
-  getInitialState: function getInitialState() {
-    return {
-      initialRender: true
-    };
-  },
-  getPageQueryParam: function getPageQueryParam() {
-    var _window = window,
-        search = _window.location.search;
-    var searchedWord = 'page=';
-
-    if (search.includes(searchedWord)) {
-      console.log(search[search.indexOf(searchedWord) + searchedWord.length]);
-    }
-  },
-  scrollToRecentItem: function scrollToRecentItem() {
-    var _this$props = this.props,
-        recentData = _this$props.recentData,
-        list = _this$props.list;
-    var recentItem = document.querySelectorAll("a[href=\"".concat(Keystone.adminPath, "/").concat(list.path, "/").concat(recentData.id, "\"]"))[0];
-    this.getPageQueryParam();
-
-    if (recentItem && this.state.initialRender) {
-      // this.props.dispatch(setCurrentPage(this.props.currentPage));
-      recentItem.classList.add('ItemList__value--recently-edited');
-      recentItem.scrollIntoView({
-        block: "center",
-        behavior: "smooth"
-      });
-      this.setState({
-        initialRender: false
-      });
-    }
-
-    ;
   },
   renderCols: function renderCols() {
     var cols = this.props.columns.map(function (col) {
@@ -18586,13 +18526,12 @@ var ItemsTable = _react["default"].createClass({
     var tableBody = this.props.list.sortable ? _react["default"].createElement(_ItemsTableDragDrop["default"], this.props) : _react["default"].createElement("tbody", null, items.results.map(function (item, i) {
       return _react["default"].createElement(_ItemsTableRow["default"], _extends({
         key: item.id,
-        scrollToRecentItem: _this2.scrollToRecentItem,
-        recentData: _this2.props.recentData,
         deleteTableItem: _this2.props.deleteTableItem,
         index: i,
         sortOrder: item.sortOrder || 0,
         id: item.id,
-        item: item
+        item: item,
+        recentData: _this2.props.recentData
       }, _this2.props));
     }));
     return _react["default"].createElement("div", {
@@ -18607,7 +18546,7 @@ var ItemsTable = _react["default"].createClass({
 
 module.exports = exports = ItemsTable;
 
-},{"../../../../../constants":455,"../../actions":412,"./ItemsTableDragDrop":420,"./ItemsTableRow":423,"classnames":undefined,"react":undefined}],420:[function(require,module,exports){
+},{"../../../../../constants":455,"./ItemsTableDragDrop":420,"./ItemsTableRow":423,"classnames":undefined,"react":undefined}],420:[function(require,module,exports){
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -18872,8 +18811,7 @@ var ItemsRow = _react["default"].createClass({
         col: col,
         data: item,
         linkTo: linkTo,
-        recentData: _this.props.recentData,
-        scrollToRecentItem: _this.props.scrollToRecentItem
+        recentData: _this.props.recentData
       });
     }); // add sortable icon when applicable
 
@@ -20069,7 +20007,7 @@ var ListSort = _react["default"].createClass({
       onCancel: this.closePopout,
       relativeToID: "listHeaderSortButton"
     }, _react["default"].createElement(_Popout["default"].Header, {
-      title: "id"
+      title: "Sort"
     }), _react["default"].createElement(_Popout["default"].Body, {
       scrollable: true
     }, _react["default"].createElement(_elemental.FormField, {
@@ -20382,7 +20320,9 @@ var ListView = _react["default"].createClass({
       constrainTableWidth: true,
       manageMode: false,
       showCreateForm: false,
-      showUpdateForm: false
+      showUpdateForm: false,
+      newItemWasCreated: false,
+      canBeScrolled: true
     };
   },
   componentWillMount: function componentWillMount() {
@@ -20390,7 +20330,6 @@ var ListView = _react["default"].createClass({
     // side routed page before, we need to initialize the list and parse
     // possibly specified query parameters
     this.props.dispatch((0, _actions.selectList)(this.props.params.listId));
-    this.props.dispatch((0, _actions.setActiveSort)('createdAt'));
     var isNoCreate = this.props.lists.data[this.props.params.listId].nocreate;
     var shouldOpenCreate = this.props.location.search === '?create';
     this.setState({
@@ -20406,8 +20345,36 @@ var ListView = _react["default"].createClass({
       this.props.dispatch((0, _actions.selectList)(nextProps.params.listId));
     }
   },
+  componentDidUpdate: function componentDidUpdate() {
+    var list = this.props.currentList || {};
+
+    var _ref = this.props.recentData || {},
+        id = _ref.id;
+
+    var activeNodeItem = document.querySelector("tr a[href=\"".concat(Keystone.adminPath, "/").concat(list.path, "/").concat(id, "\"]"));
+
+    if (activeNodeItem && this.state.canBeScrolled) {
+      activeNodeItem.scrollIntoView({
+        block: "center",
+        behavior: "smooth"
+      });
+      this.setState({
+        canBeScrolled: false
+      });
+    }
+  },
   componentWillUnmount: function componentWillUnmount() {
     this.props.dispatch((0, _actions.clearCachedQuery)());
+
+    if (this.state.newItemWasCreated) {
+      this.setLastPage();
+    }
+  },
+  setLastPage: function setLastPage() {
+    var totalItems = this.props.items.count;
+    var pageSize = this.props.lists.page.size;
+    var lastPage = Math.ceil(totalItems / pageSize);
+    this.props.dispatch((0, _actions.setCurrentPage)(lastPage));
   },
   // ==============================
   // HEADER
@@ -20415,7 +20382,10 @@ var ListView = _react["default"].createClass({
   // Called when a new item is created
   onCreate: function onCreate(item) {
     // Hide the create form
-    this.toggleCreateModal(false); // Redirect to newly created item path
+    this.toggleCreateModal(false);
+    this.setState({
+      newItemWasCreated: true
+    }); // Redirect to newly created item path
 
     var list = this.props.currentList;
     this.context.router.push("".concat(Keystone.adminPath, "/").concat(list.path, "/").concat(item.id));
@@ -20688,7 +20658,6 @@ var ListView = _react["default"].createClass({
   // ==============================
   handleSortSelect: function handleSortSelect(path, inverted) {
     if (inverted) path = '-' + path;
-    console.log('path: ', path);
     this.props.dispatch((0, _actions.setActiveSort)(path));
   },
   toggleCreateModal: function toggleCreateModal(visible) {
@@ -21011,7 +20980,7 @@ var initialState = {
   },
   page: {
     size: null,
-    index: undefined
+    index: 1
   },
   rowAlert: {
     success: false,
@@ -21066,7 +21035,7 @@ function lists() {
         ready: false,
         items: items,
         page: _objectSpread({}, state.page, {
-          index: 1,
+          // index: 1,
           size: list.perPage
         })
       });
@@ -21125,7 +21094,6 @@ function lists() {
       });
 
     case _constants.SET_CURRENT_PAGE:
-      console.log(action.index);
       return (0, _objectAssign["default"])({}, state, {
         loading: true,
         page: _objectSpread({}, state.page, {
@@ -22753,8 +22721,8 @@ function buildQueryString(options) {
   if (options.columns) query.fields = options.columns.map(function (i) {
     return i.path;
   }).join(',');
-  if (options.page && options.page.size) query.limit = options.page.size;
-  if (options.page && options.page.index > 1) query.skip = (options.page.index - 1) * options.page.size;
+  if (options.page && options.page.size) query.limit = options.page.size; // if (options.page && options.page.index > 1) query.skip = (options.page.index - 1) * options.page.size;
+
   if (options.sort) query.sort = getSortString(options.sort);
   query.expandRelationshipFields = true;
   return '?' + qs.stringify(query);
@@ -22967,7 +22935,6 @@ List.prototype.loadItem = function (itemId, options, callback) {
 
 
 List.prototype.loadItems = function (options, callback) {
-  console.dir(options);
   var url = Keystone.adminPath + '/api/' + this.path + buildQueryString(options);
   xhr({
     url: url,

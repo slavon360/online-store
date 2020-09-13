@@ -23,10 +23,6 @@ import {
 	loadItemData,
 } from './actions';
 
-// import actions from List folder
-
-import { setCurrentPage } from '../List/actions';
-
 import {
 	selectList,
 } from '../List/actions';
@@ -39,7 +35,6 @@ var ItemView = React.createClass({
 	getInitialState () {
 		return {
 			createIsOpen: false,
-			pageWasSet: false
 		};
 	},
 	componentDidMount () {
@@ -58,19 +53,6 @@ var ItemView = React.createClass({
 			this.props.dispatch(selectList(nextProps.params.listId));
 			this.initializeItem(nextProps.params.itemId);
 		}
-		if (nextProps.data && nextProps.data.fields.createdAt) {
-			this.setLastQueryPage(nextProps);
-		}
-	},
-	setLastQueryPage (nextProps) {
-		const createdTimeMs = new Date(nextProps.data.fields.createdAt).getTime();
-		const { productsQty, currentList: { perPage } } = this.props;
-		const currentPage = Math.ceil(productsQty / perPage);
-
-		if (Date.now() - createdTimeMs <= 2000 && !this.state.pageWasSet) {
-			this.props.dispatch(setCurrentPage(currentPage));
-			this.setState({ pageWasSet: true });
-		}
 	},
 	// Initialize an item
 	initializeItem (itemId) {
@@ -83,7 +65,6 @@ var ItemView = React.createClass({
 		this.toggleCreateModal(false);
 		// Redirect to newly created item path
 		const list = this.props.currentList;
-		this.props.dispatch(setCurrentPage(2));
 		this.context.router.push(`${Keystone.adminPath}/${list.path}/${item.id}`);
 	},
 	// Open and close the create new item modal
@@ -211,5 +192,4 @@ module.exports = connect((state) => ({
 	currentList: state.lists.currentList,
 	relationshipData: state.item.relationshipData,
 	drag: state.item.drag,
-	productsQty: state.lists.items.count
 }))(ItemView);

@@ -61,14 +61,16 @@ const ListView = React.createClass({
 			manageMode: false,
 			showCreateForm: false,
 			showUpdateForm: false,
+			newItemWasCreated: false,
+			canBeScrolled: true
 		};
 	},
 	componentWillMount () {
 		// When we directly navigate to a list without coming from another client
 		// side routed page before, we need to initialize the list and parse
 		// possibly specified query parameters
+
 		this.props.dispatch(selectList(this.props.params.listId));
-		// this.props.dispatch(setActiveSort('createdAt'));
 
 		const isNoCreate = this.props.lists.data[this.props.params.listId].nocreate;
 		const shouldOpenCreate = this.props.location.search === '?create';
@@ -86,17 +88,40 @@ const ListView = React.createClass({
 			this.props.dispatch(selectList(nextProps.params.listId));
 		}
 	},
+	componentDidUpdate () {
+		const list = this.props.currentList || {};
+		const { id } = this.props.recentData || {};
+		const activeNodeItem = document.querySelector(`tr a[href="${Keystone.adminPath}/${list.path}/${id}"]`);
+
+		if (activeNodeItem && this.state.canBeScrolled) {
+			activeNodeItem.scrollIntoView({block: "center", behavior: "smooth"});
+			this.setState({ canBeScrolled: false });
+		}
+	},
 	componentWillUnmount () {
 		this.props.dispatch(clearCachedQuery());
+
+		if (this.state.newItemWasCreated) {
+			this.setLastPage();
+		}
+	},
+	setLastPage () {
+		const totalItems = this.props.items.count;
+		const pageSize = this.props.lists.page.size;
+		const lastPage = Math.ceil(totalItems / pageSize);
+
+		this.props.dispatch(setCurrentPage(lastPage));
 	},
 
 	// ==============================
 	// HEADER
 	// ==============================
 	// Called when a new item is created
+
 	onCreate (item) {
 		// Hide the create form
 		this.toggleCreateModal(false);
+		this.setState({ newItemWasCreated: true });
 		// Redirect to newly created item path
 		const list = this.props.currentList;
 		this.context.router.push(`${Keystone.adminPath}/${list.path}/${item.id}`);
@@ -375,14 +400,12 @@ const ListView = React.createClass({
 		});
 	},
 
-
 	// ==============================
 	// COMMON
 	// ==============================
 
 	handleSortSelect (path, inverted) {
 		if (inverted) path = '-' + path;
-		console.log('path: ', path);
 		this.props.dispatch(setActiveSort(path));
 	},
 	toggleCreateModal (visible) {

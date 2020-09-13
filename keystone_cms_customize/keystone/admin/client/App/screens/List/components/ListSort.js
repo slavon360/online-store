@@ -110,7 +110,7 @@ var ListSort = React.createClass({
 					</span>
 				)}
 				<Popout isOpen={this.state.popoutIsOpen} onCancel={this.closePopout} relativeToID="listHeaderSortButton">
-					<Popout.Header title="id" />
+					<Popout.Header title="Sort" />
 
 					<Popout.Body scrollable>
 						<FormField style={formFieldStyles}>

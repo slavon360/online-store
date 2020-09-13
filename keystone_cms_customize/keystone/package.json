@@ -1,11 +1,63 @@
 {
-  "name": "keystone",
-  "version": "4.2.1",
-  "description": "Web Application Framework and Admin GUI / Content Management System built on Express.js and Mongoose",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/keystonejs/keystone.git"
+  "_args": [
+    [
+      "keystone@4.2.1",
+      "E:\\work\\online-store"
+    ]
+  ],
+  "_from": "keystone@4.2.1",
+  "_id": "keystone@4.2.1",
+  "_inBundle": false,
+  "_integrity": "sha512-rdhCuTR/wbsSnsdZZgBJi/3MOWDPll3BzvUFWxbjSo904+OO+8soaTPF1ikLkxjGpzh/EbDqM0ARTaE0vQBYUA==",
+  "_location": "/keystone",
+  "_phantomChildren": {
+    "bson": "1.0.9",
+    "hooks-fixed": "2.0.2",
+    "kareem": "1.5.0",
+    "lodash": "4.17.15",
+    "lodash.get": "4.4.2",
+    "mongodb": "2.2.34",
+    "mpath": "0.5.1",
+    "mpromise": "0.5.5",
+    "mquery": "2.3.3",
+    "ms": "2.1.2",
+    "muri": "1.3.0",
+    "regexp-clone": "0.0.1",
+    "sliced": "1.0.1"
+  },
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "keystone@4.2.1",
+    "name": "keystone",
+    "escapedName": "keystone",
+    "rawSpec": "4.2.1",
+    "saveSpec": null,
+    "fetchSpec": "4.2.1"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/keystone/-/keystone-4.2.1.tgz",
+  "_spec": "4.2.1",
+  "_where": "E:\\work\\online-store",
+  "author": {
+    "name": "Jed Watson"
+  },
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  },
+  "browserify-shim": {
+    "tinymce": "global:tinymce",
+    "jquery": "global:$",
+    "codemirror": "global:CodeMirror",
+    "underscore": "global:_"
+  },
+  "browserslist": "> 1%",
+  "bugs": {
+    "url": "https://github.com/keystonejs/keystone/issues"
   },
   "dependencies": {
     "@babel/core": "^7.4.4",
@@ -90,21 +142,22 @@
     "react-redux": "^5.0.6",
     "react-router": "^3.0.2",
     "react-router-redux": "^4.0.8",
+    "react-select": "^1.2.4",
     "redux": "^3.7.2",
     "redux-saga": "^0.15.6",
     "redux-thunk": "^2.2.0",
-    "react-select": "^1.2.4",
     "sanitize-filename": "^1.6.1",
-    "tinymce": "^4.9.2",
     "sanitize-html": "^1.20.1",
     "scmp": "^1.0.2",
     "semver": "^6.0.0",
     "serve-favicon": "^2.5.0",
     "string-to-stream": "^1.1.1",
+    "tinymce": "^4.9.2",
     "vkey": "^1.0.1",
     "watchify": "^3.11.1",
     "xhr": "^2.5.0"
   },
+  "description": "Web Application Framework and Admin GUI / Content Management System built on Express.js and Mongoose",
   "devDependencies": {
     "@babel/register": "^7.4.4",
     "browserify-middleware": "^8.1.1",
@@ -135,21 +188,8 @@
     "updtr": "^3.1.0",
     "watch": "^1.0.2"
   },
-  "browserify": {
-    "transform": [
-      "browserify-shim"
-    ]
-  },
-  "browserify-shim": {
-    "tinymce": "global:tinymce",
-    "jquery": "global:$",
-    "codemirror": "global:CodeMirror",
-    "underscore": "global:_"
-  },
-  "browserslist": "> 1%",
-  "author": "Jed Watson",
+  "gitHead": "ef3fd612285315ea8e12f68da4c8d6031e2c7fe7",
   "homepage": "http://keystonejs.com/",
-  "license": "MIT",
   "keywords": [
     "express",
     "web",
@@ -163,35 +203,34 @@
     "website",
     "forms"
   ],
-  "readmeFilename": "README.md",
-  "gitHead": "ef3fd612285315ea8e12f68da4c8d6031e2c7fe7",
-  "bugs": {
-    "url": "https://github.com/keystonejs/keystone/issues"
+  "license": "MIT",
+  "main": "index.js",
+  "name": "keystone",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/keystonejs/keystone.git"
   },
   "scripts": {
     "build": "cross-env NODE_ENV=production node build.js | uglifyjs -mc -b beautify=false,semicolons=true > ./admin/public/js/packages.js",
     "build-dev": "node build.js > ./admin/public/js/packages.js",
+    "clean": "rimraf ./coverage",
+    "current": "updtr",
+    "fields-explorer": "node ./fields/explorer/server.js",
+    "lint": "eslint .",
+    "lint-fix": "eslint . --fix",
+    "posttest-cov": "if [ -n \"$CODECLIMATE_REPO_TOKEN\" ]; then codeclimate-test-reporter < coverage/lcov.info; fi",
     "pretest": "npm run lint && node test/pretest.js",
+    "pretest-cov": "npm run clean && npm run lint",
     "test": "mocha && mocha --opts test/mocha-admin.opts",
-    "test-all": "npm test",
-    "test-unit": "node test/pretest.js && mocha",
     "test-admin": "mocha --opts test/mocha-admin.opts",
+    "test-all": "npm test",
+    "test-cov": "istanbul cover ./node_modules/mocha/bin/_mocha",
     "test-e2e": "node test/e2e/server.js --env default",
     "test-e2e-bg": "cross-env KNE_SELENIUM_START_PROCESS=false && node test/e2e/server.js --env default",
     "test-e2e-saucelabs": "if [ -n \"$SAUCE_ACCESS_KEY\" ]; then node test/e2e/server.js --env saucelabs-travis; fi",
     "test-e2e-saucelabs-group": "if [ -n \"$SAUCE_ACCESS_KEY\" ]; then node test/e2e/server.js --env saucelabs-travis --group ./test/e2e/adminUI/tests/$GROUP; fi",
-    "lint": "eslint .",
-    "lint-fix": "eslint . --fix",
-    "watch": "watch 'clear && npm run lint' lib admin server test",
-    "pretest-cov": "npm run clean && npm run lint",
-    "current": "updtr",
-    "test-cov": "istanbul cover ./node_modules/mocha/bin/_mocha",
-    "posttest-cov": "if [ -n \"$CODECLIMATE_REPO_TOKEN\" ]; then codeclimate-test-reporter < coverage/lcov.info; fi",
-    "clean": "rimraf ./coverage",
-    "fields-explorer": "node ./fields/explorer/server.js"
-  }
-
-,"_resolved": "https://registry.npmjs.org/keystone/-/keystone-4.2.1.tgz"
-,"_integrity": "sha512-rdhCuTR/wbsSnsdZZgBJi/3MOWDPll3BzvUFWxbjSo904+OO+8soaTPF1ikLkxjGpzh/EbDqM0ARTaE0vQBYUA=="
-,"_from": "keystone@4.2.1"
+    "test-unit": "node test/pretest.js && mocha",
+    "watch": "watch 'clear && npm run lint' lib admin server test"
+  },
+  "version": "4.2.1"
 }

@@ -65,7 +65,9 @@ module.exports = function (keystone) {
 		var self = this;
 
 		// init mappings
-		_.forEach(this.options.map, function (val, key) { self.map(key, val); });
+		_.forEach(this.options.map, function (val, key) {
+			self.map(key, val);
+		});
 
 		// define property getters
 		Object.defineProperty(this, 'label', { get: function () {

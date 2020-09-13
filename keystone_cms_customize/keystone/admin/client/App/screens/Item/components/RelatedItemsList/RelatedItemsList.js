@@ -62,7 +62,6 @@ const RelatedItemsList = React.createClass({
 			);
 			return this.setState({ err });
 		}
-		console.log('columns, refList, relatedItemId, relationship: \n', columns, refList, relatedItemId, relationship);
 		this.props.dispatch(loadRelationshipItemData({ columns, refList, relatedItemId, relationship }));
 	},
 	renderItems () {
