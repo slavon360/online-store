@@ -41,7 +41,7 @@ module.exports = function(req,res){
 			'totalRate'
 		])
 		.sort({
-			'Цена': 1
+			'Цена': -1
 		})
 		.exec(function(err, products){
 			try {
