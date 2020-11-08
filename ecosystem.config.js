@@ -14,7 +14,7 @@ module.exports = {
 		},
 		env_production: {
 			NODE_ENV: 'production',
-			MONGO_URL: 'mongodb://slavon360:slavaUkraini1@ds245647.mlab.com:45647/keystoneapp',
+			MONGO_URL: 'mongodb://slavon360:slavaUkraini1@keystoneapp-shard-00-00.ovijl.mongodb.net:27017,keystoneapp-shard-00-01.ovijl.mongodb.net:27017,keystoneapp-shard-00-02.ovijl.mongodb.net:27017/keystoneapp?ssl=true&replicaSet=atlas-gzaq8a-shard-0&authSource=admin&retryWrites=true&w=majority',
 			TELEGRAM_CHATID: '251733133',
 			CLOUDINARY_API_SECRET: '4nF764o7kB98DEbb0b9YPnAicrQ',
 			CLOUDINARY_API_KEY: '712556615644867',
