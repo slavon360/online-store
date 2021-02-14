@@ -23,7 +23,8 @@ exports=module.exports=function(req,res){
 									_id: current._id,
 									subCategNames: [],
 									subCategSlug: [],
-									subCategIds: []
+									subCategIds: [],
+									index: index
 								};
 									result.push(categItem);
 									return result;
