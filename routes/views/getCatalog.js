@@ -1,6 +1,11 @@
 var keystone=require('keystone');
 exports=module.exports=function(req,res){
-	keystone.list('ProductCategory').model.find().exec(function(err,categories){
+	keystone
+		.list('ProductCategory')
+		.model
+		.find()
+		.sort({ 'Порядковый номер': 1 })
+		.exec(function(err,categories){
 		if(err){
 			console.log(err);
 			return false;
