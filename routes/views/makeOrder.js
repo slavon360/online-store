@@ -40,12 +40,15 @@ var sendJSONresponse = function(res,status,content){
 exports=module.exports=function(req,res, next){
 	var form=req.body.form;
 	var products=req.body.products;
+	var browserInfo=req.body.browserInfo;
 	var newClientOrder=new ClientOrder.model({'ФИО':form.customer_full_name,
                               email:form.customer_email,
                               'город':form.customer_city,
                               'отделение':form.clientpostsection,
                               'телефон':form.customer_phone,
-                              'товары':products
+                              'товары':products,
+							  userAgent: browserInfo.userAgent,
+							  windowWidth: browserInfo.windowWidth
          });
 	newClientOrder.save(function(err,order){
 		if(err){

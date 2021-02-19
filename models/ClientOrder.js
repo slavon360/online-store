@@ -14,7 +14,9 @@ var ClientOrder = new keystone.List('ClientOrder',{
   		options:['Ожидание', 'В обработке', 'Отправлено', 'Отменено', 'Возврат', 'Сделка завершена'],
   	    default:'Ожидание'},
   	'товары':{type:Types.Html, wysiwyg:true},
-  	'дата':{type:Date,default:Date.now}
+  	'дата':{type:Date,default:Date.now},
+	userAgent:{type:String},
+	windowWidth:{type:String}
   });
   ClientOrder.defaultSort = '-дата';
   ClientOrder.defaultColumns = 'ФИО, email, телефон, статус, дата';
