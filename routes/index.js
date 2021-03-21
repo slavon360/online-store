@@ -86,6 +86,7 @@ exports = module.exports = function (app) {
 
 	app.get('/shopping-cart', sendHomePage);
 	app.get('/order', sendHomePage);
+	app.get('/repair', sendHomePage);
 	app.post('/make-order', cors_middleware, routes.views.makeOrder);
 	app.post('/leave-phone-number', cors_middleware, routes.views.leavePhone);
 	app.post('/make-review', cors_middleware, routes.views.makeReview);
