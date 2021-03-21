@@ -12,6 +12,7 @@ var ProductSubCategory = new keystone.List('ProductSubCategory', {
   		type: Types.Relationship,
   		ref: 'ProductCategory'
 	},
+	image:{type:Types.CloudinaryImage},
 	'Порядковый номер': { type: Number }
   })
   ProductSubCategory.register()

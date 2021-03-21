@@ -1,4 +1,5 @@
 var keystone = require('keystone');
+const { Textarea } = require('keystone/lib/fieldTypes');
 var Types = keystone.Field.Types;
 
 var ClientOrder = new keystone.List('ClientOrder',{
@@ -15,6 +16,7 @@ var ClientOrder = new keystone.List('ClientOrder',{
   	    default:'Ожидание'},
   	'товары':{type:Types.Html, wysiwyg:true},
   	'дата':{type:Date,default:Date.now},
+	'описание проблемы':{type:Textarea},
 	userAgent:{type:String},
 	windowWidth:{type:String}
   });

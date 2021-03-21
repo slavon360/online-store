@@ -29,6 +29,7 @@ exports=module.exports=function(req,res){
 									subCategNames: [],
 									subCategSlug: [],
 									subCategIds: [],
+									subCategImages: [],
 									index: index
 								};
 									result.push(categItem);
@@ -40,6 +41,7 @@ exports=module.exports=function(req,res){
 							item.subCategNames.push(i.title);
 							item.subCategSlug.push(i.slug);
 							item.subCategIds.push(i._id);
+							item.subCategImages.push(i.image);
 						};
 					})
 				});
