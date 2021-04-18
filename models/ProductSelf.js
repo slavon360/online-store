@@ -206,7 +206,8 @@ var ProductSelf = new keystone.List('ProductSelf',{
 			hidden: true
 		},
 		titleWithoutSerialNumber: {
-			type: String
+			type: String,
+			hidden: true
 		},
 		createdAt: { type: Date, default: Date.now }
 	});
