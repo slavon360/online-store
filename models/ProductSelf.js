@@ -205,6 +205,9 @@ var ProductSelf = new keystone.List('ProductSelf',{
 			type: Number,
 			hidden: true
 		},
+		titleWithoutSerialNumber: {
+			type: String
+		},
 		createdAt: { type: Date, default: Date.now }
 	});
 
@@ -219,10 +222,22 @@ var ProductSelf = new keystone.List('ProductSelf',{
 		}
 	});
 
-	// ProductSelf.schema.pre('save', function (next) {
-	// 	console.log('this.reviewRates: ', this.reviewRates);
-	// 	next();
-	// })
+	ProductSelf.schema.pre('save', function (next) {
+		var reg = /^[a-z0-9 -.:\/]+/gi;
+		var title = this.title.trim();
+		var asArray = title.split(reg);
+
+		asArray.shift();
+
+		if (title.match(reg)) {
+			var cleanTitle = asArray.join(' ');
+
+			this.titleWithoutSerialNumber = cleanTitle;
+		} else {
+			this.titleWithoutSerialNumber = title;
+		}
+		next();
+	})
 
 	// ProductSelf.relationship({ref:'Review', path:'title', refPath:'ProductSelf'});
 

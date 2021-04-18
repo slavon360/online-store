@@ -61,7 +61,7 @@ module.exports = function(req,res){
 				break;
 			case 'alphabethical':
 				sortsForDB = {
-					title: 1
+					titleWithoutSerialNumber: 1
 				};
 				sortsForClient = sortsForClient.map(s => ({
 					...s,
@@ -70,7 +70,7 @@ module.exports = function(req,res){
 				break;
 			default:
 				sortsForDB = {
-					title: 1
+					titleWithoutSerialNumber: 1
 				};
 				break;
 		}
@@ -80,7 +80,8 @@ module.exports = function(req,res){
 		.paginate({
 			page: query.page || 1,
 			perPage: perPage,
-			filters: Object.assign(filters, {[hideOnSite]: { $ne: true }})
+			filters: Object.assign(filters, {[hideOnSite]: { $ne: true }}),
+			sort: sortsForDB
 		})
 		.select([
 			'productCategory',
@@ -99,33 +100,12 @@ module.exports = function(req,res){
 			'reviewRates',
 			'totalRate'
 		])
-		.sort(sortsForDB)
 		.exec(function(err, products){
-			function sortAlphabetically(products) {
-				return products.sort((a, b) => {
-					const matchedCurrentTitle = a.title.toLowerCase().match(/([А-Я])/gi);
-					const matchedNextTitle = b.title.toLowerCase().match(/([А-Я])/gi);
-					const currentTitle = matchedCurrentTitle && matchedCurrentTitle.join();
-					const nextTitle = matchedNextTitle && matchedNextTitle.join();
-
-					if (currentTitle < nextTitle) {
-						return -1;
-					}
-					if (currentTitle > nextTitle) {
-						return 1;
-					}
-					return 0;
-				})
-			}
 			try {
 				var products = Object.assign(products, {
 					sortsForClient
 				});
-				if (sortsForDB.title) {
-					products = Object.assign(products, {
-						results: sortAlphabetically(products.results)
-					})
-				}
+
 				res.send(products);
 			} catch {
 				console.log(err)
