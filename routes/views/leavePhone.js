@@ -12,10 +12,12 @@ var sendJSONresponse = function(res,status,content){
 }
 exports=module.exports=function(req,res, next){
 	var form=req.body.form;
+	var products=req.body.products;
 	var browserInfo=req.body.browserInfo;
 	var newClientOrder=new ClientOrder.model({
 			'ФИО':form.customer_full_name,
 			'телефон':form.customer_phone,
+			'товары':products,
 			'город':form.customer_city,
 			'описание проблемы':form.customer_note,
 			userAgent: browserInfo.userAgent,
