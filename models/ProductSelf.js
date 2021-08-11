@@ -185,7 +185,7 @@ var ProductSelf = new keystone.List('ProductSelf',{
 		'Глубина (мм)': { type:Number },
 		'Вес (кг)': { type:Number, index: true },
 		'Описание': { type: Types.Html, height: 400, wysiwyg:true },
-		'Гарантия': { type: String, index: true },
+		'Гарантия (мес)': { type: String, index: true },
 		'В наличии': { type: Boolean, default: true },
 		'Не отображать на сайте': { type: Boolean, default: false },
 		'Акционная цена': { type: Number },
