@@ -49,7 +49,7 @@ schedule.scheduleJob('30 02 * * *', () => {
 	services.findEmptiesPrices();
     services.findProductsWithNonExistedImages();
     services.findAndUpdateDates(currentDate);
-	services.makeCurrencyRequest();
+	// services.makeCurrencyRequest();
 });
 
 
