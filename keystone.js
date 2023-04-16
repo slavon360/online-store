@@ -4,48 +4,51 @@ require('dotenv').config();
 
 // Require keystone
 var keystone = require('keystone');
-// var handlebars = require('express-handlebars');
-// var mongo_instance = require('mongoose');
+var cloudinary = require('cloudinary');
+var handlebars = require('express-handlebars');
+var mongo_instance = require('mongoose');
 
-// mongo_instance.connect(process.env.MONGO_URL, { useFindAndModify: false });
-// mongo_instance.connection.on('error', function () {
-//   console.log('MongoDB Connection Error. Please make sure that MongoDB is running.');
-//   process.exit(1);
-// });
-// mongo_instance.connection.on('open', function (ref) {
-// 	console.log('REEF: ', ref);
-// });
+console.log('MONGO_URL: ', process.env.MONGO_URL);
+mongo_instance.connect('mongodb://slavon360:slavaUkraini1@keystoneapp-shard-00-00.ovijl.mongodb.net:27017,keystoneapp-shard-00-01.ovijl.mongodb.net:27017,keystoneapp-shard-00-02.ovijl.mongodb.net:27017/keystoneapp?ssl=true&replicaSet=atlas-gzaq8a-shard-0&authSource=admin&retryWrites=true&w=majority');
+mongo_instance.connection.on('error', function (error) {
+  console.log('MongoDB Connection Error. Please make sure that MongoDB is running.');
+  console.log(error);
+  process.exit(1);
+});
+mongo_instance.connection.on('open', function (ref) {
+	console.log('REEF: ', ref);
+});
 
 // Initialise Keystone with your project's configuration.
 // See http://keystonejs.com/guide/config for available options
 // and documentation.
 
-// cloudinary.config({
-// 	cloud_name: process.env.CLOUDINARY_NAME,
-// 	api_key: process.env.CLOUDINARY_API_KEY,
-// 	api_secret: process.env.CLOUDINARY_API_SECRET
-// });
+cloudinary.config({
+	cloud_name: process.env.CLOUDINARY_NAME,
+	api_key: process.env.CLOUDINARY_API_KEY,
+	api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 keystone.init({
 	'less': ['public', 'public-app'],
 	'port': process.env.NODE_ENV === 'development' ? 3000 : 80,
-	// 'mongoose': mongo_instance,
+	'mongoose': mongo_instance,
 	'name': 'keystoneApp',
 	'brand': 'keystoneApp',
 	'sass': 'public',
 	'static': ['public', 'landing'],
 	// 'favicon': 'public/favicon.ico',
 	'views': 'templates/views',
-	// 'view engine': '.hbs',
+	'view engine': '.hbs',
 	'cookie secret': 'slavon-123',
 	'cloudinary config': `cloudinary://${process.env.CLOUDINARY_API_KEY}:${process.env.CLOUDINARY_API_SECRET}@${process.env.CLOUDINARY_NAME}`,
-	// 'custom engine': handlebars.create({
-	// 	layoutsDir: 'templates/views/layouts',
-	// 	partialsDir: 'templates/views/partials',
-	// 	defaultLayout: 'default',
-	// 	helpers: new require('./templates/views/helpers')(),
-	// 	extname: '.hbs',
-	// }).engine,
+	'custom engine': handlebars.create({
+		layoutsDir: 'templates/views/layouts',
+		partialsDir: 'templates/views/partials',
+		defaultLayout: 'default',
+		helpers: new require('./templates/views/helpers')(),
+		extname: '.hbs',
+	}).engine,
 
 	'auto update': true,
 	'session': true,
